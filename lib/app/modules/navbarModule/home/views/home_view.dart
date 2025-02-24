@@ -1,0 +1,203 @@
+import 'package:auction_app/app/modules/modules.dart';
+
+class HomeView extends GetView<HomeController> {
+  const HomeView({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: CustomAppBar(),
+        body: Padding(
+          padding: screenPadding,
+          child: Column(
+            crossAxisAlignment: crossAxisStart,
+            children: [
+              10.heightBox,
+              Row(
+                mainAxisAlignment: mainAxisSpaceBetween,
+                children: List.generate(2, (index) {
+                  return Expanded(
+                    child: Container(
+                      height: context.height * 0.15,
+                      margin: padding5,
+                      decoration: BoxDecoration(
+                        border:
+                            Border.all(color: AppColors.borderColor, width: 1),
+                        color: Color(0xffF7F9FB),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: mainAxisCenter,
+                        children: [
+                          Icon(controller.menuItems[index]['icon'],
+                              size: 40, color: Colors.black),
+                          10.heightBox,
+                          Text(controller.menuItems[index]['label'],
+                              style: context.isMobile
+                                  ? context.displayLarge!.copyWith(
+                                      fontWeight: FontWeight.bold, fontSize: 14)
+                                  : context.bodyMedium!
+                                      .copyWith(fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.center),
+                        ],
+                      ),
+                    ),
+                  );
+                }),
+              ),
+              Row(
+                mainAxisAlignment: mainAxisSpaceBetween,
+                children: List.generate(3, (index) {
+                  return Expanded(
+                    child: Container(
+                      height: context.height * 0.15,
+                      margin: padding5,
+                      decoration: BoxDecoration(
+                        border:
+                            Border.all(color: AppColors.borderColor, width: 1),
+                        color: Color(0xffF7F9FB),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(controller.menuItems[index + 2]['icon'],
+                              size: 30, color: Colors.black),
+                          10.heightBox,
+                          Text(controller.menuItems[index + 2]['label'],
+                              style: context.isMobile
+                                  ? context.displayLarge!
+                                      .copyWith(fontWeight: FontWeight.bold)
+                                  : context.bodyMedium!
+                                      .copyWith(fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.center),
+                        ],
+                      ),
+                    ),
+                  );
+                }),
+              ),
+              15.heightBox,
+              "Current Stock"
+                  .text
+                  .textStyle(context.bodyMedium!
+                      .copyWith(fontWeight: FontWeight.w900, fontSize: 16))
+                  .start
+                  .make(),
+              10.heightBox,
+              Column(
+                  children: List.generate(
+                2,
+                (index) => Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: Column(
+                    crossAxisAlignment: crossAxisStart,
+                    children: [
+                      Row(
+                        children: [
+                          "Container A-123"
+                              .text
+                              .textStyle(context.bodySmall!
+                                  .copyWith(fontWeight: FontWeight.bold))
+                              .make(),
+                          Spacer(),
+                          "55 Items"
+                              .text
+                              .textStyle(context.displayLarge!
+                                  .copyWith(fontWeight: FontWeight.bold))
+                              .make()
+                              .box
+                              .p8
+                              .roundedSM
+                              .color(Color(0xffF7F9FB))
+                              .make()
+                        ],
+                      ),
+                      5.heightBox,
+                      Row(
+                        children: [
+                          "Last update: Today, 10:30 AM"
+                              .text
+                              .color(AppColors.textColorSecondary)
+                              .textStyle(context.displayLarge!
+                                  .copyWith(fontWeight: FontWeight.w900))
+                              .make(),
+                          Spacer(),
+                          Icon(
+                            Iconsax.arrow_right_34,
+                            size: 18,
+                          )
+                        ],
+                      ),
+                    ],
+                  )
+                      .box
+                      .border(color: AppColors.borderColor)
+                      .roundedSM
+                      .p12
+                      .make(),
+                ),
+              )),
+              15.heightBox,
+              "Recent Activity"
+                  .text
+                  .textStyle(context.bodyMedium!
+                      .copyWith(fontWeight: FontWeight.w900, fontSize: 16))
+                  .start
+                  .make(),
+              10.heightBox,
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                      children: List.generate(
+                    10,
+                    (index) => Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: Row(
+                        children: [
+                          Icon(Iconsax.car)
+                              .box
+                              .roundedFull
+                              .p16
+                              .color(Color(0xffF4F6F9))
+                              .make(),
+                          10.widthBox,
+                          Column(
+                            crossAxisAlignment: crossAxisStart,
+                            children: [
+                              "QR Code Scanned"
+                                  .text
+                                  .textStyle(context.bodySmall!
+                                      .copyWith(fontWeight: FontWeight.bold))
+                                  .make(),
+                              10.heightBox,
+                              "Container A-123"
+                                  .text
+                                  .color(AppColors.textColorSecondary)
+                                  .textStyle(context.displayLarge!
+                                      .copyWith(fontWeight: FontWeight.w900))
+                                  .make(),
+                            ],
+                          ),
+                          Spacer(),
+                          "2m ago"
+                              .text
+                              .color(AppColors.textColorSecondary)
+                              .textStyle(context.displayLarge!
+                                  .copyWith(fontWeight: FontWeight.w900))
+                              .make(),
+                        ],
+                      )
+                          .box
+                          .border(color: AppColors.borderColor)
+                          .roundedSM
+                          .p12
+                          .make(),
+                    ),
+                  )),
+                ),
+              ),
+            ],
+          ),
+        ));
+  }
+}

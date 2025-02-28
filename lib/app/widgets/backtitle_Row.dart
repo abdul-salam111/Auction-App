@@ -1,0 +1,32 @@
+import 'package:auction_app/app/res/res.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+class BackTitleRow extends StatelessWidget {
+  final String title;
+
+  const BackTitleRow({
+    Key? key,
+    required this.title,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        InkWell(
+          onTap: () => Get.back(),
+          child: Icon(
+            Icons.arrow_back_ios,
+            size: 20,
+          ),
+        ),
+        SizedBox(width: 5),
+        Text(
+          title,
+          style: context.bodyMedium!.copyWith(fontWeight: FontWeight.w900),
+        ),
+      ],
+    );
+  }
+}

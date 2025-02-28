@@ -6,6 +6,7 @@ class AppThemes {
   static final ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
     primaryColor: AppColors.primaryColor,
+    scaffoldBackgroundColor: Colors.white,
     progressIndicatorTheme:
         const ProgressIndicatorThemeData(color: Colors.blue),
     textTheme: TextTheme(
@@ -52,10 +53,11 @@ class AppThemes {
   );
 
   static final ThemeData darkTheme = ThemeData(
-     primaryColor: AppColors.primaryColor,
+    primaryColor: AppColors.primaryColor,
     progressIndicatorTheme:
         const ProgressIndicatorThemeData(color: Colors.grey),
     brightness: Brightness.dark,
+    scaffoldBackgroundColor: Colors.white,
     textTheme: TextTheme(
       headlineLarge: GoogleFonts.inter(
           fontSize: 32.0, fontWeight: FontWeight.bold, color: Colors.white),

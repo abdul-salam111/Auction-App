@@ -1,23 +1,12 @@
-import 'package:get/get.dart';
+import 'package:auction_app/app/modules/modules.dart';
 
 class AddnewcustomerController extends GetxController {
-  //TODO: Implement AddnewcustomerController
-
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
+  final firstNameController = TextEditingController().obs;
+  final lastNameController = TextEditingController().obs;
+  final contactNumberController = TextEditingController().obs;
+  final emailController = TextEditingController().obs;
+  final emairatesIDController = TextEditingController().obs;
+  final addressController = TextEditingController().obs;
+  var status = true.obs;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 }

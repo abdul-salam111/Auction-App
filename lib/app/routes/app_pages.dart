@@ -1,3 +1,4 @@
+import '../modules/customerModule/managecustomer/views/managecustomer_view.dart';
 import '../modules/modules.dart';
 part 'app_routes.dart';
 

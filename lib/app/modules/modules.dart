@@ -40,7 +40,7 @@ export './customerModule/customermanagement/controllers/customermanagement_contr
 export './customerModule/customermanagement/views/customermanagement_view.dart';
 export './customerModule/managecustomer/bindings/managecustomer_binding.dart';
 export './customerModule/managecustomer/controllers/managecustomer_controller.dart';
-export './customerModule/managecustomer/views/managecustomer_view.dart';
+
 export './login/bindings/login_binding.dart';
 export './login/controllers/login_controller.dart';
 export './login/views/login_view.dart';

@@ -13,16 +13,28 @@ class CustomTextFormField extends StatelessWidget {
   final int maxLines; // For multiline support
 
   final RxBool isObscure = true.obs;
+  final Color fillColor;
+  final Color borderColor;
+  final Color labelColor;
+  final bool isrequired;
+  final int labelfontSize;
+  final bool readonly;
 
   CustomTextFormField({
     super.key,
     this.hintText,
     this.label,
+    this.readonly = false,
     this.prefixIcon,
+    this.isrequired = false,
+    this.fillColor = AppColors.scaffoldBackgroundColor,
+    this.borderColor = Colors.transparent,
     this.controller,
+    this.labelColor = AppColors.textColorWhite,
     this.obscureText = false,
     this.keyboardType = TextInputType.text,
     this.validator,
+    this.labelfontSize = 16,
     this.onChanged,
     this.onTap,
     this.maxLines = 1, // Default is single line
@@ -31,17 +43,33 @@ class CustomTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: crossAxisStart,
       children: [
         if (label != null)
-          Text(
-            label!,
-            style: context.bodyMedium!.copyWith(
-                color: AppColors.textColorWhite, fontWeight: FontWeight.bold),
-          ),
+          RichText(
+              text: TextSpan(children: [
+            TextSpan(
+              text: label!,
+              style: context.bodyMedium!.copyWith(
+                  color: labelColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: labelfontSize.toDouble()),
+            ),
+            isrequired
+                ? TextSpan(
+                    text: "*",
+                    style: context.bodyMedium!.copyWith(
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                        fontSize: labelfontSize.toDouble()),
+                  )
+                : TextSpan(),
+          ])),
+        5.heightBox,
         obscureText
             ? Obx(
                 () => TextFormField(
+                  readOnly: readonly,
                   style: context.bodySmall,
                   controller: controller,
                   obscureText: obscureText ? isObscure.value : false,
@@ -63,11 +91,11 @@ class CustomTextFormField extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                          color: Colors.transparent,
+                        borderSide: BorderSide(
+                          color: borderColor,
                         ),
                         borderRadius: BorderRadius.circular(10)),
-                    fillColor: AppColors.scaffoldBackgroundColor,
+                    fillColor: fillColor,
                     filled: true,
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -96,6 +124,7 @@ class CustomTextFormField extends StatelessWidget {
                 ),
               )
             : TextFormField(
+                readOnly: readonly,
                 style: context.bodySmall,
                 controller: controller,
                 obscureText: obscureText ? isObscure.value : false,
@@ -125,11 +154,11 @@ class CustomTextFormField extends StatelessWidget {
                     ),
                   ),
                   enabledBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                        color: Colors.transparent,
+                      borderSide: BorderSide(
+                        color: borderColor,
                       ),
                       borderRadius: BorderRadius.circular(10)),
-                  fillColor: AppColors.scaffoldBackgroundColor,
+                  fillColor: fillColor,
                   filled: true,
                   suffixIcon: obscureText
                       ? IconButton(

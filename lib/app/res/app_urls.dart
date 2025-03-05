@@ -13,4 +13,6 @@ class AppUrls {
   static const String deleteWonBidsOfCustomerByAdmin =
       "${baseApiKey}delete_bid_won/";
   static const String updateCustomerByAdmin = "${baseApiKey}user/signup/";
+  static const String getAllNotifications =
+      "${baseApiKey}read_all_notifications";
 }

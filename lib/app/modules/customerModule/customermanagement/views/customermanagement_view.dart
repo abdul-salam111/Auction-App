@@ -28,18 +28,20 @@ class CustomermanagementView extends GetView<CustomermanagementController> {
                       children: [
                         Row(
                           children: [
-                            Text(
-                              "${controller.userData.firstname} ${controller.userData.lastname}",
-                              style: context.bodyMedium!.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                            GetBuilder<CustomermanagementController>(
+                                builder: (cont) {
+                              return Text(
+                                "${cont.userData.firstname} ${cont.userData.lastname}",
+                                style: context.bodyMedium!.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              );
+                            }),
                             5.widthBox,
                             InkWell(
                               onTap: () {
                                 Get.toNamed(Routes.UPDATECUSTOMER,
                                     arguments: controller.userData);
-                                
                               },
                               child: Icon(
                                 Iconsax.edit,
@@ -67,22 +69,24 @@ class CustomermanagementView extends GetView<CustomermanagementController> {
                       ],
                     ),
                     Spacer(),
-                    SizedBox(
-                      child: Text(
-                        controller.userData.status.toString() == "true"
-                            ? "Active"
-                            : "InActive",
-                        style: context.bodySmall!.copyWith(color: Vx.white),
-                      ).centered(),
-                    )
-                        .box
-                        .height(context.height * 0.04)
-                        .color(controller.userData.status.toString() == "true"
-                            ? AppColors.secondaryColor
-                            : Colors.red)
-                        .roundedSM
-                        .width(context.width * 0.3)
-                        .make(),
+                    GetBuilder<CustomermanagementController>(builder: (cont) {
+                      return SizedBox(
+                        child: Text(
+                          cont.userData.status.toString() == "true"
+                              ? "Active"
+                              : "InActive",
+                          style: context.bodySmall!.copyWith(color: Vx.white),
+                        ).centered(),
+                      )
+                          .box
+                          .height(context.height * 0.04)
+                          .color(cont.userData.status.toString() == "true"
+                              ? AppColors.secondaryColor
+                              : Colors.red)
+                          .roundedSM
+                          .width(context.width * 0.3)
+                          .make();
+                    }),
                   ],
                 ),
                 HeightBox(context.height * 0.03),
@@ -164,118 +168,123 @@ class CustomermanagementView extends GetView<CustomermanagementController> {
                       child: Padding(
                         padding: screenPadding,
                         child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              CustomTextFormField(
-                                readonly: true,
-                                validator: (value) =>
-                                    Validator.validateRequired(value,
-                                        fieldName: "Phone Number"),
-                                fillColor: AppColors.halfwhiteColor,
-                                borderColor: Color(0xffEBEEF0),
-                                label: "Phone Number",
-                                hintText: "${controller.userData.phonenumber}",
-                                labelColor: Color(0xff1C1C1C),
-                                labelfontSize: 14,
-                              ),
-                              15.heightBox,
-                              CustomTextFormField(
-                                readonly: true,
-                                validator: (value) =>
-                                    Validator.validateRequired(value,
-                                        fieldName: "Email"),
-                                fillColor: AppColors.halfwhiteColor,
-                                borderColor: Color(0xffEBEEF0),
-                                label: "E-mail",
-                                hintText: "${controller.userData.email}",
-                                labelColor: Color(0xff1C1C1C),
-                                labelfontSize: 14,
-                              ),
-                              15.heightBox,
-                              CustomTextFormField(
-                                readonly: true,
-                                validator: (value) =>
-                                    Validator.validateRequired(value,
-                                        fieldName: "Last Transaction"),
-                                fillColor: AppColors.halfwhiteColor,
-                                borderColor: Color(0xffEBEEF0),
-                                label: "Last Transaction",
-                                hintText: controller.userData.createdOn!
-                                    .toSimpleDate(),
-                                labelColor: Color(0xff1C1C1C),
-                                labelfontSize: 14,
-                              ),
-                              15.heightBox,
-                              CustomTextFormField(
-                                readonly: true,
-                                validator: (value) =>
-                                    Validator.validateRequired(value,
-                                        fieldName: "Email"),
-                                fillColor: AppColors.halfwhiteColor,
-                                borderColor: Color(0xffEBEEF0),
-                                label: "Address",
-                                hintText: "${controller.userData.address}",
-                                labelColor: Color(0xff1C1C1C),
-                                labelfontSize: 14,
-                              ),
-                              20.heightBox,
-                              Row(
-                                mainAxisAlignment: mainAxisSpaceBetween,
-                                children: [
-                                  Expanded(
-                                    child: RoundButton(
-                                      backgroundColor: AppColors.secondaryColor,
-                                      radius: 10,
-                                      icon: Iconsax.toggle_on_circle,
-                                      text: controller.userData.status
-                                                  .toString() ==
-                                              "true"
-                                          ? "Deactivate"
-                                          : "Activate",
-                                      onPressed: () {
-                                        controller.updateCustomerStatusByAdmin(
-                                            controller.userData.status
-                                                        .toString() ==
-                                                    "true"
-                                                ? "0"
-                                                : "1");
-                                      },
-                                    ).box.height(context.height * 0.06).make(),
-                                  ),
-                                  SizedBox(width: 10),
-                                  Expanded(
-                                    child: Obx(
-                                      () => RoundButton(
-                                        isLoading: controller.isLoading.value,
-                                        backgroundColor: Vx.red600,
+                          child: GetBuilder<CustomermanagementController>(
+                              builder: (cont) {
+                            return Column(
+                              children: [
+                                CustomTextFormField(
+                                  readonly: true,
+                                  validator: (value) =>
+                                      Validator.validateRequired(value,
+                                          fieldName: "Phone Number"),
+                                  fillColor: AppColors.halfwhiteColor,
+                                  borderColor: Color(0xffEBEEF0),
+                                  label: "Phone Number",
+                                  hintText: "${cont.userData.phonenumber}",
+                                  labelColor: Color(0xff1C1C1C),
+                                  labelfontSize: 14,
+                                ),
+                                15.heightBox,
+                                CustomTextFormField(
+                                  readonly: true,
+                                  validator: (value) =>
+                                      Validator.validateRequired(value,
+                                          fieldName: "Email"),
+                                  fillColor: AppColors.halfwhiteColor,
+                                  borderColor: Color(0xffEBEEF0),
+                                  label: "E-mail",
+                                  hintText: "${cont.userData.email}",
+                                  labelColor: Color(0xff1C1C1C),
+                                  labelfontSize: 14,
+                                ),
+                                15.heightBox,
+                                CustomTextFormField(
+                                  readonly: true,
+                                  validator: (value) =>
+                                      Validator.validateRequired(value,
+                                          fieldName: "Last Transaction"),
+                                  fillColor: AppColors.halfwhiteColor,
+                                  borderColor: Color(0xffEBEEF0),
+                                  label: "Last Transaction",
+                                  hintText:
+                                      cont.userData.createdOn!.toSimpleDate(),
+                                  labelColor: Color(0xff1C1C1C),
+                                  labelfontSize: 14,
+                                ),
+                                15.heightBox,
+                                CustomTextFormField(
+                                  readonly: true,
+                                  validator: (value) =>
+                                      Validator.validateRequired(value,
+                                          fieldName: "Email"),
+                                  fillColor: AppColors.halfwhiteColor,
+                                  borderColor: Color(0xffEBEEF0),
+                                  label: "Address",
+                                  hintText: "${cont.userData.address}",
+                                  labelColor: Color(0xff1C1C1C),
+                                  labelfontSize: 14,
+                                ),
+                                20.heightBox,
+                                Row(
+                                  mainAxisAlignment: mainAxisSpaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: RoundButton(
+                                        backgroundColor:
+                                            AppColors.secondaryColor,
                                         radius: 10,
-                                        icon: Iconsax.trash,
-                                        text: "Delete",
+                                        icon: Iconsax.toggle_on_circle,
+                                        text: cont.userData.status.toString() ==
+                                                "true"
+                                            ? "Deactivate"
+                                            : "Activate",
                                         onPressed: () {
-                                          Get.dialog(
-                                            DeletePopup(
-                                                title: "Delete Customer",
-                                                message:
-                                                    "Are you sure you want to delete this item?",
-                                                onConfirm: () async {
-                                                  Get.back();
-                                                  await controller
-                                                      .deleteCustomerById();
-                                                },
-                                                icon:
-                                                    "assets/icons/delete.png"),
-                                          );
+                                          cont.updateCustomerStatusByAdmin(
+                                              cont.userData.status.toString() ==
+                                                      "true"
+                                                  ? "0"
+                                                  : "1");
                                         },
                                       )
                                           .box
                                           .height(context.height * 0.06)
                                           .make(),
                                     ),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
+                                    SizedBox(width: 10),
+                                    Expanded(
+                                      child: Obx(
+                                        () => RoundButton(
+                                          isLoading: cont.isLoading.value,
+                                          backgroundColor: Vx.red600,
+                                          radius: 10,
+                                          icon: Iconsax.trash,
+                                          text: "Delete",
+                                          onPressed: () {
+                                            Get.dialog(
+                                              DeletePopup(
+                                                  title: "Delete Customer",
+                                                  message:
+                                                      "Are you sure you want to delete this item?",
+                                                  onConfirm: () async {
+                                                    Get.back();
+                                                    await controller
+                                                        .deleteCustomerById();
+                                                  },
+                                                  icon:
+                                                      "assets/icons/delete.png"),
+                                            );
+                                          },
+                                        )
+                                            .box
+                                            .height(context.height * 0.06)
+                                            .make(),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            );
+                          }),
                         ),
                       ),
                     )

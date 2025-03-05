@@ -41,10 +41,13 @@ class UpdatecustomerController extends GetxController {
         status: status.value,
         phonenumber: contactNumberController.value.text.trim(),
         emiratesId: emairatesIDController.value.text.trim(),
+        createdOn: userData.createdOn,
       );
-      customerManagement.update();
 
-      await managecustomerController.getAllSignupCustomers();
+      customerManagement
+          .update(); //update the controller to show changs in the UI of customer mgt
+
+      await managecustomerController.getAllSignupCustomers(); //get all customer again to show change in the main table of customr 
       Get.snackbar("Customre Updated", "The customer is updated successfully");
       firstNameController.value.clear();
       lastNameController.value.clear();

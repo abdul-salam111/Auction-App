@@ -41,7 +41,7 @@ class UserData {
   final String? termsAgreement;
   final String? mfaEnabled;
   final String? mfaSecret;
-  final DateTime? createdOn;
+   DateTime? createdOn;
   final String? emiratesId;
   final String? address;
 

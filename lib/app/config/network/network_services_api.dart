@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:auction_app/app/config/exceptions/app_exceptions.dart';
 import 'package:auction_app/app/config/network/base_api_services.dart';
+import 'package:auction_app/app/config/storage/sharedpref_keys.dart';
 import 'package:http/http.dart' as http;
 
 class NetworkServicesApi implements BaseApiServices {
@@ -11,8 +12,12 @@ class NetworkServicesApi implements BaseApiServices {
     try {
       final response = await http.get(
         Uri.parse(url),
-        headers: {'Content-Type': 'application/json'},
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ${box.read(usertoken)}'
+        },
       ).timeout(const Duration(seconds: 10));
+
       apiResponse = handleError(response);
     } on SocketException {
       throw NoInternetException('No internet connection.');
@@ -31,10 +36,14 @@ class NetworkServicesApi implements BaseApiServices {
       final response = await http
           .post(
             Uri.parse(url),
-            headers: {'Content-Type': 'application/json'},
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ${box.read(usertoken)}'
+            },
             body: jsonEncode(data),
           )
           .timeout(const Duration(seconds: 10));
+
       apiResponse = handleError(response);
     } on SocketException {
       throw NoInternetException('No internet connection.');
@@ -45,15 +54,50 @@ class NetworkServicesApi implements BaseApiServices {
   }
 
   @override
-  Future updateApi(String url, data) {
-    // TODO: implement updateApi
-    throw UnimplementedError();
+  Future updateApi(String url, data) async {
+    dynamic apiResponse;
+    try {
+      final response = await http
+          .put(
+            Uri.parse(url),
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ${box.read(usertoken)}'
+            },
+            body: jsonEncode(data),
+          )
+          .timeout(const Duration(seconds: 10));
+      
+      apiResponse = handleError(response);
+    } on SocketException {
+      throw NoInternetException('No internet connection.');
+    } on RequestTimeoutException {
+      throw RequestTimeoutException('Request timed out.');
+    }
+    return apiResponse;
   }
 
   @override
-  Future deleteApi(String url, data) {
-    // TODO: implement deleteApi
-    throw UnimplementedError();
+  Future deleteApi(String url, data) async {
+    dynamic apiResponse;
+    try {
+      final response = await http
+          .delete(
+            Uri.parse(url),
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ${box.read(usertoken)}'
+            },
+            body: jsonEncode(data),
+          )
+          .timeout(const Duration(seconds: 10));
+      apiResponse = handleError(response);
+    } on SocketException {
+      throw NoInternetException('No internet connection.');
+    } on RequestTimeoutException {
+      throw RequestTimeoutException('Request timed out.');
+    }
+    return apiResponse;
   }
 
   dynamic handleError(http.Response response) {
@@ -67,7 +111,7 @@ class NetworkServicesApi implements BaseApiServices {
       case 403:
         throw ForbiddenException('Access forbidden.');
       case 404:
-        throw NotFoundException('Resource not found.');
+        throw NotFoundException('Not found.');
       case 429:
         throw TooManyRequestsException('Too many requests.');
       case 500:

@@ -5,8 +5,9 @@ class AddnewcustomerView extends GetView<AddnewcustomerController> {
 
   @override
   Widget build(BuildContext context) {
+    
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         context.focusScope.unfocus();
       },
       child: Scaffold(
@@ -58,7 +59,10 @@ class AddnewcustomerView extends GetView<AddnewcustomerController> {
                         ),
                         15.heightBox,
                         CustomTextFormField(
-                          validator: (value) => Validator.validateRequired(value,
+                          controller: controller.contactNumberController.value,
+                          keyboardType: TextInputType.number,
+                          validator: (value) => Validator.validateRequired(
+                              value,
                               fieldName: "Contact Number"),
                           isrequired: true,
                           fillColor: AppColors.halfwhiteColor,
@@ -70,6 +74,8 @@ class AddnewcustomerView extends GetView<AddnewcustomerController> {
                         ),
                         15.heightBox,
                         CustomTextFormField(
+                          controller: controller.emailController.value,
+                          keyboardType: TextInputType.emailAddress,
                           validator: Validator.validateEmail,
                           fillColor: AppColors.halfwhiteColor,
                           borderColor: Color(0xffEBEEF0),
@@ -91,7 +97,9 @@ class AddnewcustomerView extends GetView<AddnewcustomerController> {
                           children: [
                             Obx(
                               () => Text(
-                                controller.status.value ? "Active" : "In Active",
+                                controller.status.value
+                                    ? "Active"
+                                    : "In Active",
                                 style: context.bodySmall!
                                     .copyWith(fontWeight: FontWeight.bold),
                               ).px8(),
@@ -119,8 +127,7 @@ class AddnewcustomerView extends GetView<AddnewcustomerController> {
                             .make(),
                         15.heightBox,
                         CustomTextFormField(
-                          validator: (value) => Validator.validateRequired(value,
-                              fieldName: "Emairates ID"),
+                          controller: controller.emairatesIDController.value,
                           fillColor: AppColors.halfwhiteColor,
                           borderColor: Color(0xffEBEEF0),
                           label: "Emairates ID",
@@ -130,6 +137,7 @@ class AddnewcustomerView extends GetView<AddnewcustomerController> {
                         ),
                         15.heightBox,
                         CustomTextFormField(
+                          controller: controller.addressController.value,
                           fillColor: AppColors.halfwhiteColor,
                           borderColor: Color(0xffEBEEF0),
                           label: "Address",
@@ -138,32 +146,29 @@ class AddnewcustomerView extends GetView<AddnewcustomerController> {
                           labelfontSize: 14,
                         ),
                         20.heightBox,
-                        RoundButton(
-                          text: "Generate Customer",
-                          onPressed: () {
-                            Get.dialog(CustomSuccessDialog(
-                              title: 'Customer Added',
-                              message:
-                                  "New Customer has been successfully added.",
-                              onConfirm: () {
-                                Get.back();
-                              },
-                              icon: "assets/icons/contact.png",
-                            ));
-                            //if (controller.formKey.currentState!.validate()) {}
-                          },
-                          backgroundColor: context.primaryColor,
-                          radius: 10,
-                        )
-                            .box
-                            .width(context.width * 0.7)
-                            .height(context.height * 0.06)
-                            .make()
-                            .centered(),
+                        Obx(
+                          () => RoundButton(
+                            isLoading: controller.isloading.value,
+                            text: "Generate Customer",
+                            onPressed: () async {
+                              if (controller.formKey.currentState!.validate()) {
+                                await controller.addCustomerByAdmin();
+                              }
+                            },
+                            backgroundColor: context.primaryColor,
+                            radius: 10,
+                          )
+                              .box
+                              .width(context.width * 0.7)
+                              .height(context.height * 0.06)
+                              .make()
+                              .centered(),
+                        ),
                         10.heightBox,
                         Text(
                           "Cancel",
-                          style: context.bodySmall!.copyWith(color: Colors.grey),
+                          style:
+                              context.bodySmall!.copyWith(color: Colors.grey),
                         ).centered().onInkTap(() {
                           Get.back();
                         }),

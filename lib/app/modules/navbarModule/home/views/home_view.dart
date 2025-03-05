@@ -98,60 +98,80 @@ class HomeView extends GetView<HomeController> {
                         .start
                         .make(),
                     10.heightBox,
-                    Column(
-                      children: List.generate(
-                        2,
-                        (index) => Padding(
-                          padding: const EdgeInsets.only(bottom: 8.0),
-                          child: Column(
-                            crossAxisAlignment: crossAxisStart,
-                            children: [
-                              Row(
-                                children: [
-                                  "Container A-123"
-                                      .text
-                                      .textStyle(context.bodySmall!.copyWith(
-                                          fontWeight: FontWeight.bold))
-                                      .make(),
-                                  Spacer(),
-                                  "55 Items"
-                                      .text
-                                      .textStyle(context.displayLarge!.copyWith(
-                                          fontWeight: FontWeight.bold))
-                                      .make()
-                                      .box
-                                      .p8
-                                      .roundedSM
-                                      .color(Color(0xffF7F9FB))
-                                      .make()
-                                ],
-                              ),
-                              5.heightBox,
-                              Row(
-                                children: [
-                                  "Last update: Today, 10:30 AM"
-                                      .text
-                                      .color(AppColors.textColorSecondary)
-                                      .textStyle(context.displayLarge!.copyWith(
-                                          fontWeight: FontWeight.w900))
-                                      .make(),
-                                  Spacer(),
-                                  Icon(
-                                    Iconsax.arrow_right_34,
-                                    size: 18,
+                    controller.getAllContainersModel.data!.isNotEmpty
+                        ? Column(
+                            children: List.generate(
+                              controller.getAllContainersModel.data!.length > 1
+                                  ? 3
+                                  : controller
+                                      .getAllContainersModel.data!.length,
+                              (index) {
+                                var data = controller
+                                    .getAllContainersModel.data![index];
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: 8.0),
+                                  child: Column(
+                                    crossAxisAlignment: crossAxisStart,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          "Container: ${data.containerNumber.toString()}"
+                                              .text
+                                              .textStyle(context.bodySmall!
+                                                  .copyWith(
+                                                      fontWeight:
+                                                          FontWeight.bold))
+                                              .make(),
+                                          Spacer(),
+                                          "${data.noOfUnits} Items"
+                                              .text
+                                              .textStyle(context.displayLarge!
+                                                  .copyWith(
+                                                      fontWeight:
+                                                          FontWeight.bold))
+                                              .center
+                                              .make()
+                                              .box
+                                              .width(context.width * 0.2)
+                                              .p8
+                                              .roundedSM
+                                              .color(Color(0xffF7F9FB))
+                                              .make()
+                                        ],
+                                      ),
+                                      5.heightBox,
+                                      Row(
+                                        children: [
+                                          "Last update: ${data.updatedAt!.toFriendlyDateTime()}"
+                                              .text
+                                              .color(
+                                                  AppColors.textColorSecondary)
+                                              .textStyle(context.displayLarge!
+                                                  .copyWith(
+                                                      fontWeight:
+                                                          FontWeight.w900))
+                                              .make(),
+                                          Spacer(),
+                                          Icon(
+                                            Iconsax.arrow_right_34,
+                                            size: 18,
+                                          )
+                                        ],
+                                      ),
+                                    ],
                                   )
-                                ],
-                              ),
-                            ],
+                                      .box
+                                      .border(color: AppColors.borderColor)
+                                      .roundedSM
+                                      .p12
+                                      .make(),
+                                );
+                              },
+                            ),
                           )
-                              .box
-                              .border(color: AppColors.borderColor)
-                              .roundedSM
-                              .p12
-                              .make(),
-                        ),
-                      ),
-                    ),
+                        : Center(
+                            child: Text("Stock is not available"),
+                          ),
                     15.heightBox,
                     "Recent Activity"
                         .text

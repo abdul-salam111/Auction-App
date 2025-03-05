@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Auction App',
-      initialRoute: Routes.MANAGECUSTOMER,
+      initialRoute: Routes.SPLASH,
       theme: AppThemes.lightTheme,
       getPages: AppPages.routes,
     );

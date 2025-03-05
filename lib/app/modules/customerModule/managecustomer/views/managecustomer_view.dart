@@ -60,106 +60,126 @@ class ManagecustomerView extends GetView<ManagecustomerController> {
                   ),
                   5.widthBox,
                   Expanded(
-                    child: SizedBox(
-                        height: 35,
-                        child: TextField(
-                          onChanged: (value) =>
-                              controller.search(value), // Call search function
-                          style: context.displayLarge!,
-                          decoration: InputDecoration(
-                            prefixIconConstraints:
-                                BoxConstraints.tight(Size(20, 20)),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5),
-                              borderSide: const BorderSide(
-                                  color: AppColors.borderColor),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5),
-                              borderSide: const BorderSide(
-                                  color: AppColors.borderColor),
-                            ),
-                            hintText: "Search",
-                            prefixIcon: Icon(Iconsax.search_normal, size: 15),
-                            hintStyle: context.displayLarge!,
-                          ),
-                        )),
+                    child: TextField(
+                      cursorHeight: 15,
+                      onChanged: (value) => controller.search(value),
+                      style: context.displayLarge!.copyWith(fontSize: 14),
+                      decoration: InputDecoration(
+                        isDense: true,
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                        prefixIconConstraints:
+                            BoxConstraints(minWidth: 25, minHeight: 25),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          borderSide: BorderSide(color: AppColors.borderColor),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          borderSide: BorderSide(color: AppColors.borderColor),
+                        ),
+                        hintText: "Search",
+                        prefixIcon: Icon(Iconsax.search_normal, size: 15),
+                        hintStyle: context.displayLarge!.copyWith(fontSize: 14),
+                      ),
+                    ),
                   ),
                 ],
               ),
               10.heightBox,
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Obx(() => PaginatedDataTable(
-                        headingRowHeight: context.height * 0.05,
-                        headingRowColor:
-                            WidgetStateProperty.all(Color(0xffF5F7FA)),
-                        onRowsPerPageChanged: (value) {
-                          if (value != null) {
-                            controller.rowsPerPage.value = value;
-                          }
-                        },
-                        availableRowsPerPage: [2, 5, 7, 10, 15, 20, 50, 100],
-                        dataRowMaxHeight: context.height * 0.07,
-                        showEmptyRows: false,
-                        horizontalMargin: 5,
-                        columnSpacing: context.screenWidth > 400 ? 30 : 12,
-                        columns: [
-                          DataColumn(
-                            label: SizedBox(
-                              height: 24,
-                              width: 24,
-                              child: Checkbox(
-                                activeColor: AppColors.primaryColor,
-                                materialTapTargetSize:
-                                    MaterialTapTargetSize.shrinkWrap,
-                                side: BorderSide(width: 1),
-                                value: controller.selectAll.value,
-                                onChanged: controller.toggleSelectAll,
-                              ),
-                            ),
+              Obx(
+                () => controller.isLoading.value
+                    ? Expanded(
+                        child: Center(
+                          child: LoadingIndicator(
+                            size: 40,
                           ),
-                          DataColumn(
-                              label: SizedBox(
-                            width: context.width * 0.23,
-                            child: Text(
-                              'Mobile No',
-                              style: context.displayLarge!
-                                  .copyWith(fontWeight: FontWeight.bold),
-                            ),
-                          )),
-                          DataColumn(
-                              label: SizedBox(
-                            width: context.width * 0.2,
-                            child: Text(
-                              'Name',
-                              style: context.displayLarge!
-                                  .copyWith(fontWeight: FontWeight.bold),
-                            ),
-                          )),
-                          DataColumn(
-                              label: SizedBox(
-                            width: context.width * 0.2,
-                            child: Text(
-                              'Reg. Date',
-                              style: context.displayLarge!
-                                  .copyWith(fontWeight: FontWeight.bold),
-                            ),
-                          )),
-                          DataColumn(
-                              label: SizedBox(
-                            width: context.width * 0.1,
-                            child: Text(
-                              'More',
-                              style: context.displayLarge!
-                                  .copyWith(fontWeight: FontWeight.bold),
-                            ),
-                          )),
-                        ],
-                        source: CustomerDataSource(controller, context),
-                        rowsPerPage: controller.rowsPerPage.value,
-                      )),
-                ),
+                        ),
+                      )
+                    : Expanded(
+                        child: SingleChildScrollView(child:
+                            GetBuilder<ManagecustomerController>(
+                                builder: (cont) {
+                          return PaginatedDataTable(
+                            headingRowHeight: context.height * 0.05,
+                            headingRowColor:
+                                WidgetStateProperty.all(Color(0xffF5F7FA)),
+                            onRowsPerPageChanged: (value) {
+                              if (value != null) {
+                                cont.rowsPerPage.value = value;
+                              }
+                            },
+                            availableRowsPerPage: [
+                              2,
+                              5,
+                              7,
+                              10,
+                              15,
+                              20,
+                              50,
+                              100
+                            ],
+                            dataRowMaxHeight: context.height * 0.09,
+                            showEmptyRows: false,
+                            horizontalMargin: 5,
+                            columnSpacing: context.screenWidth > 400 ? 30 : 12,
+                            columns: [
+                              DataColumn(
+                                label: SizedBox(
+                                  height: 24,
+                                  width: 24,
+                                  child: Checkbox(
+                                    activeColor: AppColors.primaryColor,
+                                    materialTapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
+                                    side: BorderSide(width: 1),
+                                    value: controller.selectAll.value,
+                                    onChanged: controller.toggleSelectAll,
+                                  ),
+                                ),
+                              ),
+                              DataColumn(
+                                  label: SizedBox(
+                                width: context.width * 0.23,
+                                child: Text(
+                                  'Mobile No',
+                                  style: context.displayLarge!
+                                      .copyWith(fontWeight: FontWeight.bold),
+                                ),
+                              )),
+                              DataColumn(
+                                  label: SizedBox(
+                                width: context.width * 0.2,
+                                child: Text(
+                                  'Name',
+                                  style: context.displayLarge!
+                                      .copyWith(fontWeight: FontWeight.bold),
+                                ),
+                              )),
+                              DataColumn(
+                                  label: SizedBox(
+                                width: context.width * 0.2,
+                                child: Text(
+                                  'Reg. Date',
+                                  style: context.displayLarge!
+                                      .copyWith(fontWeight: FontWeight.bold),
+                                ),
+                              )),
+                              DataColumn(
+                                  label: SizedBox(
+                                width: context.width * 0.1,
+                                child: Text(
+                                  'More',
+                                  style: context.displayLarge!
+                                      .copyWith(fontWeight: FontWeight.bold),
+                                ),
+                              )),
+                            ],
+                            source: CustomerDataSource(cont, context),
+                            rowsPerPage: cont.rowsPerPage.value,
+                          );
+                        })),
+                      ),
               ),
             ],
           ),
@@ -176,6 +196,9 @@ class CustomerDataSource extends DataTableSource {
   CustomerDataSource(this.controller, this.context);
 
   @override
+  int get rowCount => controller.filteredData.length;
+
+  @override
   DataRow getRow(int index) {
     if (index >= controller.filteredData.length) {
       return DataRow(
@@ -183,13 +206,13 @@ class CustomerDataSource extends DataTableSource {
     }
 
     var row = controller.filteredData[index];
-    bool isExpanded = controller.expandedRows.contains(row['id']);
+    bool isExpanded = controller.expandedRows.contains(row.id);
     bool isEvenRow = index.isEven;
 
     return DataRow(
       color: WidgetStateProperty.all<Color>(
           isEvenRow ? Colors.white : const Color(0xffF5F7FA)),
-      selected: controller.selectedRows.contains(row['id']),
+      selected: controller.selectedRows.contains(row.id),
       cells: [
         DataCell(
           Obx(
@@ -200,8 +223,8 @@ class CustomerDataSource extends DataTableSource {
                 activeColor: AppColors.primaryColor,
                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 side: const BorderSide(width: 1),
-                value: controller.selectedRows.contains(row['id']),
-                onChanged: (value) => controller.toggleRowSelection(row['id']),
+                value: controller.selectedRows.contains(row.id),
+                onChanged: (value) => controller.toggleRowSelection(row.id!),
               ),
             ),
           ),
@@ -218,7 +241,7 @@ class CustomerDataSource extends DataTableSource {
                     SizedBox(
                       width: context.width * 0.23,
                       child: Text(
-                        row['mobile'],
+                        row.phonenumber!,
                         style: context.displayLarge!,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -226,7 +249,7 @@ class CustomerDataSource extends DataTableSource {
                     ),
                     GestureDetector(
                       onTap: () {
-                        controller.copyToClipboard(row['mobile']);
+                        controller.copyToClipboard(row.phonenumber!);
                       },
                       child: Icon(Iconsax.copy, size: 15),
                     ),
@@ -235,30 +258,32 @@ class CustomerDataSource extends DataTableSource {
               ),
               if (isExpanded)
                 Padding(
-                  padding: const EdgeInsets.only(top: 5.0),
+                  padding: const EdgeInsets.only(
+                    top: 5.0,
+                  ),
                   child: SizedBox(
-                    height: context.height * 0.04,
-                    child: TextField(
-                      style: context.displayLarge!,
-                      decoration: InputDecoration(
-                        contentPadding: padding5,
-                        prefixIconConstraints:
-                            BoxConstraints.tight(Size(20, 20)),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5),
-                          borderSide:
-                              const BorderSide(color: AppColors.borderColor),
+                    height: context.height * 0.05,
+                    child: Row(
+                      children: [
+                        Text(
+                          "Email:",
+                          style: context.bodySmall!.copyWith(
+                              fontWeight: FontWeight.bold, fontSize: 12),
                         ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5),
-                          borderSide:
-                              const BorderSide(color: AppColors.borderColor),
-                        ),
-                        hintText: row['email'],
-                        prefixIcon: const Icon(Iconsax.sms, size: 15),
-                        hintStyle: context.displayLarge!,
-                      ),
-                    ),
+                        5.widthBox,
+                        Text(
+                          "${row.email}",
+                          style: context.bodySmall!.copyWith(
+                              fontSize: 12,
+                              color: AppColors.textColorSecondary),
+                        ).box.color(AppColors.halfwhiteColor).make()
+                      ],
+                    )
+                        .box
+                        .border(color: AppColors.borderColor)
+                        .p4
+                        .roundedSM
+                        .make(),
                   ),
                 ),
             ],
@@ -272,7 +297,8 @@ class CustomerDataSource extends DataTableSource {
             children: [
               SizedBox(
                   width: context.width * 0.2,
-                  child: Text(row['name'], style: context.displayLarge!)),
+                  child: Text(row.firstname! + row.lastname!,
+                      style: context.displayLarge!)),
               if (isExpanded)
                 GetBuilder<ManagecustomerController>(builder: (cont) {
                   return Padding(
@@ -289,14 +315,11 @@ class CustomerDataSource extends DataTableSource {
                             ),
                           ),
                           Transform.scale(
-                            scale: 0.7, // Adjust size as needed
+                            scale: 0.5, // Adjust size as needed
                             child: Switch.adaptive(
                               activeColor: AppColors.successColor,
-                              value: cont.data[index]['active'],
-                              onChanged: (value) {
-                                cont.updateStatus(
-                                    cont.data[index]['id'].toString(), value);
-                              },
+                              value: cont.data[index].status!,
+                              onChanged: (value) {},
                             ),
                           ),
                         ],
@@ -314,7 +337,8 @@ class CustomerDataSource extends DataTableSource {
             children: [
               SizedBox(
                   width: context.width * 0.2,
-                  child: Text(row['regDate'], style: context.displayLarge!)),
+                  child: Text(row.createdOn!.toSimpleDate(),
+                      style: context.displayLarge!)),
               if (isExpanded)
                 Padding(
                   padding: const EdgeInsets.only(top: 5.0),
@@ -324,15 +348,15 @@ class CustomerDataSource extends DataTableSource {
                     color: Colors.white,
                   )
                       .box
-                      .width(30)
-                      .height(30)
+                      .width(40)
+                      .height(40)
                       .alignCenter
                       .color(Color(0xffFEB000))
                       .roundedSM
                       .p4
                       .make()
                       .onTap(() {
-                    Get.toNamed(Routes.CUSTOMERMANAGEMENT);
+                    Get.toNamed(Routes.CUSTOMERMANAGEMENT, arguments: row);
                   }),
                 )
             ],
@@ -345,22 +369,31 @@ class CustomerDataSource extends DataTableSource {
             children: [
               GestureDetector(
                 onTap: () {
-                  controller.toggleExpandRow(row['id']);
+                  controller.toggleExpandRow(row.id!);
                   notifyListeners();
                 },
                 child: Icon(
                   isExpanded
                       ? Iconsax.arrow_square_up
                       : Iconsax.arrow_square_down,
-                  size: 15,
+                  size: 20,
                   color: AppColors.buttonDisabledColor,
                 ),
               ),
               if (isExpanded)
                 GestureDetector(
                   onTap: () {
-                    // Call your delete function here
-                    controller.deleteRow(row['id'].toString());
+                    Get.dialog(
+                      DeletePopup(
+                          title: "Delete Customer",
+                          message: "Are you sure you want to delete this item?",
+                          onConfirm: () async {
+                            Get.back();
+                            await controller
+                                .deleteCustomerById(row.id.toString());
+                          },
+                          icon: "assets/icons/delete.png"),
+                    );
                   },
                   child: Icon(
                     Iconsax.trash,
@@ -369,12 +402,12 @@ class CustomerDataSource extends DataTableSource {
                   )
                       .box
                       .color(AppColors.errorColor)
-                      .width(30)
-                      .height(30)
+                      .width(40)
+                      .height(40)
                       .alignCenter
                       .roundedSM
                       .p4
-                      .margin(EdgeInsets.only(top: 3))
+                      .margin(EdgeInsets.only(top: 0))
                       .make(),
                 ),
             ],
@@ -386,9 +419,6 @@ class CustomerDataSource extends DataTableSource {
 
   @override
   bool get isRowCountApproximate => false;
-
-  @override
-  int get rowCount => controller.filteredData.length;
 
   @override
   int get selectedRowCount => controller.selectedRows.length;

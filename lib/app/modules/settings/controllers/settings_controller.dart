@@ -1,23 +1,19 @@
-import 'package:get/get.dart';
+import '../../modules.dart';
 
 class SettingsController extends GetxController {
-  //TODO: Implement SettingsController
+  var isFingerprintEnabled = false.obs;
 
-  final count = 0.obs;
+  void toggleFingerprint(bool value) {
+    isFingerprintEnabled.value = value;
+    box.write(enableFingerPrint, isFingerprintEnabled.value);
+    print(box.read(enableFingerPrint));
+  }
+
   @override
   void onInit() {
+    // TODO: implement onInit
     super.onInit();
+    isFingerprintEnabled.value =
+        (box.read(enableFingerPrint) != null && box.read(enableFingerPrint));
   }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }

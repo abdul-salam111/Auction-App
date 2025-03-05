@@ -26,12 +26,29 @@ class CustomermanagementView extends GetView<CustomermanagementController> {
                     Column(
                       crossAxisAlignment: crossAxisStart,
                       children: [
-                        Text(
-                          "Linda Blair",
-                          style: context.bodyMedium!.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                        Row(
+                          children: [
+                            Text(
+                              "${controller.userData.firstname} ${controller.userData.lastname}",
+                              style: context.bodyMedium!.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            5.widthBox,
+                            InkWell(
+                              onTap: () {
+                                Get.toNamed(Routes.UPDATECUSTOMER,
+                                    arguments: controller.userData);
+                                
+                              },
+                              child: Icon(
+                                Iconsax.edit,
+                                size: 20,
+                              ),
+                            )
+                          ],
                         ),
+                        HeightBox(5),
                         Row(
                           children: [
                             Text(
@@ -40,7 +57,7 @@ class CustomermanagementView extends GetView<CustomermanagementController> {
                                   color: AppColors.textColorSecondary),
                             ),
                             Text(
-                              "ID-011221",
+                              "${controller.userData.id}",
                               style: context.displayLarge!.copyWith(
                                   color: AppColors.textColorSecondary,
                                   fontWeight: FontWeight.bold),
@@ -52,13 +69,17 @@ class CustomermanagementView extends GetView<CustomermanagementController> {
                     Spacer(),
                     SizedBox(
                       child: Text(
-                        "Active",
+                        controller.userData.status.toString() == "true"
+                            ? "Active"
+                            : "InActive",
                         style: context.bodySmall!.copyWith(color: Vx.white),
                       ).centered(),
                     )
                         .box
                         .height(context.height * 0.04)
-                        .color(AppColors.secondaryColor)
+                        .color(controller.userData.status.toString() == "true"
+                            ? AppColors.secondaryColor
+                            : Colors.red)
                         .roundedSM
                         .width(context.width * 0.3)
                         .make(),
@@ -114,8 +135,9 @@ class CustomermanagementView extends GetView<CustomermanagementController> {
                               .p8
                               .roundedFull
                               .make()
-                              .onTap(() {
+                              .onTap(() async {
                             controller.selectedIndex.value = 1;
+                            await controller.getCustomerWonBids();
                           }),
                           5.heightBox,
                           Text(
@@ -152,7 +174,7 @@ class CustomermanagementView extends GetView<CustomermanagementController> {
                                 fillColor: AppColors.halfwhiteColor,
                                 borderColor: Color(0xffEBEEF0),
                                 label: "Phone Number",
-                                hintText: "050 9837 3773",
+                                hintText: "${controller.userData.phonenumber}",
                                 labelColor: Color(0xff1C1C1C),
                                 labelfontSize: 14,
                               ),
@@ -165,7 +187,7 @@ class CustomermanagementView extends GetView<CustomermanagementController> {
                                 fillColor: AppColors.halfwhiteColor,
                                 borderColor: Color(0xffEBEEF0),
                                 label: "E-mail",
-                                hintText: "abdulsalam@gmail.com",
+                                hintText: "${controller.userData.email}",
                                 labelColor: Color(0xff1C1C1C),
                                 labelfontSize: 14,
                               ),
@@ -174,11 +196,12 @@ class CustomermanagementView extends GetView<CustomermanagementController> {
                                 readonly: true,
                                 validator: (value) =>
                                     Validator.validateRequired(value,
-                                        fieldName: "Email"),
+                                        fieldName: "Last Transaction"),
                                 fillColor: AppColors.halfwhiteColor,
                                 borderColor: Color(0xffEBEEF0),
                                 label: "Last Transaction",
-                                hintText: "12 December 2022",
+                                hintText: controller.userData.createdOn!
+                                    .toSimpleDate(),
                                 labelColor: Color(0xff1C1C1C),
                                 labelfontSize: 14,
                               ),
@@ -191,8 +214,7 @@ class CustomermanagementView extends GetView<CustomermanagementController> {
                                 fillColor: AppColors.halfwhiteColor,
                                 borderColor: Color(0xffEBEEF0),
                                 label: "Address",
-                                hintText:
-                                    "Clock Tower Deira, Dubai, United Arab Emirates",
+                                hintText: "${controller.userData.address}",
                                 labelColor: Color(0xff1C1C1C),
                                 labelfontSize: 14,
                               ),
@@ -205,19 +227,50 @@ class CustomermanagementView extends GetView<CustomermanagementController> {
                                       backgroundColor: AppColors.secondaryColor,
                                       radius: 10,
                                       icon: Iconsax.toggle_on_circle,
-                                      text: "Deactivate",
-                                      onPressed: () {},
+                                      text: controller.userData.status
+                                                  .toString() ==
+                                              "true"
+                                          ? "Deactivate"
+                                          : "Activate",
+                                      onPressed: () {
+                                        controller.updateCustomerStatusByAdmin(
+                                            controller.userData.status
+                                                        .toString() ==
+                                                    "true"
+                                                ? "0"
+                                                : "1");
+                                      },
                                     ).box.height(context.height * 0.06).make(),
                                   ),
                                   SizedBox(width: 10),
                                   Expanded(
-                                    child: RoundButton(
-                                      backgroundColor: Vx.red600,
-                                      radius: 10,
-                                      icon: Iconsax.trash,
-                                      text: "Deactivate",
-                                      onPressed: () {},
-                                    ).box.height(context.height * 0.06).make(),
+                                    child: Obx(
+                                      () => RoundButton(
+                                        isLoading: controller.isLoading.value,
+                                        backgroundColor: Vx.red600,
+                                        radius: 10,
+                                        icon: Iconsax.trash,
+                                        text: "Delete",
+                                        onPressed: () {
+                                          Get.dialog(
+                                            DeletePopup(
+                                                title: "Delete Customer",
+                                                message:
+                                                    "Are you sure you want to delete this item?",
+                                                onConfirm: () async {
+                                                  Get.back();
+                                                  await controller
+                                                      .deleteCustomerById();
+                                                },
+                                                icon:
+                                                    "assets/icons/delete.png"),
+                                          );
+                                        },
+                                      )
+                                          .box
+                                          .height(context.height * 0.06)
+                                          .make(),
+                                    ),
                                   ),
                                 ],
                               )
@@ -226,426 +279,503 @@ class CustomermanagementView extends GetView<CustomermanagementController> {
                         ),
                       ),
                     )
-                  : Expanded(
-                      child: Padding(
-                        padding: screenPadding,
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: mainAxisSpaceBetween,
-                                children: [
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: crossAxisStart,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Icon(
-                                              Iconsax.clock,
-                                              size: 20,
-                                              color: AppColors.primaryColor,
+                  : Obx(
+                      () => controller.isbiddingLoading.value
+                          ? Center(
+                              child: LoadingIndicator(
+                                size: 30,
+                              ),
+                            )
+                          : Expanded(
+                              child: Padding(
+                                padding: screenPadding,
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment: mainAxisSpaceBetween,
+                                        children: [
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  crossAxisStart,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Icon(
+                                                      Iconsax.clock,
+                                                      size: 20,
+                                                      color: AppColors
+                                                          .primaryColor,
+                                                    )
+                                                        .box
+                                                        .p4
+                                                        .roundedSM
+                                                        .color(AppColors
+                                                            .primaryLightColor
+                                                            .withAlpha(
+                                                                (0.2 * 255)
+                                                                    .toInt()))
+                                                        .make(),
+                                                    Spacer(),
+                                                    Text(
+                                                      "All Time",
+                                                      style: context
+                                                          .displayLarge!
+                                                          .copyWith(
+                                                              color: AppColors
+                                                                  .textColorSecondary),
+                                                    ),
+                                                    2.widthBox,
+                                                    Icon(Iconsax.arrow_down_14,
+                                                        size: 15,
+                                                        color: AppColors
+                                                            .textColorSecondary)
+                                                  ],
+                                                ),
+                                                10.heightBox,
+                                                Text(
+                                                  "Total Orders",
+                                                  style: context.bodySmall!
+                                                      .copyWith(
+                                                          color: AppColors
+                                                              .textColorSecondary),
+                                                ),
+                                                2.heightBox,
+                                                Text(
+                                                  "AED ${(controller.getIndividualCustomerWonBids.value.bidsWon ?? []).isNotEmpty ? controller.getIndividualCustomerWonBids.value.bidsWon!.map((e) => e.bidAmount ?? 0).reduce((sum, amount) => sum + amount).numCurrency : '0'}",
+                                                  style: context.titleMedium!
+                                                      .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                )
+                                              ],
                                             )
                                                 .box
-                                                .p4
+                                                .border(
+                                                    color:
+                                                        AppColors.borderColor)
+                                                .p8
                                                 .roundedSM
-                                                .color(AppColors
-                                                    .primaryLightColor
-                                                    .withAlpha(
-                                                        (0.2 * 255).toInt()))
                                                 .make(),
-                                            Spacer(),
-                                            Text(
-                                              "All Time",
-                                              style: context.displayLarge!
-                                                  .copyWith(
+                                          ),
+                                          SizedBox(width: 10),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  crossAxisStart,
+                                              children: [
+                                                Icon(
+                                                  Iconsax.shopping_cart,
+                                                  size: 20,
+                                                  color: AppColors.primaryColor,
+                                                )
+                                                    .box
+                                                    .p4
+                                                    .roundedSM
+                                                    .color(AppColors
+                                                        .warningColor
+                                                        .withAlpha((0.2 * 255)
+                                                            .toInt()))
+                                                    .make(),
+                                                10.heightBox,
+                                                Text(
+                                                  "In Cart",
+                                                  style: context.bodySmall!
+                                                      .copyWith(
+                                                          color: AppColors
+                                                              .textColorSecondary),
+                                                ),
+                                                2.heightBox,
+                                                Text(
+                                                  "${(controller.getIndividualCustomerWonBids.value.bidsWon ?? []).length}",
+                                                  style: context.titleLarge!
+                                                      .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                )
+                                              ],
+                                            )
+                                                .box
+                                                .border(
+                                                    color:
+                                                        AppColors.borderColor)
+                                                .p8
+                                                .roundedSM
+                                                .make(),
+                                          ),
+                                        ],
+                                      ),
+                                      10.heightBox,
+                                      Column(
+                                        crossAxisAlignment: crossAxisStart,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Icon(
+                                                Iconsax.shopping_bag,
+                                                size: 20,
+                                                color: AppColors.primaryColor,
+                                              )
+                                                  .box
+                                                  .p4
+                                                  .roundedSM
+                                                  .color(AppColors.warningColor
+                                                      .withAlpha(
+                                                          (0.2 * 255).toInt()))
+                                                  .make(),
+                                              Spacer(),
+                                              Text(
+                                                "All Time",
+                                                style: context.displayLarge!
+                                                    .copyWith(
+                                                        color: AppColors
+                                                            .textColorSecondary),
+                                              ),
+                                              2.widthBox,
+                                              Icon(Iconsax.arrow_down_14,
+                                                  size: 15,
+                                                  color: AppColors
+                                                      .textColorSecondary)
+                                            ],
+                                          ),
+                                          10.heightBox,
+                                          Row(
+                                            mainAxisAlignment:
+                                                mainAxisSpaceBetween,
+                                            children: [
+                                              Column(
+                                                crossAxisAlignment:
+                                                    crossAxisStart,
+                                                children: [
+                                                  Text(
+                                                    "All Orders",
+                                                    style: context.displayLarge!
+                                                        .copyWith(
+                                                            color: AppColors
+                                                                .textColorSecondary),
+                                                  ),
+                                                  5.heightBox,
+                                                  Text(
+                                                    "${(controller.getIndividualCustomerWonBids.value.bidsWon ?? []).length}",
+                                                    style: context.bodySmall!
+                                                        .copyWith(
+                                                            color: AppColors
+                                                                .textColorPrimary),
+                                                  ),
+                                                ],
+                                              ),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    crossAxisStart,
+                                                children: [
+                                                  Text(
+                                                    "Pending",
+                                                    style: context.displayLarge!
+                                                        .copyWith(
+                                                            color: AppColors
+                                                                .textColorSecondary),
+                                                  ),
+                                                  5.heightBox,
+                                                  Text(
+                                                    "0",
+                                                    style: context.bodySmall!
+                                                        .copyWith(
+                                                            color: AppColors
+                                                                .textColorPrimary),
+                                                  ),
+                                                ],
+                                              ),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    crossAxisStart,
+                                                children: [
+                                                  Text(
+                                                    "Completed",
+                                                    style: context.displayLarge!
+                                                        .copyWith(
+                                                            color: AppColors
+                                                                .textColorSecondary),
+                                                  ),
+                                                  5.heightBox,
+                                                  Text(
+                                                    "0",
+                                                    style: context.bodySmall!
+                                                        .copyWith(
+                                                            color: AppColors
+                                                                .textColorPrimary),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      )
+                                          .box
+                                          .border(color: AppColors.borderColor)
+                                          .p8
+                                          .roundedSM
+                                          .make(),
+                                      10.heightBox,
+                                      Column(
+                                        crossAxisAlignment: crossAxisStart,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Icon(
+                                                Iconsax.shopping_bag,
+                                                size: 20,
+                                                color: AppColors.primaryColor,
+                                              )
+                                                  .box
+                                                  .p4
+                                                  .roundedSM
+                                                  .color(AppColors.warningColor
+                                                      .withAlpha(
+                                                          (0.2 * 255).toInt()))
+                                                  .make(),
+                                              Spacer(),
+                                              Text(
+                                                "All Time",
+                                                style: context.displayLarge!
+                                                    .copyWith(
+                                                        color: AppColors
+                                                            .textColorSecondary),
+                                              ),
+                                              2.widthBox,
+                                              Icon(Iconsax.arrow_down_14,
+                                                  size: 15,
+                                                  color: AppColors
+                                                      .textColorSecondary)
+                                            ],
+                                          ),
+                                          10.heightBox,
+                                          Row(
+                                            mainAxisAlignment:
+                                                mainAxisSpaceBetween,
+                                            children: [
+                                              Column(
+                                                crossAxisAlignment:
+                                                    crossAxisStart,
+                                                children: [
+                                                  Text(
+                                                    "Canceled",
+                                                    style: context.displayLarge!
+                                                        .copyWith(
+                                                            color: AppColors
+                                                                .textColorSecondary),
+                                                  ),
+                                                  5.heightBox,
+                                                  Text(
+                                                    "0",
+                                                    style: context.bodySmall!
+                                                        .copyWith(
+                                                            color: AppColors
+                                                                .textColorPrimary),
+                                                  ),
+                                                ],
+                                              ),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    crossAxisStart,
+                                                children: [
+                                                  Text(
+                                                    "Returned",
+                                                    style: context.displayLarge!
+                                                        .copyWith(
+                                                            color: AppColors
+                                                                .textColorSecondary),
+                                                  ),
+                                                  5.heightBox,
+                                                  Text(
+                                                    "0",
+                                                    style: context.bodySmall!
+                                                        .copyWith(
+                                                            color: AppColors
+                                                                .textColorPrimary),
+                                                  ),
+                                                ],
+                                              ),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    crossAxisStart,
+                                                children: [
+                                                  Text(
+                                                    "Damaged",
+                                                    style: context.displayLarge!
+                                                        .copyWith(
+                                                            color: AppColors
+                                                                .textColorSecondary),
+                                                  ),
+                                                  5.heightBox,
+                                                  Text(
+                                                    "0",
+                                                    style: context.bodySmall!
+                                                        .copyWith(
+                                                            color: AppColors
+                                                                .textColorPrimary),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      )
+                                          .box
+                                          .border(color: AppColors.borderColor)
+                                          .p8
+                                          .roundedSM
+                                          .make(),
+                                      20.heightBox,
+                                      controller.filteredData.isEmpty
+                                          ? Center(child: SizedBox.shrink())
+                                          : Row(
+                                              crossAxisAlignment: crossAxisEnd,
+                                              mainAxisAlignment:
+                                                  mainAxisSpaceBetween,
+                                              children: [
+                                                Expanded(
+                                                  child: _buildDateField(
+                                                      "Period from",
+                                                      controller.fromDate,
+                                                      () => controller.pickDate(
+                                                          true, context)),
+                                                ),
+                                                10.widthBox,
+                                                Expanded(
+                                                  child: _buildDateField(
+                                                      "Period to",
+                                                      controller.toDate,
+                                                      () => controller.pickDate(
+                                                          false, context)),
+                                                ),
+                                                10.widthBox,
+                                                Row(
+                                                  children: [
+                                                    Icon(
+                                                      Iconsax.setting_4,
                                                       color: AppColors
-                                                          .textColorSecondary),
+                                                          .scaffoldBackgroundColor,
+                                                      size: 23,
+                                                    ),
+                                                    5.widthBox,
+                                                    Text("Filter",
+                                                        style: context
+                                                            .bodySmall!
+                                                            .copyWith(
+                                                                color: AppColors
+                                                                    .scaffoldBackgroundColor,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
+                                                  ],
+                                                )
+                                                    .box
+                                                    .padding(EdgeInsets.all(6))
+                                                    .roundedSM
+                                                    .color(
+                                                        AppColors.primaryColor)
+                                                    .make(),
+                                              ],
                                             ),
-                                            2.widthBox,
-                                            Icon(Iconsax.arrow_down_14,
-                                                size: 15,
-                                                color: AppColors
-                                                    .textColorSecondary)
-                                          ],
-                                        ),
-                                        10.heightBox,
-                                        Text(
-                                          "Total Orders",
-                                          style: context.bodySmall!.copyWith(
-                                              color:
-                                                  AppColors.textColorSecondary),
-                                        ),
-                                        2.heightBox,
-                                        Text(
-                                          "AED 50,000",
-                                          style: context.titleLarge!.copyWith(
-                                              fontWeight: FontWeight.bold),
-                                        )
-                                      ],
-                                    )
-                                        .box
-                                        .border(color: AppColors.borderColor)
-                                        .p8
-                                        .roundedSM
-                                        .make(),
+                                      10.heightBox,
+                                      controller.filteredData.isEmpty
+                                          ? Center(
+                                              child: SizedBox(
+                                                height: 50,
+                                                child: Text(
+                                                    "${controller.userData.firstname} ${controller.userData.lastname} Did not won any bid."),
+                                              ),
+                                            )
+                                          : SingleChildScrollView(
+                                              child: PaginatedDataTable(
+                                                headingRowHeight:
+                                                    context.height * 0.05,
+                                                headingRowColor:
+                                                    WidgetStateProperty.all(
+                                                        Color(0xffF5F7FA)),
+                                                onRowsPerPageChanged: (value) {
+                                                  if (value != null) {
+                                                    controller.rowsPerPage
+                                                        .value = value;
+                                                  }
+                                                },
+                                                availableRowsPerPage: [
+                                                  2,
+                                                  5,
+                                                  7,
+                                                  10,
+                                                  15,
+                                                  20,
+                                                  50,
+                                                  100
+                                                ],
+                                                dataRowMaxHeight:
+                                                    context.height * 0.07,
+                                                showEmptyRows: false,
+                                                horizontalMargin: 10,
+                                                columnSpacing:
+                                                    context.screenWidth > 400
+                                                        ? 30
+                                                        : 12,
+                                                columns: [
+                                                  DataColumn(
+                                                      label: Text(
+                                                    'Product',
+                                                    style: context.displayLarge!
+                                                        .copyWith(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                  )),
+                                                  DataColumn(
+                                                      label: Text(
+                                                    'Chassis No',
+                                                    style: context.displayLarge!
+                                                        .copyWith(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                  )),
+                                                  DataColumn(
+                                                      label: Text(
+                                                    'Total',
+                                                    style: context.displayLarge!
+                                                        .copyWith(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                  )),
+                                                  DataColumn(
+                                                      label: Text(
+                                                    'Date',
+                                                    style: context.displayLarge!
+                                                        .copyWith(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                  )),
+                                                  DataColumn(
+                                                      label: Text(
+                                                    'Actions',
+                                                    style: context.displayLarge!
+                                                        .copyWith(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                  )),
+                                                ],
+                                                source: CustomerDataSource(
+                                                    controller, context),
+                                                rowsPerPage: controller
+                                                    .rowsPerPage.value,
+                                              ),
+                                            ),
+                                    ],
                                   ),
-                                  SizedBox(width: 10),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: crossAxisStart,
-                                      children: [
-                                        Icon(
-                                          Iconsax.shopping_cart,
-                                          size: 20,
-                                          color: AppColors.primaryColor,
-                                        )
-                                            .box
-                                            .p4
-                                            .roundedSM
-                                            .color(AppColors.warningColor
-                                                .withAlpha((0.2 * 255).toInt()))
-                                            .make(),
-                                        10.heightBox,
-                                        Text(
-                                          "In Cart",
-                                          style: context.bodySmall!.copyWith(
-                                              color:
-                                                  AppColors.textColorSecondary),
-                                        ),
-                                        2.heightBox,
-                                        Text(
-                                          "2",
-                                          style: context.titleLarge!.copyWith(
-                                              fontWeight: FontWeight.bold),
-                                        )
-                                      ],
-                                    )
-                                        .box
-                                        .border(color: AppColors.borderColor)
-                                        .p8
-                                        .roundedSM
-                                        .make(),
-                                  ),
-                                ],
+                                ),
                               ),
-                              10.heightBox,
-                              Column(
-                                crossAxisAlignment: crossAxisStart,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Iconsax.shopping_bag,
-                                        size: 20,
-                                        color: AppColors.primaryColor,
-                                      )
-                                          .box
-                                          .p4
-                                          .roundedSM
-                                          .color(AppColors.warningColor
-                                              .withAlpha((0.2 * 255).toInt()))
-                                          .make(),
-                                      Spacer(),
-                                      Text(
-                                        "All Time",
-                                        style: context.displayLarge!.copyWith(
-                                            color:
-                                                AppColors.textColorSecondary),
-                                      ),
-                                      2.widthBox,
-                                      Icon(Iconsax.arrow_down_14,
-                                          size: 15,
-                                          color: AppColors.textColorSecondary)
-                                    ],
-                                  ),
-                                  10.heightBox,
-                                  Row(
-                                    mainAxisAlignment: mainAxisSpaceBetween,
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment: crossAxisStart,
-                                        children: [
-                                          Text(
-                                            "All Orders",
-                                            style: context.displayLarge!
-                                                .copyWith(
-                                                    color: AppColors
-                                                        .textColorSecondary),
-                                          ),
-                                          5.heightBox,
-                                          Text(
-                                            "10",
-                                            style: context.bodySmall!.copyWith(
-                                                color:
-                                                    AppColors.textColorPrimary),
-                                          ),
-                                        ],
-                                      ),
-                                      Column(
-                                        crossAxisAlignment: crossAxisStart,
-                                        children: [
-                                          Text(
-                                            "Pending",
-                                            style: context.displayLarge!
-                                                .copyWith(
-                                                    color: AppColors
-                                                        .textColorSecondary),
-                                          ),
-                                          5.heightBox,
-                                          Text(
-                                            "02",
-                                            style: context.bodySmall!.copyWith(
-                                                color:
-                                                    AppColors.textColorPrimary),
-                                          ),
-                                        ],
-                                      ),
-                                      Column(
-                                        crossAxisAlignment: crossAxisStart,
-                                        children: [
-                                          Text(
-                                            "Completed",
-                                            style: context.displayLarge!
-                                                .copyWith(
-                                                    color: AppColors
-                                                        .textColorSecondary),
-                                          ),
-                                          5.heightBox,
-                                          Text(
-                                            "08",
-                                            style: context.bodySmall!.copyWith(
-                                                color:
-                                                    AppColors.textColorPrimary),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              )
-                                  .box
-                                  .border(color: AppColors.borderColor)
-                                  .p8
-                                  .roundedSM
-                                  .make(),
-                              10.heightBox,
-                              Column(
-                                crossAxisAlignment: crossAxisStart,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Iconsax.shopping_bag,
-                                        size: 20,
-                                        color: AppColors.primaryColor,
-                                      )
-                                          .box
-                                          .p4
-                                          .roundedSM
-                                          .color(AppColors.warningColor
-                                              .withAlpha((0.2 * 255).toInt()))
-                                          .make(),
-                                      Spacer(),
-                                      Text(
-                                        "All Time",
-                                        style: context.displayLarge!.copyWith(
-                                            color:
-                                                AppColors.textColorSecondary),
-                                      ),
-                                      2.widthBox,
-                                      Icon(Iconsax.arrow_down_14,
-                                          size: 15,
-                                          color: AppColors.textColorSecondary)
-                                    ],
-                                  ),
-                                  10.heightBox,
-                                  Row(
-                                    mainAxisAlignment: mainAxisSpaceBetween,
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment: crossAxisStart,
-                                        children: [
-                                          Text(
-                                            "Canceled",
-                                            style: context.displayLarge!
-                                                .copyWith(
-                                                    color: AppColors
-                                                        .textColorSecondary),
-                                          ),
-                                          5.heightBox,
-                                          Text(
-                                            "0",
-                                            style: context.bodySmall!.copyWith(
-                                                color:
-                                                    AppColors.textColorPrimary),
-                                          ),
-                                        ],
-                                      ),
-                                      Column(
-                                        crossAxisAlignment: crossAxisStart,
-                                        children: [
-                                          Text(
-                                            "Returned",
-                                            style: context.displayLarge!
-                                                .copyWith(
-                                                    color: AppColors
-                                                        .textColorSecondary),
-                                          ),
-                                          5.heightBox,
-                                          Text(
-                                            "09",
-                                            style: context.bodySmall!.copyWith(
-                                                color:
-                                                    AppColors.textColorPrimary),
-                                          ),
-                                        ],
-                                      ),
-                                      Column(
-                                        crossAxisAlignment: crossAxisStart,
-                                        children: [
-                                          Text(
-                                            "Damaged",
-                                            style: context.displayLarge!
-                                                .copyWith(
-                                                    color: AppColors
-                                                        .textColorSecondary),
-                                          ),
-                                          5.heightBox,
-                                          Text(
-                                            "03",
-                                            style: context.bodySmall!.copyWith(
-                                                color:
-                                                    AppColors.textColorPrimary),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              )
-                                  .box
-                                  .border(color: AppColors.borderColor)
-                                  .p8
-                                  .roundedSM
-                                  .make(),
-                              20.heightBox,
-                              Row(
-                                crossAxisAlignment: crossAxisEnd,
-                                mainAxisAlignment: mainAxisSpaceBetween,
-                                children: [
-                                  Expanded(
-                                    child: _buildDateField(
-                                        "Period from",
-                                        controller.fromDate,
-                                        () =>
-                                            controller.pickDate(true, context)),
-                                  ),
-                                  10.widthBox,
-                                  Expanded(
-                                    child: _buildDateField(
-                                        "Period to",
-                                        controller.toDate,
-                                        () => controller.pickDate(
-                                            false, context)),
-                                  ),
-                                  10.widthBox,
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Iconsax.setting_4,
-                                        color:
-                                            AppColors.scaffoldBackgroundColor,
-                                        size: 23,
-                                      ),
-                                      5.widthBox,
-                                      Text("Filter",
-                                          style: context.bodySmall!.copyWith(
-                                              color: AppColors
-                                                  .scaffoldBackgroundColor,
-                                              fontWeight: FontWeight.bold)),
-                                    ],
-                                  )
-                                      .box
-                                      .padding(EdgeInsets.all(6))
-                                      .roundedSM
-                                      .color(AppColors.primaryColor)
-                                      .make(),
-                                ],
-                              ),
-                              10.heightBox,
-                              Obx(() => SingleChildScrollView(
-                                    child: PaginatedDataTable(
-                                      headingRowHeight: context.height * 0.05,
-                                      headingRowColor: WidgetStateProperty.all(
-                                          Color(0xffF5F7FA)),
-                                      onRowsPerPageChanged: (value) {
-                                        if (value != null) {
-                                          controller.rowsPerPage.value = value;
-                                        }
-                                      },
-                                      availableRowsPerPage: [
-                                        2,
-                                        5,
-                                        7,
-                                        10,
-                                        15,
-                                        20,
-                                        50,
-                                        100
-                                      ],
-                                      dataRowMaxHeight: context.height * 0.07,
-                                      showEmptyRows: false,
-                                      horizontalMargin: 10,
-                                      columnSpacing:
-                                          context.screenWidth > 400 ? 30 : 12,
-                                      columns: [
-                                        DataColumn(
-                                            label: Text(
-                                          'Product',
-                                          style: context.displayLarge!.copyWith(
-                                              fontWeight: FontWeight.bold),
-                                        )),
-                                        DataColumn(
-                                            label: Text(
-                                          'Chassis No',
-                                          style: context.displayLarge!.copyWith(
-                                              fontWeight: FontWeight.bold),
-                                        )),
-                                        DataColumn(
-                                            label: Text(
-                                          'Total',
-                                          style: context.displayLarge!.copyWith(
-                                              fontWeight: FontWeight.bold),
-                                        )),
-                                        DataColumn(
-                                            label: Text(
-                                          'Date',
-                                          style: context.displayLarge!.copyWith(
-                                              fontWeight: FontWeight.bold),
-                                        )),
-                                        DataColumn(
-                                            label: Text(
-                                          'Status',
-                                          style: context.displayLarge!.copyWith(
-                                              fontWeight: FontWeight.bold),
-                                        )),
-                                        DataColumn(
-                                            label: Text(
-                                          'Actions',
-                                          style: context.displayLarge!.copyWith(
-                                              fontWeight: FontWeight.bold),
-                                        )),
-                                      ],
-                                      source: CustomerDataSource(
-                                          controller, context),
-                                      rowsPerPage: controller.rowsPerPage.value,
-                                    ),
-                                  )),
-                            ],
-                          ),
-                        ),
-                      ),
+                            ),
                     ),
             ),
           ],
@@ -715,31 +845,25 @@ class CustomerDataSource extends DataTableSource {
       cells: [
         DataCell(
           Text(
-            row['Product'],
+            row.vehicleName.toString(),
             style: context.displayLarge,
           ),
         ),
         DataCell(
           Text(
-            row['Chassis No'],
+            row.chassisNo.toString(),
             style: context.displayLarge,
           ),
         ),
         DataCell(
           Text(
-            row['Total'],
+            row.bidAmount.toString(),
             style: context.displayLarge,
           ),
         ),
         DataCell(
           Text(
-            row['Date'],
-            style: context.displayLarge,
-          ),
-        ),
-        DataCell(
-          Text(
-            row['Status'],
+            row.date!.toSimpleDate(),
             style: context.displayLarge,
           ),
         ),
@@ -747,7 +871,17 @@ class CustomerDataSource extends DataTableSource {
           Center(
             child: GestureDetector(
               onTap: () {
-                //controller.deleteCustomer(row);
+                Get.dialog(
+                  DeletePopup(
+                      title: "Delete Bid",
+                      message: "Are you sure you want to delete this Bid?",
+                      onConfirm: () async {
+                        Get.back();
+                        await controller.deleteWonBidOfCustomerByAdmin(
+                            row.chassisNo.toString());
+                      },
+                      icon: "assets/icons/delete.png"),
+                );
               },
               child: Container(
                 width: 30,

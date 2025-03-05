@@ -24,6 +24,8 @@ abstract class Routes {
   static const HOME = _Paths.HOME;
   static const CUSTOMERMANAGEMENT = _Paths.CUSTOMERMANAGEMENT;
   static const EDITCONTAINERS = _Paths.EDITCONTAINERS;
+  static const TESTVIEW = _Paths.TESTVIEW;
+  static const UPDATECUSTOMER = _Paths.UPDATECUSTOMER;
 }
 
 abstract class _Paths {
@@ -49,4 +51,6 @@ abstract class _Paths {
   static const HOME = '/home';
   static const CUSTOMERMANAGEMENT = '/customermanagement';
   static const EDITCONTAINERS = '/editcontainers';
+  static const TESTVIEW = '/testview';
+  static const UPDATECUSTOMER = '/updatecustomer';
 }

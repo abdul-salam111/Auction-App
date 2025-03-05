@@ -28,6 +28,6 @@ class AppColors {
 
   static const successColor = Color(0xFF4CAF50);
   static const warningColor = Color(0xFFFFC107);
-  static const errorColor = Color(0xFFFF3F5B);
+  static const errorColor = Colors.red;
   static const halfwhiteColor = Color(0xffF7F9FB);
 }

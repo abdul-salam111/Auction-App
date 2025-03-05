@@ -4,12 +4,12 @@ class SplashController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-     nextScreen();
+    nextScreen();
   }
 
   Future<void> nextScreen() async {
     await Future.delayed(Duration(seconds: 2), () {
-      Get.toNamed(Routes.LOGIN);
+      Get.offAllNamed(Routes.LOGIN);
     });
   }
 }

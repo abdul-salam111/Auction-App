@@ -1,60 +1,87 @@
 import 'dart:io';
-
+import 'package:auction_app/app/data/getModels/get_all_signup_customers.dart';
+import 'package:auction_app/app/repositories/respository.dart';
+import 'package:auction_app/app/res/res.dart';
 import 'package:excel/excel.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 
+
 class ManagecustomerController extends GetxController {
+  // Loading indicator
+  var isLoading = false.obs;
+
+  // Repository instance
+  final CustomersRepository customersRepository = CustomersRepository();
+
+  // Data handling
+  var data = <UserData>[].obs;
+  var filteredData = <UserData>[].obs;
+  var searchQuery = ''.obs;
+
+  // Pagination
+  var rowsPerPage = 7.obs;
+
+  // Row selection and expansion
   var selectedRows = <int>[].obs;
   var expandedRows = <int>[].obs;
   var selectAll = false.obs;
 
-  var searchQuery = ''.obs;
-  var data = <Map<String, dynamic>>[].obs;
-  var filteredData = <Map<String, dynamic>>[].obs;
-  var rowsPerPage = 7.obs;
-
   @override
   void onInit() {
     super.onInit();
-    data.assignAll(List.generate(
-      100,
-      (index) => {
-        'id': index,
-        'mobile': '$index${9007868871}',
-        'name': index == 0
-            ? 'Linda Blair'
-            : index == 1
-                ? "Abdul Salam"
-                : index == 2
-                    ? "Moazzam"
-                    : 'M. Islam Ali',
-        'regDate': '2025-$index-07',
-        'email': 'm.ism@gmail.com',
-        'active': true,
-      },
-    ));
-    filteredData.assignAll(data); 
+    getAllSignupCustomers();
   }
 
+  // Fetching all signed-up customers
+  Future<void> getAllSignupCustomers() async {
+    try {
+      isLoading.value = true;
+      final response = await customersRepository.getAllSignupCustomers();
+      data.value = response.data!.map((e) => e).toList();
+      filteredData.assignAll(data);
+      isLoading.value = false;
+    } catch (e) {
+      print('Error fetching customers: $e');
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  // delete a customer by id
+  Future<void> deleteCustomerById(String customerID) async {
+    try {
+      final isDeleted =
+          await customersRepository.deleteIndividualCustomer(customerID);
+
+      if (isDeleted) {
+        Get.snackbar(
+            "Customer Deleted", "The customer is deleted successfully");
+        await getAllSignupCustomers();
+      }
+    } catch (e) {
+      print('Error fetching customers: $e');
+      isLoading.value = false;
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  // Selection controls
   void toggleSelectAll(bool? value) {
     if (value == null) return;
     selectAll(value);
     selectedRows.clear();
     if (value) {
-      selectedRows.addAll(filteredData.map((e) => e['id']));
+      selectedRows.addAll(filteredData.map((e) => e.id!));
     }
   }
 
   void toggleRowSelection(int id) {
     selectedRows.contains(id) ? selectedRows.remove(id) : selectedRows.add(id);
-    if (selectedRows.length == filteredData.length) {
-      selectAll(true);
-    } else {
-      selectAll(false);
-    }
+    selectAll(selectedRows.length == filteredData.length);
   }
 
   void toggleExpandRow(int id) {
@@ -62,46 +89,30 @@ class ManagecustomerController extends GetxController {
     update();
   }
 
-  void toggleActive(int id) {
-    int index = filteredData.indexWhere((element) => element['id'] == id);
-    filteredData[index]['active'] = !filteredData[index]['active'];
-    update();
-  }
-
+  // Data manipulation
   void copyToClipboard(String text) {
     Clipboard.setData(ClipboardData(text: text));
     Get.snackbar('Copied', 'Data copied to clipboard');
   }
 
-  void updateStatus(String id, bool newValue) {
-    int index = filteredData
-        .indexWhere((row) => row['id'].toString().trim() == id.trim());
-
-    if (index != -1) {
-      filteredData[index]['active'] = newValue;
-      update();
-    }
-  }
-
   void deleteRow(String id) {
-    filteredData.removeWhere((row) => row['id'].toString() == id);
+    filteredData.removeWhere((row) => row.id.toString() == id);
     update(); // Notify UI of changes
   }
 
+// Search functionality
   void search(String query) {
     searchQuery.value = query;
-
     if (query.isEmpty) {
-      filteredData.assignAll(data); // Show all data if search query is empty
+      filteredData.assignAll(data);
     } else {
       filteredData.assignAll(
         data.where((customer) =>
-            customer['name']
-                .toString()
+            (customer.firstname! + customer.lastname!)
                 .toLowerCase()
                 .contains(query.toLowerCase()) ||
-            customer['mobile'].toString().contains(query) ||
-            customer['email']
+            customer.phonenumber.toString().contains(query) ||
+            customer.email
                 .toString()
                 .toLowerCase()
                 .contains(query.toLowerCase())),
@@ -111,6 +122,7 @@ class ManagecustomerController extends GetxController {
     update();
   }
 
+//export and download excel File
   Future<void> downloadExcel() async {
     var excel = Excel.createExcel();
     var sheet = excel['Customers'];
@@ -128,12 +140,12 @@ class ManagecustomerController extends GetxController {
     // Add data rows
     for (var row in filteredData) {
       sheet.appendRow([
-        TextCellValue(row['id'].toString()),
-        TextCellValue(row['mobile'] ?? ''),
-        TextCellValue(row['name'] ?? ''),
-        TextCellValue(row['regDate'] ?? ''),
-        TextCellValue(row['email'] ?? ''),
-        TextCellValue(row['active'] == true ? "Active" : "In Active"),
+        TextCellValue(row.id.toString()),
+        TextCellValue(row.phonenumber ?? ''),
+        TextCellValue(row.firstname.toString() + row.lastname.toString()),
+        TextCellValue(row.createdOn!.toFriendlyDateTime()),
+        TextCellValue(row.email ?? ''),
+        TextCellValue(row.status == true ? "Active" : "In Active"),
       ]);
     }
 

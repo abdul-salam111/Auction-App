@@ -8,4 +8,14 @@ class HomeController extends GetxController {
     {'icon': Iconsax.archive_add, 'label': "Add Container"},
     {'icon': Iconsax.edit, 'label': "Update Sale"},
   ];
+
+  late GetAllContainersModel getAllContainersModel;
+
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    getAllContainersModel = Get.arguments;
+
+  }
 }

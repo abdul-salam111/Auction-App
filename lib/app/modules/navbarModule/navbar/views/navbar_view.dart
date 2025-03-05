@@ -29,7 +29,7 @@ class NavbarView extends GetView<NavbarController> {
                 icon: Icon(controller.selectedIndex.value == 1
                     ? Iconsax.scan_barcode
                     : Iconsax.scan),
-                label: "Scan",
+                label: "Settings",
               ),
               BottomNavigationBarItem(
                 icon: Icon(Iconsax.truck),

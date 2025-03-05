@@ -1,5 +1,11 @@
+import 'package:auction_app/app/modules/customerModule/updatecustomer/views/updatecustomer_view.dart';
+
 import '../modules/customerModule/managecustomer/views/managecustomer_view.dart';
 import '../modules/modules.dart';
+import '../modules/testview/bindings/testview_binding.dart';
+import '../modules/testview/views/testview_view.dart';
+import '../modules/customerModule/updatecustomer/bindings/updatecustomer_binding.dart';
+
 part 'app_routes.dart';
 
 class AppPages {
@@ -14,7 +20,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.LOGIN,
-      page: () =>  LoginView(),
+      page: () => LoginView(),
       binding: LoginBinding(),
     ),
     GetPage(
@@ -106,6 +112,16 @@ class AppPages {
       name: _Paths.EDITCONTAINERS,
       page: () => const EditcontainersView(),
       binding: EditcontainersBinding(),
+    ),
+    GetPage(
+      name: _Paths.TESTVIEW,
+      page: () => const TestviewView(),
+      binding: TestviewBinding(),
+    ),
+    GetPage(
+      name: _Paths.UPDATECUSTOMER,
+      page: () => const UpdatecustomerView(),
+      binding: UpdatecustomerBinding(),
     ),
   ];
 }

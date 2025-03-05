@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+import 'package:intl/intl.dart';
 
 import '../dart/language.dart';
 
@@ -72,6 +72,33 @@ extension VxDateTimeExtension on DateTime {
     return [pfx, res, sfx]
         .where((s) => s.isNotEmpty)
         .join(mLanguage.delimiter());
+  }
+
+  String toFriendlyDateTime() {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final yesterday = today.subtract(const Duration(days: 1));
+
+    final dateFormat = DateFormat('hh:mm a'); // Example: 10:30 AM
+    final fullDateFormat =
+        DateFormat('MMM dd, yyyy, hh:mm a'); // Example: Sep 14, 2024, 10:30 AM
+
+    if (isSameDate(today)) {
+      return 'Today, ${dateFormat.format(this)}';
+    } else if (isSameDate(yesterday)) {
+      return 'Yesterday, ${dateFormat.format(this)}';
+    } else {
+      return fullDateFormat.format(this);
+    }
+  }
+
+  String toSimpleDate() {
+    final dateFormat = DateFormat('dd-MM-yyyy'); // Example: 02-05-2025
+    return dateFormat.format(this);
+  }
+
+  bool isSameDate(DateTime other) {
+    return year == other.year && month == other.month && day == other.day;
   }
 }
 

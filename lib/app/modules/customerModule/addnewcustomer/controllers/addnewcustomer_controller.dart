@@ -9,4 +9,34 @@ class AddnewcustomerController extends GetxController {
   final addressController = TextEditingController().obs;
   var status = true.obs;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  var isloading = false.obs;
+  CustomersRepository customersRepository = CustomersRepository();
+  final managecustomerController = Get.put(ManagecustomerController());
+  Future<void> addCustomerByAdmin() async {
+    try {
+      isloading.value = true;
+      await customersRepository.addCustomerByAdmin(AddCustomerByAdminModel(
+        firstname: firstNameController.value.text.trim(),
+        lastname: lastNameController.value.text.trim(),
+        address: addressController.value.text.trim(),
+        email: emailController.value.text.trim(),
+        role: "Customer",
+        status: status.value.toString(),
+        phonenumber: contactNumberController.value.text.trim(),
+        emiratesId: emairatesIDController.value.text.trim(),
+      ));
+      await managecustomerController.getAllSignupCustomers();
+
+    
+      firstNameController.value.clear();
+      lastNameController.value.clear();
+      emailController.value.clear();
+      contactNumberController.value.clear();
+      emairatesIDController.value.clear();
+      addressController.value.clear();
+      isloading.value = false;
+    } catch (e) {
+      isloading.value = false;
+    }
+  }
 }

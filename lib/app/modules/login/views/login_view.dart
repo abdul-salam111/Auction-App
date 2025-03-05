@@ -38,34 +38,50 @@ class LoginView extends GetView<LoginController> {
                     child: Column(
                       children: [
                         CustomTextFormField(
+                          keyboardType: TextInputType.number,
                           prefixIcon: Iconsax.user,
                           label: "User ID",
-                          hintText: "Enter your username",
-                          controller: controller.usernameController.value,
-                          validator: Validator.validateRequired,
+                          hintText: "Enter your userId",
+                          controller: controller.useridController.value,
+                          validator: (value) => Validator.validateRequired(
+                              value,
+                              fieldName: "User ID"),
                         ),
                         HeightBox(context.height * 0.03),
                         CustomTextFormField(
+                          keyboardType: TextInputType.number,
                           prefixIcon: Iconsax.lock,
                           label: passwordLabel,
                           hintText: passwordHint,
                           controller: controller.passwordController.value,
-                          validator: Validator.validatePassword,
+                          validator: (value) {
+                            if (value!.length < 6) {
+                              return "Password must be at least 6 characters";
+                            } else if (value.isEmpty) {
+                              return "Password can't be empty";
+                            }
+                            return null;
+                          },
                           obscureText: true,
                         ),
                         HeightBox(context.height * 0.05),
-                        RoundButton(
-                          backgroundColor: context.primaryColor,
-                          text: "Log In",
-                          onPressed: () {
-                            if (formKey.currentState!.validate()) {}
-                          },
-                          radius: 10,
-                        )
-                            .box
-                            .height(context.height * 0.06)
-                            .width(double.infinity)
-                            .make(),
+                        Obx(
+                          () => RoundButton(
+                            isLoading: controller.isloading.value,
+                            backgroundColor: context.primaryColor,
+                            text: "Log In",
+                            onPressed: () async {
+                              if (formKey.currentState!.validate()) {
+                                await controller.loginUserByUID();
+                              }
+                            },
+                            radius: 10,
+                          )
+                              .box
+                              .height(context.height * 0.06)
+                              .width(double.infinity)
+                              .make(),
+                        ),
                         (context.height * 0.02).heightBox,
                         "Forgot Password?"
                             .text
@@ -75,30 +91,51 @@ class LoginView extends GetView<LoginController> {
                             .center
                             .make(),
                         (context.height * 0.04).heightBox,
-                        "Login via".text.white.extraBold.size(14).center.make(),
-                        (context.height * 0.02).heightBox,
-                        Row(
-                          mainAxisAlignment: mainAxisCenter,
-                          children: [
-                            Image.asset(facescanner)
-                                .box
-                                .height(context.height * 0.07)
-                                .width(context.width * 0.15)
-                                .roundedSM
-                                .white
-                                .p8
-                                .make(),
-                            20.widthBox,
-                            Image.asset(fingerprint)
-                                .box
-                                .height(context.height * 0.07)
-                                .width(context.width * 0.15)
-                                .roundedSM
-                                .white
-                                .p8
-                                .make(),
-                          ],
-                        )
+                        (box.read(enableFingerPrint) != null &&
+                                box.read(enableFingerPrint))
+                            ? Column(
+                                children: [
+                                  "Login via"
+                                      .text
+                                      .white
+                                      .extraBold
+                                      .size(14)
+                                      .center
+                                      .make(),
+                                  (context.height * 0.02).heightBox,
+                                  Row(
+                                    mainAxisAlignment: mainAxisCenter,
+                                    children: [
+                                      // Image.asset(facescanner)
+                                      //     .box
+                                      //     .height(context.height * 0.07)
+                                      //     .width(context.width * 0.15)
+                                      //     .roundedSM
+                                      //     .white
+                                      //     .p8
+                                      //     .make()
+                                      //     .onTap(() async {
+                                      //   await controller.authRepository
+                                      //       .authenticateWithFingerPrint();
+                                      // }),
+                                      // 20.widthBox,
+                                      Image.asset(fingerprint)
+                                          .box
+                                          .height(context.height * 0.07)
+                                          .width(context.width * 0.15)
+                                          .roundedSM
+                                          .white
+                                          .p8
+                                          .make()
+                                          .onTap(() async {
+                                        await controller.authRepository
+                                            .authenticateWithFingerPrint(controller.getAllContainersModel,);
+                                      }),
+                                    ],
+                                  )
+                                ],
+                              )
+                            : SizedBox.square()
                       ],
                     )).box.px32.make(),
               ],

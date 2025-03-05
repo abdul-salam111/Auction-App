@@ -182,7 +182,7 @@ class HomeView extends GetView<HomeController> {
                     10.heightBox,
                     Column(
                       children: List.generate(
-                        10,
+                        controller.notifications.length,
                         (index) => Padding(
                           padding: const EdgeInsets.only(bottom: 8.0),
                           child: Row(
@@ -197,11 +197,15 @@ class HomeView extends GetView<HomeController> {
                               Column(
                                 crossAxisAlignment: crossAxisStart,
                                 children: [
-                                  "QR Code Scanned"
-                                      .text
-                                      .textStyle(context.bodySmall!.copyWith(
-                                          fontWeight: FontWeight.bold))
-                                      .make(),
+                               
+                                        "${controller.notifications[index].message}"
+                                            .text
+                                            .textStyle(context.bodySmall!
+                                                .copyWith(
+                                                    fontWeight:
+                                                        FontWeight.bold))
+                                            .make(),
+                                  
                                   10.heightBox,
                                   "Container A-123"
                                       .text

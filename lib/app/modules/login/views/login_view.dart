@@ -129,7 +129,10 @@ class LoginView extends GetView<LoginController> {
                                           .make()
                                           .onTap(() async {
                                         await controller.authRepository
-                                            .authenticateWithFingerPrint(controller.getAllContainersModel,);
+                                            .authenticateWithFingerPrint(
+                                                controller
+                                                    .getAllContainersModel,
+                                                controller.notifications);
                                       }),
                                     ],
                                   )

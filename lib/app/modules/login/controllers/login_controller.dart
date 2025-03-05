@@ -1,5 +1,5 @@
+import 'package:auction_app/app/data/getModels/get_all_notifications.dart';
 import 'package:auction_app/app/modules/modules.dart';
-import 'package:auction_app/app/repositories/containerRepo/container_repository.dart';
 
 class LoginController extends GetxController {
   final useridController = TextEditingController().obs;
@@ -16,7 +16,8 @@ class LoginController extends GetxController {
         LoginByUidModel(
             uid: useridController.value.text.trim(),
             password: passwordController.value.text.trim()),
-        getAllContainersModel); 
+        getAllContainersModel,
+        notifications);
 
     isloading.value = false;
   }
@@ -29,10 +30,18 @@ class LoginController extends GetxController {
     getAllContainersModel = await containerRepository.getAllContainers();
   }
 
+  NotificationsRepo notificationsRepo = NotificationsRepo();
+  List<GetAllNotifications> notifications = [];
+
+  Future<void> getAllNotificationsMethod() async {
+    notifications = await notificationsRepo.getAllNotifications();
+  }
+
   @override
   void onInit() {
     super.onInit();
     getAllContainers();
+    getAllNotificationsMethod();
   }
 
   @override

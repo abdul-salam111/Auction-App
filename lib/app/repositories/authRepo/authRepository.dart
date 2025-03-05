@@ -1,3 +1,4 @@
+import 'package:auction_app/app/data/getModels/get_all_notifications.dart';
 import 'package:auction_app/app/modules/modules.dart';
 import 'package:auction_app/app/utils/utils.dart';
 import 'package:local_auth/local_auth.dart';
@@ -6,7 +7,7 @@ class AuthRepository {
   final apiService = NetworkServicesApi();
 
   Future<void> loginUserByUID(
-      LoginByUidModel loginModel, GetAllContainersModel getallcontainer) async {
+      LoginByUidModel loginModel, GetAllContainersModel getallcontainer, List<GetAllNotifications> getallnotifications) async {
     try {
       final response = await apiService.postApi(AppUrls.loginByUid, loginModel);
       if (response.toString().contains("Wrong password")) {
@@ -18,7 +19,7 @@ class AuthRepository {
         await box.write(usertoken, data.accessToken);
         await box.write(isloggedIn, true);
         //  await getuserProfile();
-        Get.toNamed(Routes.NAVBAR, arguments: getallcontainer);
+        Get.toNamed(Routes.NAVBAR, arguments: [getallcontainer,getallnotifications]);
       }
     } on NotFoundException {
       Utils.anotherFlushbar(Get.context!, 'User not found', Colors.red);
@@ -34,7 +35,7 @@ class AuthRepository {
   var authMessage = "Not Authenticated".obs;
 
   Future<void> authenticateWithFingerPrint(
-      GetAllContainersModel getallcontainer) async {
+      GetAllContainersModel getallcontainer, List<GetAllNotifications> getallnotifications) async {
     try {
       isAuthenticated.value = await auth.authenticate(
         localizedReason: 'Scan your fingerprint to authenticate',
@@ -49,7 +50,7 @@ class AuthRepository {
 
       if (isAuthenticated.value) {
         if (box.read(isloggedIn) != null && box.read(isloggedIn) == true) {
-          Get.offAllNamed(Routes.NAVBAR, arguments: getallcontainer);
+          Get.offAllNamed(Routes.NAVBAR, arguments: [getallcontainer,getallnotifications]);
         } else {
           Utils.anotherFlushbar(
             Get.context!,

@@ -1,3 +1,5 @@
+import 'package:auction_app/app/data/getModels/get_all_notifications.dart';
+
 import '../../../modules.dart';
 
 class HomeController extends GetxController {
@@ -10,12 +12,13 @@ class HomeController extends GetxController {
   ];
 
   late GetAllContainersModel getAllContainersModel;
+  List<GetAllNotifications> notifications = [];
 
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    getAllContainersModel = Get.arguments;
-
+    getAllContainersModel = Get.arguments[0];
+    notifications = Get.arguments[1];
   }
 }

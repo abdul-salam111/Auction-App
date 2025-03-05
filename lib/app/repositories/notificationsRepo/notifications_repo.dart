@@ -6,10 +6,17 @@ import '../../utils/utils.dart';
 class NotificationsRepo {
   final apiService = NetworkServicesApi();
 
-  Future<GetAllNotifications> getAllNotifications() async {
+  Future<List<GetAllNotifications>> getAllNotifications() async {
     try {
       final response = await apiService.getApi(AppUrls.getAllNotifications);
-      return GetAllNotifications.fromJson(response);
+
+      if (response != null && response is List) {
+        return response
+            .map((json) => GetAllNotifications.fromJson(json))
+            .toList();
+      } else {
+        return [];
+      }
     } catch (e) {
       Utils.anotherFlushbar(Get.context!, e.toString(), Colors.red);
       throw Exception(e);

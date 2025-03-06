@@ -112,12 +112,12 @@ class CustomermanagementController extends GetxController {
           userData.id.toString());
 
       if (isUpdated) {
-        isLoading.value = true;
-
+        userData.status = status == "true" ? true : false;
+        await managecustomerController.getAllSignupCustomers();
         Get.snackbar(
             "Customre Updated", "The customer status is updated successfully");
+        update();
       }
-      isLoading.value = false;
     } catch (e) {
       isLoading.value = false;
     } finally {

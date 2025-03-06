@@ -182,12 +182,19 @@ class HomeView extends GetView<HomeController> {
                     10.heightBox,
                     Column(
                       children: List.generate(
-                        controller.notifications.length,
-                        (index) => Padding(
+                          controller.notifications.length > 10
+                              ? 10
+                              : controller.notifications.length, (index) {
+                        DateTime dateTime = DateTime.parse(controller
+                            .notifications[index].createdAt!
+                            .split("T")
+                            .first);
+                        String friendlyDateTime = dateTime.toFriendlyDateTime();
+                        return Padding(
                           padding: const EdgeInsets.only(bottom: 8.0),
                           child: Row(
                             children: [
-                              Icon(Iconsax.car)
+                              Icon(Iconsax.notification)
                                   .box
                                   .roundedFull
                                   .p16
@@ -197,31 +204,32 @@ class HomeView extends GetView<HomeController> {
                               Column(
                                 crossAxisAlignment: crossAxisStart,
                                 children: [
-                               
+                                  SizedBox(
+                                    width: context.width * 0.5,
+                                    child:
                                         "${controller.notifications[index].message}"
                                             .text
-                                            .textStyle(context.bodySmall!
+                                            .textStyle(context.displayLarge!
                                                 .copyWith(
                                                     fontWeight:
                                                         FontWeight.bold))
                                             .make(),
-                                  
+                                  ),
                                   10.heightBox,
-                                  "Container A-123"
-                                      .text
+                                  friendlyDateTime.text
                                       .color(AppColors.textColorSecondary)
                                       .textStyle(context.displayLarge!.copyWith(
                                           fontWeight: FontWeight.w900))
                                       .make(),
+                                  //10.heightBox,
+                                  // "Container A-123"
+                                  //     .text
+                                  //     .color(AppColors.textColorSecondary)
+                                  //     .textStyle(context.displayLarge!.copyWith(
+                                  //         fontWeight: FontWeight.w900))
+                                  //     .make(),
                                 ],
                               ),
-                              Spacer(),
-                              "2m ago"
-                                  .text
-                                  .color(AppColors.textColorSecondary)
-                                  .textStyle(context.displayLarge!
-                                      .copyWith(fontWeight: FontWeight.w900))
-                                  .make(),
                             ],
                           )
                               .box
@@ -229,8 +237,8 @@ class HomeView extends GetView<HomeController> {
                               .roundedSM
                               .p12
                               .make(),
-                        ),
-                      ),
+                        );
+                      }),
                     ),
                   ],
                 ),

@@ -4,6 +4,7 @@ class AuctionsView extends GetView<AuctionsController> {
   const AuctionsView({super.key});
   @override
   Widget build(BuildContext context) {
+    Get.put(AuctionsController());
     return GestureDetector(
       onTap: () {
         context.focusScope.unfocus();

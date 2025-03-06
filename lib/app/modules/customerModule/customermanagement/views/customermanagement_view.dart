@@ -25,15 +25,21 @@ class CustomermanagementView extends GetView<CustomermanagementController> {
                     10.widthBox,
                     Column(
                       crossAxisAlignment: crossAxisStart,
+                      mainAxisAlignment: mainAxisStart,
                       children: [
                         Row(
+                          crossAxisAlignment: crossAxisStart,
+                          mainAxisAlignment: mainAxisStart,
                           children: [
                             GetBuilder<CustomermanagementController>(
                                 builder: (cont) {
-                              return Text(
-                                "${cont.userData.firstname} ${cont.userData.lastname}",
-                                style: context.bodyMedium!.copyWith(
-                                  fontWeight: FontWeight.bold,
+                              return SizedBox(
+                                width: context.width * 0.4,
+                                child: Text(
+                                  "${cont.userData.firstname} ${cont.userData.lastname}",
+                                  style: context.bodyMedium!.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               );
                             }),
@@ -229,26 +235,30 @@ class CustomermanagementView extends GetView<CustomermanagementController> {
                                   mainAxisAlignment: mainAxisSpaceBetween,
                                   children: [
                                     Expanded(
-                                      child: RoundButton(
-                                        backgroundColor:
-                                            AppColors.secondaryColor,
-                                        radius: 10,
-                                        icon: Iconsax.toggle_on_circle,
-                                        text: cont.userData.status.toString() ==
-                                                "true"
-                                            ? "Deactivate"
-                                            : "Activate",
-                                        onPressed: () {
-                                          cont.updateCustomerStatusByAdmin(
-                                              cont.userData.status.toString() ==
-                                                      "true"
-                                                  ? "0"
-                                                  : "1");
-                                        },
-                                      )
-                                          .box
-                                          .height(context.height * 0.06)
-                                          .make(),
+                                      child: GetBuilder<
+                                              CustomermanagementController>(
+                                          builder: (contr) {
+                                        return RoundButton(
+                                          backgroundColor:
+                                              AppColors.secondaryColor,
+                                          radius: 10,
+                                          icon: Iconsax.toggle_on_circle,
+                                          text: contr.userData.status
+                                                      .toString() ==
+                                                  "true"
+                                              ? "Deactivate"
+                                              : "Activate",
+                                          onPressed: () {
+                                            contr.updateCustomerStatusByAdmin(
+                                                contr.userData.status == true
+                                                    ? false.toString()
+                                                    : "true");
+                                          },
+                                        )
+                                            .box
+                                            .height(context.height * 0.06)
+                                            .make();
+                                      }),
                                     ),
                                     SizedBox(width: 10),
                                     Expanded(
@@ -281,7 +291,8 @@ class CustomermanagementView extends GetView<CustomermanagementController> {
                                       ),
                                     ),
                                   ],
-                                )
+                                ),
+                                10.heightBox,
                               ],
                             );
                           }),

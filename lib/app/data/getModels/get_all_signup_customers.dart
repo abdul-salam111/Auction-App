@@ -36,7 +36,7 @@ class UserData {
   final String? uid;
   final String? phonenumber;
   final String? role;
-  final bool? status;
+   bool? status;
   final String? side;
   final String? termsAgreement;
   final String? mfaEnabled;

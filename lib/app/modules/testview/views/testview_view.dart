@@ -5,6 +5,7 @@ class TestviewView extends GetView<TestviewController> {
   const TestviewView({super.key});
   @override
   Widget build(BuildContext context) {
+    Get.put(TestviewController());
     return GestureDetector(
       onTap: () {
         context.focusScope.unfocus();

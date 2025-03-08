@@ -114,6 +114,8 @@ class CustomermanagementController extends GetxController {
       if (isUpdated) {
         userData.status = status == "true" ? true : false;
         await managecustomerController.getAllSignupCustomers();
+        managecustomerController.paginateData();
+        managecustomerController.update();
         Get.snackbar(
             "Customre Updated", "The customer status is updated successfully");
         update();
@@ -123,5 +125,15 @@ class CustomermanagementController extends GetxController {
     } finally {
       isLoading.value = false;
     }
+  }
+
+  void filterDataByDateRange() {
+    filteredData.assignAll(data.where((bid) {
+      final bidDate = DateTime.parse(bid.date
+          .toString()); // Assuming 'date' is a field in BidsWon and is in a valid date format
+      return bidDate
+              .isAfter(fromDate.value.subtract(const Duration(days: 1))) &&
+          bidDate.isBefore(toDate.value.add(const Duration(days: 1)));
+    }).toList());
   }
 }

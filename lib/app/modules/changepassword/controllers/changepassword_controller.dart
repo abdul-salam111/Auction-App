@@ -1,23 +1,9 @@
-import 'package:get/get.dart';
+import '../../modules.dart';
 
 class ChangepasswordController extends GetxController {
-  //TODO: Implement ChangepasswordController
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
+  final currentPasswordController = TextEditingController().obs;
+  final newPasswordController = TextEditingController().obs;
+  final confirmPasswordController = TextEditingController().obs;
 }

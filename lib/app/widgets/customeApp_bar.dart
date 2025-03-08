@@ -29,14 +29,16 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           actions: [
             const Icon(Iconsax.notification),
             const SizedBox(width: 20),
-            const Icon(Iconsax.setting_2),
+            const Icon(Iconsax.setting_2).box.make().onTap(() {
+              Get.toNamed(Routes.SETTINGS);
+            }),
             const SizedBox(width: 10),
           ],
         ),
         Divider(
             height: 1,
             thickness: 1,
-            color: Colors.grey[300]), // Divider Below AppBar
+            color: Colors.grey[300]), 
       ],
     );
   }

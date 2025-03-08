@@ -74,9 +74,10 @@ class CustomersRepository {
   Future<bool> updateCustomerByAdmin(
       UpdateCustomerByAdmin updateCustomerByAdmin, String customerId) async {
     try {
-      await apiService.updateApi(
+       await apiService.updateApi(
           "${AppUrls.updateCustomerByAdmin}$customerId", updateCustomerByAdmin);
       
+
       return true;
     } catch (e) {
       Utils.anotherFlushbar(Get.context!, e.toString(), Colors.red);

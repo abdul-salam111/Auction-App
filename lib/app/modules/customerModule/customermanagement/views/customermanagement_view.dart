@@ -23,58 +23,61 @@ class CustomermanagementView extends GetView<CustomermanagementController> {
                           "https://t4.ftcdn.net/jpg/02/14/74/61/360_F_214746128_31JkeaP6rU0NzzzdFC4khGkmqc8noe6h.jpg"),
                     ),
                     10.widthBox,
-                    Column(
-                      crossAxisAlignment: crossAxisStart,
-                      mainAxisAlignment: mainAxisStart,
-                      children: [
-                        Row(
-                          crossAxisAlignment: crossAxisStart,
-                          mainAxisAlignment: mainAxisStart,
-                          children: [
-                            GetBuilder<CustomermanagementController>(
-                                builder: (cont) {
-                              return SizedBox(
-                                width: context.width * 0.4,
-                                child: Text(
-                                  "${cont.userData.firstname} ${cont.userData.lastname}",
-                                  style: context.bodyMedium!.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              );
-                            }),
-                            5.widthBox,
-                            InkWell(
-                              onTap: () {
-                                Get.toNamed(Routes.UPDATECUSTOMER,
-                                    arguments: controller.userData);
-                              },
-                              child: Icon(
-                                Iconsax.edit,
-                                size: 20,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Expanded(
+                                child: GetBuilder<CustomermanagementController>(
+                                    builder: (cont) {
+                                  return Text(
+                                    "${cont.userData.firstname} ${cont.userData.lastname}",
+                                    style: context.bodyMedium!.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                  );
+                                }),
                               ),
-                            )
-                          ],
-                        ),
-                        HeightBox(5),
-                        Row(
-                          children: [
-                            Text(
-                              "Customer ID: ",
-                              style: context.displayLarge!.copyWith(
-                                  color: AppColors.textColorSecondary),
-                            ),
-                            Text(
-                              "${controller.userData.id}",
-                              style: context.displayLarge!.copyWith(
-                                  color: AppColors.textColorSecondary,
-                                  fontWeight: FontWeight.bold),
-                            )
-                          ],
-                        )
-                      ],
+                              SizedBox(width: 5),
+                              InkWell(
+                                onTap: () {
+                                  Get.toNamed(Routes.UPDATECUSTOMER,
+                                      arguments: controller.userData);
+                                },
+                                child: Icon(
+                                  Iconsax.edit,
+                                  size: 20,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 5),
+                          Row(
+                            children: [
+                              Text(
+                                "Customer ID: ",
+                                style: context.displayLarge!.copyWith(
+                                    color: AppColors.textColorSecondary),
+                              ),
+                              Text(
+                                "${controller.userData.id}",
+                                style: context.displayLarge!.copyWith(
+                                    color: AppColors.textColorSecondary,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                    Spacer(),
+                    20.widthBox,
                     GetBuilder<CustomermanagementController>(builder: (cont) {
                       return SizedBox(
                         child: Text(
@@ -647,57 +650,54 @@ class CustomermanagementView extends GetView<CustomermanagementController> {
                                           .roundedSM
                                           .make(),
                                       20.heightBox,
-                                      controller.filteredData.isEmpty
-                                          ? Center(child: SizedBox.shrink())
-                                          : Row(
-                                              crossAxisAlignment: crossAxisEnd,
-                                              mainAxisAlignment:
-                                                  mainAxisSpaceBetween,
-                                              children: [
-                                                Expanded(
-                                                  child: _buildDateField(
-                                                      "Period from",
-                                                      controller.fromDate,
-                                                      () => controller.pickDate(
-                                                          true, context)),
-                                                ),
-                                                10.widthBox,
-                                                Expanded(
-                                                  child: _buildDateField(
-                                                      "Period to",
-                                                      controller.toDate,
-                                                      () => controller.pickDate(
-                                                          false, context)),
-                                                ),
-                                                10.widthBox,
-                                                Row(
-                                                  children: [
-                                                    Icon(
-                                                      Iconsax.setting_4,
-                                                      color: AppColors
-                                                          .scaffoldBackgroundColor,
-                                                      size: 23,
-                                                    ),
-                                                    5.widthBox,
-                                                    Text("Filter",
-                                                        style: context
-                                                            .bodySmall!
-                                                            .copyWith(
-                                                                color: AppColors
-                                                                    .scaffoldBackgroundColor,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
-                                                  ],
-                                                )
-                                                    .box
-                                                    .padding(EdgeInsets.all(6))
-                                                    .roundedSM
-                                                    .color(
-                                                        AppColors.primaryColor)
-                                                    .make(),
-                                              ],
-                                            ),
+                                      Row(
+                                        crossAxisAlignment: crossAxisEnd,
+                                        mainAxisAlignment: mainAxisSpaceBetween,
+                                        children: [
+                                          Expanded(
+                                            child: _buildDateField(
+                                                "Period from",
+                                                controller.fromDate,
+                                                () => controller.pickDate(
+                                                    true, context)),
+                                          ),
+                                          10.widthBox,
+                                          Expanded(
+                                            child: _buildDateField(
+                                                "Period to",
+                                                controller.toDate,
+                                                () => controller.pickDate(
+                                                    false, context)),
+                                          ),
+                                          10.widthBox,
+                                          Row(
+                                            children: [
+                                              Icon(
+                                                Iconsax.setting_4,
+                                                color: AppColors
+                                                    .scaffoldBackgroundColor,
+                                                size: 23,
+                                              ),
+                                              5.widthBox,
+                                              Text("Filter",
+                                                  style: context.bodySmall!
+                                                      .copyWith(
+                                                          color: AppColors
+                                                              .scaffoldBackgroundColor,
+                                                          fontWeight:
+                                                              FontWeight.bold)),
+                                            ],
+                                          )
+                                              .box
+                                              .padding(EdgeInsets.all(6))
+                                              .roundedSM
+                                              .color(AppColors.primaryColor)
+                                              .make()
+                                              .onTap(() {
+                                            controller.filterDataByDateRange();
+                                          }),
+                                        ],
+                                      ),
                                       10.heightBox,
                                       controller.filteredData.isEmpty
                                           ? Center(
@@ -707,89 +707,82 @@ class CustomermanagementView extends GetView<CustomermanagementController> {
                                                     "${controller.userData.firstname} ${controller.userData.lastname} Did not won any bid."),
                                               ),
                                             )
-                                          : SingleChildScrollView(
-                                              child: PaginatedDataTable(
-                                                headingRowHeight:
-                                                    context.height * 0.05,
-                                                headingRowColor:
-                                                    WidgetStateProperty.all(
-                                                        Color(0xffF5F7FA)),
-                                                onRowsPerPageChanged: (value) {
-                                                  if (value != null) {
-                                                    controller.rowsPerPage
-                                                        .value = value;
-                                                  }
-                                                },
-                                                availableRowsPerPage: [
-                                                  2,
-                                                  5,
-                                                  7,
-                                                  10,
-                                                  15,
-                                                  20,
-                                                  50,
-                                                  100
-                                                ],
-                                                dataRowMaxHeight:
-                                                    context.height * 0.07,
-                                                showEmptyRows: false,
-                                                horizontalMargin: 10,
-                                                columnSpacing:
-                                                    context.screenWidth > 400
-                                                        ? 30
-                                                        : 12,
-                                                columns: [
-                                                  DataColumn(
-                                                      label: Text(
-                                                    'Product',
-                                                    style: context.displayLarge!
-                                                        .copyWith(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                  )),
-                                                  DataColumn(
-                                                      label: Text(
-                                                    'Chassis No',
-                                                    style: context.displayLarge!
-                                                        .copyWith(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                  )),
-                                                  DataColumn(
-                                                      label: Text(
-                                                    'Total',
-                                                    style: context.displayLarge!
-                                                        .copyWith(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                  )),
-                                                  DataColumn(
-                                                      label: Text(
-                                                    'Date',
-                                                    style: context.displayLarge!
-                                                        .copyWith(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                  )),
-                                                  DataColumn(
-                                                      label: Text(
-                                                    'Actions',
-                                                    style: context.displayLarge!
-                                                        .copyWith(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                  )),
-                                                ],
-                                                source: CustomerDataSource(
-                                                    controller, context),
-                                                rowsPerPage: controller
-                                                    .rowsPerPage.value,
-                                              ),
+                                          : PaginatedDataTable(
+                                              headingRowHeight:
+                                                  context.height * 0.05,
+                                              headingRowColor:
+                                                  WidgetStateProperty.all(
+                                                      Color(0xffF5F7FA)),
+                                              onRowsPerPageChanged: (value) {
+                                                if (value != null) {
+                                                  controller.rowsPerPage.value =
+                                                      value;
+                                                }
+                                              },
+                                              availableRowsPerPage: [
+                                                2,
+                                                5,
+                                                7,
+                                                10,
+                                                15,
+                                                20,
+                                                50,
+                                                100
+                                              ],
+                                              dataRowMaxHeight:
+                                                  context.height * 0.07,
+                                              showEmptyRows: false,
+                                              horizontalMargin: 10,
+                                              columnSpacing:
+                                                  context.screenWidth > 400
+                                                      ? 20
+                                                      : 12,
+                                              columns: [
+                                                DataColumn(
+                                                    label: Text(
+                                                  'Product',
+                                                  style: context.displayLarge!
+                                                      .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                )),
+                                                DataColumn(
+                                                    label: Text(
+                                                  'Chassis No',
+                                                  style: context.displayLarge!
+                                                      .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                )),
+                                                DataColumn(
+                                                    label: Text(
+                                                  'Total',
+                                                  style: context.displayLarge!
+                                                      .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                )),
+                                                DataColumn(
+                                                    label: Text(
+                                                  'Date',
+                                                  style: context.displayLarge!
+                                                      .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                )),
+                                                DataColumn(
+                                                    label: Text(
+                                                  'Actions',
+                                                  style: context.displayLarge!
+                                                      .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                )),
+                                              ],
+                                              source: CustomerDataSource(
+                                                  controller, context),
+                                              rowsPerPage:
+                                                  controller.rowsPerPage.value,
                                             ),
                                     ],
                                   ),
@@ -847,7 +840,6 @@ class CustomerDataSource extends DataTableSource {
   final BuildContext context;
 
   CustomerDataSource(this.controller, this.context);
-
   @override
   DataRow getRow(int index) {
     if (index >= controller.filteredData.length) {
@@ -864,27 +856,39 @@ class CustomerDataSource extends DataTableSource {
           isEvenRow ? Colors.white : const Color(0xffF5F7FA)),
       cells: [
         DataCell(
-          Text(
-            row.vehicleName.toString(),
-            style: context.displayLarge,
+          SizedBox(
+            width: context.width * 0.2,
+            child: Text(
+              row.vehicleName.toString(),
+              style: context.displayLarge,
+            ),
           ),
         ),
         DataCell(
-          Text(
-            row.chassisNo.toString(),
-            style: context.displayLarge,
+          SizedBox(
+            width: context.width * 0.2,
+            child: Text(
+              row.chassisNo.toString(),
+              style: context.displayLarge,
+            ),
           ),
         ),
         DataCell(
-          Text(
-            row.bidAmount.toString(),
-            style: context.displayLarge,
+          SizedBox(
+            width: context.width * 0.1,
+            child: Text(
+              row.bidAmount.toString(),
+              style: context.displayLarge,
+            ),
           ),
         ),
         DataCell(
-          Text(
-            row.date!.toSimpleDate(),
-            style: context.displayLarge,
+          SizedBox(
+            width: context.width * 0.1,
+            child: Text(
+              row.date!.toSimpleDate(),
+              style: context.displayLarge,
+            ),
           ),
         ),
         DataCell(

@@ -12,6 +12,8 @@ class ManagecustomerController extends GetxController {
 
   // Paginated data for the current page
   final paginatedData = <UserData>[].obs;
+  // Filtered data based on status
+  final filteredData = <UserData>[].obs;
 
   // Current page number
   final RxInt currentPage = 1.obs;
@@ -25,9 +27,6 @@ class ManagecustomerController extends GetxController {
 
   // Status filter
   final RxString selectedStatus = ''.obs;
-
-  // Filtered data based on status
-  final filteredData = <UserData>[].obs;
 
   // Handle data pagination
   void paginateData() {
@@ -128,31 +127,31 @@ class ManagecustomerController extends GetxController {
   //export and download excel File
   Future<void> downloadExcel() async {
     var excel = Excel.createExcel();
-    var sheet = excel['Auctions'];
+    var sheet = excel['Customers'];
 
     // Add headers
     sheet.appendRow([
-      TextCellValue("Auction Name"),
-      TextCellValue("Date"),
+      TextCellValue("Mobile No"),
+      TextCellValue("Name"),
+      TextCellValue("Reg.Date"),
+      TextCellValue("Email"),
       TextCellValue("Status"),
-      TextCellValue("Cars"),
-      TextCellValue("Location"),
     ]);
 
     // Add data rows
     for (var row in filteredData) {
       sheet.appendRow([
-        // TextCellValue(row['Auction Name'].toString()),
-        // TextCellValue(row['Date'] ?? ''),
-        // TextCellValue(row['Status'] ?? ''),
-        // TextCellValue(row['Cars'] ?? ''),
-        // TextCellValue(row['Location'] ?? ''),
+        TextCellValue(row.phonenumber.toString()),
+        TextCellValue("${row.firstname} ${row.lastname}"),
+        TextCellValue(row.createdOn!.toSimpleDate()),
+        TextCellValue(row.email.toString()),
+        TextCellValue(row.status == true ? "Active" : "InActive"),
       ]);
     }
 
     // Save file
     var directory = await getApplicationDocumentsDirectory();
-    String filePath = "${directory.path}/Auctions.xlsx";
+    String filePath = "${directory.path}/Customers.xlsx";
     File(filePath)
       ..createSync(recursive: true)
       ..writeAsBytesSync(excel.encode()!);
@@ -216,5 +215,18 @@ class ManagecustomerController extends GetxController {
     if (value) {
       selectedRows.addAll(filteredData.map((e) => e.id!));
     }
+  }
+
+  void toggleRowSelection(int id) {
+    selectedRows.contains(id) ? selectedRows.remove(id) : selectedRows.add(id);
+    selectAll(selectedRows.length == filteredData.length);
+  }
+
+  var isRefreshLoading = false.obs;
+  Future<void> refreshData() async {
+    isRefreshLoading.value = true;
+    await getAllSignupCustomers();
+    isRefreshLoading.value = false;
+
   }
 }

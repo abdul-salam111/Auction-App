@@ -8,3 +8,4 @@ export './customeApp_bar.dart';
 export './backtitle_Row.dart';
 export './popup.dart';
 export './deletePopUp.dart';
+export './containerDetailsBoxes.dart';

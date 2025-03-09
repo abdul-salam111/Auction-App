@@ -1,11 +1,13 @@
 class AppUrls {
   static const String baseApiKey = "https://api.bigstaruae.com/v1/";
-  
+
   static const String loginByUid = "${baseApiKey}user/signinUid";
 
   static const String logoutUser = "${baseApiKey}user/signout";
 
   static const String getAllContainers = "${baseApiKey}get_all_containers";
+
+  static const String getContainersCount = "${baseApiKey}containers_count";
 
   static const String getuserProfile = "${baseApiKey}user/signup";
 

@@ -7,7 +7,7 @@ String getAllContainersModelToJson(GetAllContainersModel data) =>
     json.encode(data.toJson());
 
 class GetAllContainersModel {
-  final List<Datum>? data;
+  final List<ContainersData>? data;
 
   GetAllContainersModel({
     this.data,
@@ -17,7 +17,8 @@ class GetAllContainersModel {
       GetAllContainersModel(
         data: json["data"] == null
             ? []
-            : List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+            : List<ContainersData>.from(
+                json["data"].map((x) => ContainersData.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -27,7 +28,7 @@ class GetAllContainersModel {
       };
 }
 
-class Datum {
+class ContainersData {
   final int? id;
   final String? shippingCompany;
   final DateTime? createdAt;
@@ -43,7 +44,7 @@ class Datum {
   final String? noOfUnits;
   final dynamic description;
 
-  Datum({
+  ContainersData({
     this.id,
     this.shippingCompany,
     this.createdAt,
@@ -60,7 +61,7 @@ class Datum {
     this.description,
   });
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory ContainersData.fromJson(Map<String, dynamic> json) => ContainersData(
         id: json["id"],
         shippingCompany: json["shipping_company"],
         createdAt: json["created_at"] == null

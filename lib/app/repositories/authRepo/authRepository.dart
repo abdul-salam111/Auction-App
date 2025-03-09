@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:auction_app/app/data/getModels/get_all_notifications.dart';
 import 'package:auction_app/app/modules/modules.dart';
 import 'package:auction_app/app/utils/utils.dart';
@@ -83,7 +81,6 @@ class AuthRepository {
       final response = await apiService.getApi(AppUrls.getuserProfile);
 
       await box.write(userinformation, response);
-     
     } catch (e) {
       Utils.anotherFlushbar(Get.context!, e.toString(), Colors.red);
       throw Exception(e);

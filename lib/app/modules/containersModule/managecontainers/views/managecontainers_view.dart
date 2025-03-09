@@ -1,4 +1,5 @@
 import 'package:auction_app/app/modules/modules.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ManagecontainersView extends GetView<ManagecontainersController> {
   const ManagecontainersView({super.key});
@@ -118,10 +119,21 @@ class ManagecontainersView extends GetView<ManagecontainersController> {
                               fontSize: 14,
                               color: AppColors.textColorSecondary),
                         ),
-                        Text(
-                          "350",
-                          style: context.bodyLarge!
-                              .copyWith(fontWeight: FontWeight.bold),
+                        Obx(
+                          () => Text(
+                            index == 0
+                                ? controller.getcontainresCount.value.total
+                                    .toString()
+                                : index == 1
+                                    ? controller
+                                        .getcontainresCount.value.arrived
+                                        .toString()
+                                    : controller
+                                        .getcontainresCount.value.upcoming
+                                        .toString(),
+                            style: context.bodyLarge!
+                                .copyWith(fontWeight: FontWeight.bold),
+                          ),
                         )
                       ],
                     )
@@ -148,6 +160,9 @@ class ManagecontainersView extends GetView<ManagecontainersController> {
                       .color(AppColors.secondaryColor)
                       .roundedSM
                       .make()
+                      .onTap(() {
+                    Get.toNamed(Routes.ADDCONTAINER);
+                  })
 
                   // PopupMenuButton<String>(
                   //   padding: EdgeInsets.zero,
@@ -220,248 +235,304 @@ class ManagecontainersView extends GetView<ManagecontainersController> {
                 ),
               ),
               Obx(
-                () => Expanded(
-                  child: ListView.builder(
-                    padding: EdgeInsets.zero,
-                    itemCount: controller.paginatedData.length,
-                    itemBuilder: (context, index) {
-                      var item = controller.paginatedData[index];
-                      return Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 0, horizontal: 8),
-                        decoration: BoxDecoration(
-                          color:
-                              index % 2 != 0 ? Color(0xffF5F7FA) : Colors.white,
-                          border: Border(
-                            bottom: BorderSide(color: Colors.grey[300]!),
-                          ),
+                () => controller.isLoading.value
+                    ? Expanded(
+                        child: ListView.builder(
+                          itemCount: 10,
+                          itemBuilder: (context, index) {
+                            return Shimmer.fromColors(
+                              baseColor: Colors.grey[200]!,
+                              highlightColor: Colors.grey[100]!,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 8.0, horizontal: 4.0),
+                                child: Container(
+                                  height: 40.0,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
                         ),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Expanded(
-                                    flex: 2,
-                                    child: Text("${item['Container No']}",
-                                        style: context.displayLarge)),
-                                Expanded(
-                                    flex: 2,
-                                    child: Padding(
-                                      padding: symmetricHorizontal5,
-                                      child: Text(item['BL No'].toString(),
-                                          style: context.displayLarge),
-                                    )),
-                                Expanded(
-                                  flex: 2,
-                                  child: Text(
-                                    item['Arrival Date'].toString(),
-                                    style: context.displayLarge!,
-                                  ),
+                      )
+                    : Expanded(
+                        child: ListView.builder(
+                          padding: EdgeInsets.zero,
+                          itemCount: controller.paginatedData.length,
+                          itemBuilder: (context, index) {
+                            var item = controller.paginatedData[index];
+                            return Container(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 0, horizontal: 8),
+                              decoration: BoxDecoration(
+                                color: index % 2 != 0
+                                    ? Color(0xffF5F7FA)
+                                    : Colors.white,
+                                border: Border(
+                                  bottom: BorderSide(color: Colors.grey[300]!),
                                 ),
-                                Expanded(
-                                    flex: 1,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                          left: context.width * 0.04),
-                                      child: Text(item['Cars'].toString(),
-                                          style: context.displayLarge),
-                                    )),
-                                Expanded(
-                                  flex: 1,
-                                  child: Obx(
-                                    () => IconButton(
-                                      icon: Icon(
-                                        controller.expandedRows
-                                                .contains(item['id'])
-                                            ? Iconsax.arrow_square_up
-                                            : Iconsax.arrow_square_down,
-                                        color: AppColors.buttonDisabledColor,
-                                        size: 20,
-                                      ),
-                                      onPressed: () => controller
-                                          .toggleExpandRow(item['id']),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Obx(() => controller.expandedRows
-                                    .contains(item['id'])
-                                ? Column(
+                              ),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    crossAxisAlignment: crossAxisCenter,
                                     children: [
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            flex: 3,
-                                            child: Row(
+                                      Expanded(
+                                          flex: 2,
+                                          child: Text("${item.containerNumber}",
+                                              style: context.displayLarge)),
+                                      Expanded(
+                                          flex: 2,
+                                          child: Padding(
+                                            padding: symmetricHorizontal5,
+                                            child: Text(
+                                                item.blNumber.toString(),
+                                                style: context.displayLarge),
+                                          )),
+                                      Expanded(
+                                        flex: 2,
+                                        child: Text(
+                                          item.createdAt!
+                                              .toSimpleDate()
+                                              .toString(),
+                                          style: context.displayLarge!,
+                                        ),
+                                      ),
+                                      Expanded(
+                                          flex: 1,
+                                          child: Padding(
+                                            padding: EdgeInsets.only(
+                                                left: context.width * 0.04),
+                                            child: Text(
+                                                item.noOfUnits.toString(),
+                                                style: context.displayLarge),
+                                          )),
+                                      Expanded(
+                                        flex: 1,
+                                        child: Obx(
+                                          () => IconButton(
+                                            icon: Icon(
+                                              controller.expandedRows
+                                                      .contains(item.id)
+                                                  ? Iconsax.arrow_square_up
+                                                  : Iconsax.arrow_square_down,
+                                              color:
+                                                  AppColors.buttonDisabledColor,
+                                              size: 20,
+                                            ),
+                                            onPressed: () => controller
+                                                .toggleExpandRow(item.id!),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Obx(() => controller.expandedRows
+                                          .contains(item.id)
+                                      ? Column(
+                                          children: [
+                                            Row(
                                               children: [
-                                                Text('Est Arrival Date',
-                                                    style: context.displayLarge!
-                                                        .copyWith(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold)),
-                                                20.widthBox,
                                                 Expanded(
-                                                  child: Container(
-                                                    padding: defaultPadding,
-                                                    decoration: BoxDecoration(
-                                                      color: Colors.grey[200],
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              4),
-                                                    ),
-                                                    child: Text(
-                                                      item['Est Arrival Date'] ??
-                                                          '',
-                                                      style:
-                                                          context.displayLarge,
-                                                    ),
-                                                  ),
+                                                  flex: 3,
+                                                  child: Row(
+                                                    children: [
+                                                      Text('Est Arrival Date',
+                                                          style: context
+                                                              .displayLarge!
+                                                              .copyWith(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                      20.widthBox,
+                                                      Expanded(
+                                                        child: Container(
+                                                          padding:
+                                                              defaultPadding,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: Colors
+                                                                .grey[200],
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        4),
+                                                          ),
+                                                          child: Text(
+                                                            item.createdAt!
+                                                                .toSimpleDate(),
+                                                            style: context
+                                                                .displayLarge,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  )
+                                                      .box
+                                                      .border(
+                                                          color: AppColors
+                                                              .borderColor)
+                                                      .roundedSM
+                                                      .p4
+                                                      .make(),
+                                                ),
+                                                10.widthBox,
+                                                Expanded(
+                                                  flex: 2,
+                                                  child: Row(
+                                                    children: [
+                                                      Text('Status',
+                                                          style: context
+                                                              .displayLarge!
+                                                              .copyWith(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                      20.widthBox,
+                                                      Expanded(
+                                                        child: Container(
+                                                          padding:
+                                                              defaultPadding,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: AppColors
+                                                                .secondaryColor
+                                                                .withAlpha((0.2 *
+                                                                        255)
+                                                                    .toInt()),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        4),
+                                                          ),
+                                                          child: Center(
+                                                            child: Text(
+                                                              item.status ?? '',
+                                                              style: context
+                                                                  .displayLarge,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  )
+                                                      .box
+                                                      .border(
+                                                          color: AppColors
+                                                              .borderColor)
+                                                      .roundedSM
+                                                      .p4
+                                                      .make(),
                                                 ),
                                               ],
                                             )
                                                 .box
-                                                .border(
-                                                    color:
-                                                        AppColors.borderColor)
-                                                .roundedSM
-                                                .p4
+                                                .margin(
+                                                    EdgeInsets.only(bottom: 3))
                                                 .make(),
-                                          ),
-                                          10.widthBox,
-                                          Expanded(
-                                            flex: 2,
-                                            child: Row(
+                                            Row(
                                               children: [
-                                                Text('Status',
-                                                    style: context.displayLarge!
-                                                        .copyWith(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold)),
-                                                20.widthBox,
                                                 Expanded(
+                                                  child: Row(
+                                                    children: [
+                                                      Text('Location',
+                                                          style: context
+                                                              .displayLarge!
+                                                              .copyWith(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                      20.widthBox,
+                                                      Expanded(
+                                                        child: Container(
+                                                          padding:
+                                                              defaultPadding,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: Colors
+                                                                .grey[200],
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        4),
+                                                          ),
+                                                          child: Text(
+                                                            item.portOfDischarge ??
+                                                                '',
+                                                            style: context
+                                                                .displayLarge,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  )
+                                                      .box
+                                                      .border(
+                                                          color: AppColors
+                                                              .borderColor)
+                                                      .roundedSM
+                                                      .p4
+                                                      .make(),
+                                                ),
+                                                10.widthBox,
+                                                Align(
+                                                  alignment:
+                                                      Alignment.centerRight,
                                                   child: Container(
-                                                    padding: defaultPadding,
+                                                    padding:
+                                                        const EdgeInsets.all(6),
                                                     decoration: BoxDecoration(
                                                       color: AppColors
-                                                          .secondaryColor
-                                                          .withAlpha((0.2 * 255)
-                                                              .toInt()),
+                                                          .primaryColor,
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              4),
+                                                              8),
                                                     ),
-                                                    child: Center(
-                                                      child: Text(
-                                                        item['Status'] ?? '',
-                                                        style: context
-                                                            .displayLarge,
-                                                      ),
-                                                    ),
+                                                    child: const Icon(
+                                                        Icons.edit,
+                                                        color: Colors.white),
                                                   ),
                                                 ),
-                                              ],
-                                            )
-                                                .box
-                                                .border(
-                                                    color:
-                                                        AppColors.borderColor)
-                                                .roundedSM
-                                                .p4
-                                                .make(),
-                                          ),
-                                        ],
-                                      )
-                                          .box
-                                          .margin(EdgeInsets.only(bottom: 3))
-                                          .make(),
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            child: Row(
-                                              children: [
-                                                Text('Location',
-                                                    style: context.displayLarge!
-                                                        .copyWith(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold)),
-                                                20.widthBox,
-                                                Expanded(
+                                                10.widthBox,
+                                                Align(
+                                                  alignment:
+                                                      Alignment.centerRight,
                                                   child: Container(
-                                                    padding: defaultPadding,
+                                                    padding:
+                                                        const EdgeInsets.all(6),
                                                     decoration: BoxDecoration(
-                                                      color: Colors.grey[200],
+                                                      color: Colors.orange,
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              4),
+                                                              8),
                                                     ),
-                                                    child: Text(
-                                                      item['Location'] ?? '',
-                                                      style:
-                                                          context.displayLarge,
-                                                    ),
+                                                    child: const Icon(
+                                                        Icons.visibility,
+                                                        color: Colors.white),
                                                   ),
                                                 ),
                                               ],
                                             )
                                                 .box
-                                                .border(
-                                                    color:
-                                                        AppColors.borderColor)
-                                                .roundedSM
-                                                .p4
+                                                .margin(
+                                                    EdgeInsets.only(bottom: 3))
                                                 .make(),
-                                          ),
-                                          10.widthBox,
-                                          Align(
-                                            alignment: Alignment.centerRight,
-                                            child: Container(
-                                              padding: const EdgeInsets.all(6),
-                                              decoration: BoxDecoration(
-                                                color: AppColors.primaryColor,
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                              ),
-                                              child: const Icon(Icons.edit,
-                                                  color: Colors.white),
-                                            ),
-                                          ),
-                                          10.widthBox,
-                                          Align(
-                                            alignment: Alignment.centerRight,
-                                            child: Container(
-                                              padding: const EdgeInsets.all(6),
-                                              decoration: BoxDecoration(
-                                                color: Colors.orange,
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                              ),
-                                              child: const Icon(
-                                                  Icons.visibility,
-                                                  color: Colors.white),
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                          .box
-                                          .margin(EdgeInsets.only(bottom: 3))
-                                          .make(),
-                                    ],
-                                  )
-                                : SizedBox.shrink()),
-                          ],
-                        ),
-                      );
-                    },
-                  )
-                      .box
-                      .border(color: AppColors.borderColor)
-                      .bottomRounded(value: 5)
-                      .make(),
-                ),
+                                          ],
+                                        )
+                                      : SizedBox.shrink()),
+                                ],
+                              ),
+                            );
+                          },
+                        )
+                            .box
+                            .border(color: AppColors.borderColor)
+                            .bottomRounded(value: 5)
+                            .make(),
+                      ),
               ),
               Obx(() => Padding(
                     padding: const EdgeInsets.only(bottom: 8.0, top: 8),

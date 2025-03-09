@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:auction_app/app/data/getModels/get_containers_count.dart';
 import 'package:excel/excel.dart';
 
 import 'package:open_file/open_file.dart';
@@ -9,54 +10,19 @@ import '../../../modules.dart';
 
 class ManagecontainersController extends GetxController {
   final FocusNode searchFocusNode = FocusNode();
-  // Data list to store all auction items
-  final RxList<Map<String, dynamic>> data = <Map<String, dynamic>>[].obs;
-
-  // Paginated data for the current page
-  final RxList<Map<String, dynamic>> paginatedData =
-      <Map<String, dynamic>>[].obs;
-
-  // Current page number
+  final RxList<ContainersData> data = <ContainersData>[].obs;
+  final RxList<ContainersData> paginatedData = <ContainersData>[].obs;
   final RxInt currentPage = 1.obs;
-
-  // Number of items per page
   final int itemsPerPage = 10;
-
-  // List to track expanded rows
   final RxList<int> expandedRows = <int>[].obs;
-
-  // Filtered data based on status
-  final RxList<Map<String, dynamic>> filteredData =
-      <Map<String, dynamic>>[].obs;
+  final RxList<ContainersData> filteredData = <ContainersData>[].obs;
 
   @override
   void onInit() {
     super.onInit();
-
-    fetchData();
-    currentPage.value = 1;
-    paginateData();
+    getAllContainers();
   }
 
-  // Fetch initial data for auctions
-  void fetchData() {
-    data.value = List.generate(
-      50,
-      (index) => {
-        'id': index,
-        'Container No': index,
-        'BL No': 'Auction $index',
-        'Arrival Date': '2024-12-01',
-        'Cars': index,
-        'Est Arrival Date': '2025-12-01',
-        "Status": "Arrived",
-        "Location": "Location $index"
-      },
-    );
-    filteredData.assignAll(data);
-  }
-
-// Handle data pagination
   void paginateData() {
     int start = (currentPage.value - 1) * itemsPerPage;
     int end = start + itemsPerPage;
@@ -65,13 +31,11 @@ class ManagecontainersController extends GetxController {
         filteredData.sublist(start, end.clamp(0, filteredData.length));
   }
 
-  // Navigate to a specific page
   void goToPage(int page) {
     currentPage.value = page;
     paginateData();
   }
 
-  // Toggle row expansion
   void toggleExpandRow(int id) {
     if (expandedRows.contains(id)) {
       expandedRows.remove(id);
@@ -81,7 +45,6 @@ class ManagecontainersController extends GetxController {
     expandedRows.refresh();
   }
 
-  // Build pagination UI
   Widget buildPagination() {
     int totalPages = (filteredData.length / itemsPerPage).ceil();
     List<Widget> pages = List.generate(totalPages, (index) {
@@ -131,25 +94,21 @@ class ManagecontainersController extends GetxController {
     );
   }
 
-  // Search functionality for auctions
   void search(String query) {
     if (query.isEmpty) {
       filteredData.assignAll(data);
-      paginateData();
     } else {
       filteredData.value = data.where((item) {
-        return item['BL No']
+        return item.containerNumber
             .toString()
             .toLowerCase()
             .contains(query.toLowerCase());
       }).toList();
-
-      currentPage.value = 1;
-      paginateData();
     }
+    currentPage.value = 1;
+    paginateData();
   }
 
-  //export and download excel File
   Future<void> downloadExcel() async {
     var excel = Excel.createExcel();
     var sheet = excel['Containers'];
@@ -163,27 +122,44 @@ class ManagecontainersController extends GetxController {
       TextCellValue("Status"),
       TextCellValue("Location"),
     ]);
-    // Add data rows
     for (var row in filteredData) {
       sheet.appendRow([
-        TextCellValue(row['Container No'].toString()),
-        TextCellValue(row['BL No'].toString()),
-        TextCellValue(row['Arrival Date'].toString()),
-        TextCellValue(row['Cars'].toString()),
-        TextCellValue(row['Est Arrival Date'].toString()),
-        TextCellValue(row['Status'].toString()),
-        TextCellValue(row['Location'].toString()),
+        TextCellValue(row.containerNumber.toString()),
+        TextCellValue(row.blNumber.toString()),
+        TextCellValue(row.createdAt!.toSimpleDate().toString()),
+        TextCellValue(row.noOfUnits.toString()),
+        TextCellValue(row.createdAt!.toSimpleDate().toString()),
+        TextCellValue(row.status.toString()),
+        TextCellValue(row.portOfLoading.toString()),
       ]);
     }
 
-    // Save file
     var directory = await getApplicationDocumentsDirectory();
     String filePath = "${directory.path}/Containers.xlsx";
     File(filePath)
       ..createSync(recursive: true)
       ..writeAsBytesSync(excel.encode()!);
 
-    // Open the file
     OpenFile.open(filePath);
+  }
+
+  ContainerRepository containerRepository = ContainerRepository();
+  final getAllContainersModel = GetAllContainersModel().obs;
+  final getcontainresCount = GetContainersCount().obs;
+  var isLoading = false.obs;
+  Future<void> getAllContainers() async {
+    try {
+      isLoading.value = true;
+      getAllContainersModel.value =
+          await containerRepository.getAllContainers();
+      data.assignAll(getAllContainersModel.value.data!.map((e) => e).toList());
+      filteredData.assignAll(data);
+      getcontainresCount.value = await containerRepository.getContainersCount();
+      paginateData();
+      update();
+      isLoading.value = false;
+    } catch (e) {
+      isLoading.value = false;
+    }
   }
 }

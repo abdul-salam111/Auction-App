@@ -14,6 +14,18 @@ class SettingsController extends GetxController {
     super.onInit();
     isFingerprintEnabled.value =
         (box.read(enableFingerPrint) != null && box.read(enableFingerPrint));
+    var storedData = box.read(userinformation);
+
+    if (storedData != null) {
+      GetUserProfileInfo userProfile = GetUserProfileInfo.fromJson(storedData);
+      fullNameController.value.text =
+          "${userProfile.profile!.firstname} ${userProfile.profile!.lastname}";
+      contactController.value.text =
+          userProfile.profile!.phonenumber.toString();
+      emailController.value.text = userProfile.profile!.email.toString();
+      emiratesIDController.value.text =
+          userProfile.profile!.emiratesId.toString();
+    }
   }
 
   final fullNameController = TextEditingController().obs;
@@ -21,5 +33,4 @@ class SettingsController extends GetxController {
   final emailController = TextEditingController().obs;
   final emiratesIDController = TextEditingController().obs;
   final passwordController = TextEditingController().obs;
-
 }

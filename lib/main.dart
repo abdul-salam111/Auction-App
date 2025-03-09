@@ -15,11 +15,10 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-  
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Auction App',
-      initialRoute: Routes.ADDCONTAINER,
+      initialRoute: Routes.SPLASH,
       theme: AppThemes.lightTheme,
       getPages: AppPages.routes,
     );

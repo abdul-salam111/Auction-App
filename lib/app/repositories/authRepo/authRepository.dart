@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:auction_app/app/data/getModels/get_all_notifications.dart';
 import 'package:auction_app/app/modules/modules.dart';
 import 'package:auction_app/app/utils/utils.dart';
@@ -7,7 +9,9 @@ class AuthRepository {
   final apiService = NetworkServicesApi();
 
   Future<void> loginUserByUID(
-      LoginByUidModel loginModel, GetAllContainersModel getallcontainer, List<GetAllNotifications> getallnotifications) async {
+      LoginByUidModel loginModel,
+      GetAllContainersModel getallcontainer,
+      List<GetAllNotifications> getallnotifications) async {
     try {
       final response = await apiService.postApi(AppUrls.loginByUid, loginModel);
       if (response.toString().contains("Wrong password")) {
@@ -18,8 +22,9 @@ class AuthRepository {
 
         await box.write(usertoken, data.accessToken);
         await box.write(isloggedIn, true);
-        //  await getuserProfile();
-        Get.toNamed(Routes.NAVBAR, arguments: [getallcontainer,getallnotifications]);
+        await getuserProfile();
+        Get.toNamed(Routes.NAVBAR,
+            arguments: [getallcontainer, getallnotifications]);
       }
     } on NotFoundException {
       Utils.anotherFlushbar(Get.context!, 'User not found', Colors.red);
@@ -29,13 +34,13 @@ class AuthRepository {
   }
 
   //Local Auth for security
-
   final LocalAuthentication auth = LocalAuthentication();
   var isAuthenticated = false.obs;
   var authMessage = "Not Authenticated".obs;
 
   Future<void> authenticateWithFingerPrint(
-      GetAllContainersModel getallcontainer, List<GetAllNotifications> getallnotifications) async {
+      GetAllContainersModel getallcontainer,
+      List<GetAllNotifications> getallnotifications) async {
     try {
       isAuthenticated.value = await auth.authenticate(
         localizedReason: 'Scan your fingerprint to authenticate',
@@ -50,7 +55,8 @@ class AuthRepository {
 
       if (isAuthenticated.value) {
         if (box.read(isloggedIn) != null && box.read(isloggedIn) == true) {
-          Get.offAllNamed(Routes.NAVBAR, arguments: [getallcontainer,getallnotifications]);
+          Get.offAllNamed(Routes.NAVBAR,
+              arguments: [getallcontainer, getallnotifications]);
         } else {
           Utils.anotherFlushbar(
             Get.context!,
@@ -72,12 +78,12 @@ class AuthRepository {
   }
 
   //get user profile
-
   Future<void> getuserProfile() async {
     try {
       final response = await apiService.getApi(AppUrls.getuserProfile);
 
-      await box.write(userinformation, GetUserProfileInfo.fromJson(response));
+      await box.write(userinformation, response);
+     
     } catch (e) {
       Utils.anotherFlushbar(Get.context!, e.toString(), Colors.red);
       throw Exception(e);
@@ -85,7 +91,6 @@ class AuthRepository {
   }
 
   //logout User
-
   Future<void> logoutUser() async {
     try {
       await apiService.postApi(AppUrls.logoutUser, {});

@@ -5,6 +5,7 @@ import 'package:path_provider/path_provider.dart';
 import '../../../modules.dart';
 
 class AuctionsController extends GetxController {
+    final FocusNode searchFocusNode = FocusNode();
   // Data list to store all auction items
   final RxList<Map<String, dynamic>> data = <Map<String, dynamic>>[].obs;
 

@@ -7,7 +7,7 @@ class AuctionsView extends GetView<AuctionsController> {
     Get.put(AuctionsController());
     return GestureDetector(
       onTap: () {
-        context.focusScope.unfocus();
+        controller.searchFocusNode.unfocus();
       },
       child: Scaffold(
         appBar: CustomAppBar(),
@@ -96,6 +96,7 @@ class AuctionsView extends GetView<AuctionsController> {
                       5.widthBox,
                       Expanded(
                         child: TextField(
+                          focusNode: controller.searchFocusNode,
                           cursorHeight: 15,
                           onChanged: (value) => controller.searchAuction(value),
                           style: context.displayLarge!.copyWith(fontSize: 14),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'loading.dart';
 
 class RoundButton extends StatelessWidget {
@@ -13,6 +14,7 @@ class RoundButton extends StatelessWidget {
   final double iconSize;
   final Color iconColor;
   final bool isLoading;
+  final int fontsize;
 
   const RoundButton({
     Key? key,
@@ -22,6 +24,7 @@ class RoundButton extends StatelessWidget {
     this.textColor = Colors.white,
     this.radius = 50.0,
     this.padding = 0.0,
+    this.fontsize = 16,
     this.elevation = 4.0,
     this.icon,
     this.iconSize = 24.0,
@@ -57,9 +60,9 @@ class RoundButton extends StatelessWidget {
                 if (icon != null) SizedBox(width: 8),
                 Text(
                   text,
-                  style: TextStyle(
+                  style: GoogleFonts.inter(
                     color: textColor,
-                    fontSize: 16,
+                    fontSize: fontsize.toDouble(),
                     fontWeight: FontWeight.bold,
                   ),
                 ),

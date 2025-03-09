@@ -8,7 +8,7 @@ class ManagecustomerView extends GetView<ManagecustomerController> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.focusScope.unfocus();
+        controller.searchFocusNode.unfocus();
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -62,6 +62,7 @@ class ManagecustomerView extends GetView<ManagecustomerController> {
                                 SizedBox(width: 5),
                                 Expanded(
                                   child: TextField(
+                                    focusNode: controller.searchFocusNode,
                                     cursorHeight: 15,
                                     onChanged: (value) =>
                                         controller.search(value),

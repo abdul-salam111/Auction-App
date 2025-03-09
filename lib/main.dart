@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Auction App',
-      initialRoute: Routes.MANAGECONTAINERS,
+      initialRoute: Routes.ADDCONTAINER,
       theme: AppThemes.lightTheme,
       getPages: AppPages.routes,
     );

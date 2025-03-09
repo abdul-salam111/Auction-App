@@ -1,13 +1,14 @@
 import 'dart:io';
 
 import 'package:excel/excel.dart';
-import 'package:get/get.dart';
+
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../../../modules.dart';
 
 class ManagecontainersController extends GetxController {
+  final FocusNode searchFocusNode = FocusNode();
   // Data list to store all auction items
   final RxList<Map<String, dynamic>> data = <Map<String, dynamic>>[].obs;
 
@@ -31,6 +32,7 @@ class ManagecontainersController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+
     fetchData();
     currentPage.value = 1;
     paginateData();
@@ -41,7 +43,7 @@ class ManagecontainersController extends GetxController {
     data.value = List.generate(
       50,
       (index) => {
-        'id':index,
+        'id': index,
         'Container No': index,
         'BL No': 'Auction $index',
         'Arrival Date': '2024-12-01',
@@ -51,13 +53,14 @@ class ManagecontainersController extends GetxController {
         "Location": "Location $index"
       },
     );
+    filteredData.assignAll(data);
   }
 
 // Handle data pagination
   void paginateData() {
-    filteredData.value = data;
     int start = (currentPage.value - 1) * itemsPerPage;
     int end = start + itemsPerPage;
+
     paginatedData.value =
         filteredData.sublist(start, end.clamp(0, filteredData.length));
   }
@@ -129,16 +132,18 @@ class ManagecontainersController extends GetxController {
   }
 
   // Search functionality for auctions
-  void searchAuction(String query) {
+  void search(String query) {
     if (query.isEmpty) {
+      filteredData.assignAll(data);
       paginateData();
     } else {
       filteredData.value = data.where((item) {
-        return item['Auction Name']
+        return item['BL No']
             .toString()
             .toLowerCase()
             .contains(query.toLowerCase());
       }).toList();
+
       currentPage.value = 1;
       paginateData();
     }
@@ -147,31 +152,33 @@ class ManagecontainersController extends GetxController {
   //export and download excel File
   Future<void> downloadExcel() async {
     var excel = Excel.createExcel();
-    var sheet = excel['Auctions'];
+    var sheet = excel['Containers'];
 
-    // Add headers
     sheet.appendRow([
-      TextCellValue("Auction Name"),
-      TextCellValue("Date"),
+      TextCellValue("Container No"),
+      TextCellValue("BL No"),
+      TextCellValue("Arrival Date"),
+      TextCellValue("No of Cars"),
+      TextCellValue("Est Arrival Date"),
       TextCellValue("Status"),
-      TextCellValue("Cars"),
       TextCellValue("Location"),
     ]);
-
     // Add data rows
     for (var row in filteredData) {
       sheet.appendRow([
-        TextCellValue(row['Auction Name'].toString()),
-        TextCellValue(row['Date'] ?? ''),
-        TextCellValue(row['Status'] ?? ''),
-        TextCellValue(row['Cars'] ?? ''),
-        TextCellValue(row['Location'] ?? ''),
+        TextCellValue(row['Container No'].toString()),
+        TextCellValue(row['BL No'].toString()),
+        TextCellValue(row['Arrival Date'].toString()),
+        TextCellValue(row['Cars'].toString()),
+        TextCellValue(row['Est Arrival Date'].toString()),
+        TextCellValue(row['Status'].toString()),
+        TextCellValue(row['Location'].toString()),
       ]);
     }
 
     // Save file
     var directory = await getApplicationDocumentsDirectory();
-    String filePath = "${directory.path}/Auctions.xlsx";
+    String filePath = "${directory.path}/Containers.xlsx";
     File(filePath)
       ..createSync(recursive: true)
       ..writeAsBytesSync(excel.encode()!);

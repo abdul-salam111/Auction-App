@@ -6,7 +6,7 @@ class ManagecontainersView extends GetView<ManagecontainersController> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.focusScope.unfocus();
+        controller.searchFocusNode.unfocus();
       },
       child: Scaffold(
           appBar: CustomAppBar(),
@@ -42,13 +42,14 @@ class ManagecontainersView extends GetView<ManagecontainersController> {
                           .roundedSM
                           .make()
                           .onTap(() async {
-                        // await controller.downloadExcel();
+                        await controller.downloadExcel();
                       }),
                       SizedBox(width: 5),
                       Expanded(
                         child: TextField(
+                          focusNode: controller.searchFocusNode,
                           cursorHeight: 15,
-                          // onChanged: (value) => controller.search(value),
+                          onChanged: (value) => controller.search(value),
                           style: context.displayLarge!.copyWith(fontSize: 14),
                           decoration: InputDecoration(
                             isDense: true,
@@ -141,42 +142,52 @@ class ManagecontainersView extends GetView<ManagecontainersController> {
                         .copyWith(fontWeight: FontWeight.bold),
                   ),
                   Spacer(),
-                  PopupMenuButton<String>(
-                    padding: EdgeInsets.zero,
-                    iconSize: 20,
-                    icon: Icon(
-                      Icons.add,
-                      color: AppColors.textColorWhite,
-                    ).box.p4.color(AppColors.secondaryColor).roundedSM.make(),
-                    onSelected: (String value) {},
-                    itemBuilder: (BuildContext context) {
-                      return [
-                        PopupMenuItem(
-                          value: 'Car',
-                          child: Text('Car'),
-                        ),
-                        PopupMenuItem(
-                          value: 'Truck',
-                          child: Text('Truck'),
-                        ),
-                        PopupMenuItem(
-                          value: 'Spare part',
-                          child: Text('Spare part'),
-                        ),
-                      ];
-                    },
-                    color: Colors.white,
-                  )
+                  Icon(Iconsax.add, color: AppColors.backgroundColor)
+                      .box
+                      .p4
+                      .color(AppColors.secondaryColor)
+                      .roundedSM
+                      .make()
+
+                  // PopupMenuButton<String>(
+                  //   padding: EdgeInsets.zero,
+                  //   iconSize: 20,
+                  //   icon: Icon(
+                  //     Icons.add,
+                  //     color: AppColors.textColorWhite,
+                  //   ).box.p4.color(AppColors.secondaryColor).roundedSM.make(),
+                  //   onSelected: (String value) {},
+                  //   itemBuilder: (BuildContext context) {
+                  //     return [
+                  //       PopupMenuItem(
+                  //         value: 'Car',
+                  //         child: Text('Car'),
+                  //       ),
+                  //       PopupMenuItem(
+                  //         value: 'Truck',
+                  //         child: Text('Truck'),
+                  //       ),
+                  //       PopupMenuItem(
+                  //         value: 'Spare part',
+                  //         child: Text('Spare part'),
+                  //       ),
+                  //     ];
+                  //   },
+                  //   color: Colors.white,
+                  // )
                 ],
               )
                   .box
-                  .px8
+                  .p8
                   .roundedSM
                   .color(
                       AppColors.secondaryColor.withAlpha((0.2 * 255).toInt()))
                   .width(double.infinity)
                   .border(color: AppColors.secondaryColor)
-                  .make(),
+                  .make()
+                  .onTap(() {
+                Get.toNamed(Routes.ADDCONTAINER);
+              }),
               10.heightBox,
               Container(
                 padding: padding10,
@@ -231,8 +242,7 @@ class ManagecontainersView extends GetView<ManagecontainersController> {
                               children: [
                                 Expanded(
                                     flex: 2,
-                                    child: Text(
-                                        "${item['Container No']}4883838383",
+                                    child: Text("${item['Container No']}",
                                         style: context.displayLarge)),
                                 Expanded(
                                     flex: 2,

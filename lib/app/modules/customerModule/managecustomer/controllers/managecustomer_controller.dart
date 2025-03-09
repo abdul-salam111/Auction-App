@@ -8,6 +8,8 @@ import 'package:path_provider/path_provider.dart';
 import '../../../modules.dart';
 
 class ManagecustomerController extends GetxController {
+      final FocusNode searchFocusNode = FocusNode();
+
   final data = <UserData>[].obs;
 
   // Paginated data for the current page

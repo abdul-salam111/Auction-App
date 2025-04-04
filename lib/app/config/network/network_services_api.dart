@@ -32,6 +32,7 @@ class NetworkServicesApi implements BaseApiServices {
   @override
   Future postApi(String url, data) async {
     dynamic apiResponse;
+
     try {
       final response = await http
           .post(
@@ -43,7 +44,7 @@ class NetworkServicesApi implements BaseApiServices {
             body: jsonEncode(data),
           )
           .timeout(const Duration(seconds: 10));
-
+      print(response.body);
       apiResponse = handleError(response);
     } on SocketException {
       throw NoInternetException('No internet connection.');
@@ -67,7 +68,7 @@ class NetworkServicesApi implements BaseApiServices {
             body: jsonEncode(data),
           )
           .timeout(const Duration(seconds: 10));
-      
+
       apiResponse = handleError(response);
     } on SocketException {
       throw NoInternetException('No internet connection.');

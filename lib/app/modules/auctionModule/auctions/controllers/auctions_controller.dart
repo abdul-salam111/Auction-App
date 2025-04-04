@@ -5,13 +5,12 @@ import 'package:path_provider/path_provider.dart';
 import '../../../modules.dart';
 
 class AuctionsController extends GetxController {
-    final FocusNode searchFocusNode = FocusNode();
+  final FocusNode searchFocusNode = FocusNode();
   // Data list to store all auction items
-  final RxList<Map<String, dynamic>> data = <Map<String, dynamic>>[].obs;
+  final data = <AuctionsData>[].obs;
 
   // Paginated data for the current page
-  final RxList<Map<String, dynamic>> paginatedData =
-      <Map<String, dynamic>>[].obs;
+  final paginatedData = <AuctionsData>[].obs;
 
   // Current page number
   final RxInt currentPage = 1.obs;
@@ -26,31 +25,30 @@ class AuctionsController extends GetxController {
   final RxString selectedStatus = 'All'.obs;
 
   // Filtered data based on status
-  final RxList<Map<String, dynamic>> filteredData =
-      <Map<String, dynamic>>[].obs;
+  final filteredData = <AuctionsData>[].obs;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
-    fetchData();
-    filterData();
+    await getAllAuctions();
+    paginateData();
   }
 
+  var isLoading = false.obs;
+  final auctionrepo = AuctionsRepository();
   // Fetch initial data for auctions
-  void fetchData() {
-    data.value = List.generate(
-      50,
-      (index) => {
-        'id': index,
-        'Auction Name': 'Auction $index',
-        'Date': '2024-12-01',
-        'Status': index % 3 == 0
-            ? 'Active'
-            : (index % 3 == 1 ? 'Upcoming' : 'Closed'),
-        'Cars': '${index * 2}',
-        'Location': 'Location $index'
-      },
-    );
+  Future<void> getAllAuctions() async {
+    try {
+      isLoading.value = true;
+      final response = await auctionrepo.getAllAuctions();
+      data.value = response.data!.map((e) => e).toList();
+      filteredData.assignAll(data);
+      isLoading.value = false;
+    } catch (e) {
+      print('Error fetching customers: $e');
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   // Filter data based on selected status
@@ -60,8 +58,11 @@ class AuctionsController extends GetxController {
     } else if (selectedStatus.value == "All") {
       filteredData.value = data;
     } else {
-      filteredData.value =
-          data.where((item) => item['Status'] == selectedStatus.value).toList();
+      filteredData.value = data
+          .where((item) =>
+              (item.auctionStatus == true ? "Active" : "Closed") ==
+              selectedStatus.value)
+          .toList();
     }
     currentPage.value = 1; // Reset to first page
     paginateData();
@@ -147,7 +148,7 @@ class AuctionsController extends GetxController {
       filterData();
     } else {
       filteredData.value = data.where((item) {
-        return item['Auction Name']
+        return item.auctionName
             .toString()
             .toLowerCase()
             .contains(query.toLowerCase());
@@ -174,11 +175,11 @@ class AuctionsController extends GetxController {
     // Add data rows
     for (var row in filteredData) {
       sheet.appendRow([
-        TextCellValue(row['Auction Name'].toString()),
-        TextCellValue(row['Date'] ?? ''),
-        TextCellValue(row['Status'] ?? ''),
-        TextCellValue(row['Cars'] ?? ''),
-        TextCellValue(row['Location'] ?? ''),
+        TextCellValue(row.auctionName.toString()),
+        TextCellValue(row.createdAt!.toSimpleDate()),
+        TextCellValue(row.auctionStatus == true ? "Active" : "Closed"),
+        TextCellValue(row.count.toString()),
+        TextCellValue(row.auctionLocation ?? ''),
       ]);
     }
 

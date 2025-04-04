@@ -22,30 +22,37 @@ class HomeView extends GetView<HomeController> {
                       mainAxisAlignment: mainAxisSpaceBetween,
                       children: List.generate(2, (index) {
                         return Expanded(
-                          child: Container(
-                            height: context.height * 0.15,
-                            margin: padding5,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: AppColors.borderColor, width: 1),
-                              color: Color(0xffF7F9FB),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(controller.menuItems[index]['icon'],
-                                    size: 40, color: Colors.black),
-                                10.heightBox,
-                                Text(controller.menuItems[index]['label'],
-                                    style: context.isMobile
-                                        ? context.displayLarge!.copyWith(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 14)
-                                        : context.bodyMedium!.copyWith(
-                                            fontWeight: FontWeight.bold),
-                                    textAlign: TextAlign.center),
-                              ],
+                          child: GestureDetector(
+                            onTap: () {
+                              index == 0
+                                  ? Get.toNamed(Routes.AUCTIONS)
+                                  : Get.toNamed(Routes.ADDNEWPRODUCT);
+                            },
+                            child: Container(
+                              height: context.height * 0.15,
+                              margin: padding5,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: AppColors.borderColor, width: 1),
+                                color: Color(0xffF7F9FB),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(controller.menuItems[index]['icon'],
+                                      size: 40, color: Colors.black),
+                                  10.heightBox,
+                                  Text(controller.menuItems[index]['label'],
+                                      style: context.isMobile
+                                          ? context.displayLarge!.copyWith(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14)
+                                          : context.bodyMedium!.copyWith(
+                                              fontWeight: FontWeight.bold),
+                                      textAlign: TextAlign.center),
+                                ],
+                              ),
                             ),
                           ),
                         );

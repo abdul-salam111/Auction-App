@@ -50,10 +50,6 @@ class AuctionsView extends GetView<AuctionsController> {
                             child: Text('Active'),
                           ),
                           PopupMenuItem(
-                            value: 'Upcoming',
-                            child: Text('Upcoming'),
-                          ),
-                          PopupMenuItem(
                             value: 'Closed',
                             child: Text('Closed'),
                           ),
@@ -139,41 +135,19 @@ class AuctionsView extends GetView<AuctionsController> {
                             .copyWith(fontWeight: FontWeight.bold),
                       ),
                       Spacer(),
-                      PopupMenuButton<String>(
-                        padding: EdgeInsets.zero,
-                        iconSize: 20,
-                        icon: Icon(
-                          Icons.add,
-                          color: AppColors.textColorWhite,
-                        )
-                            .box
-                            .p4
-                            .color(AppColors.secondaryColor)
-                            .roundedSM
-                            .make(),
-                        onSelected: (String value) {},
-                        itemBuilder: (BuildContext context) {
-                          return [
-                            PopupMenuItem(
-                              value: 'Car',
-                              child: Text('Car'),
-                            ),
-                            PopupMenuItem(
-                              value: 'Truck',
-                              child: Text('Truck'),
-                            ),
-                            PopupMenuItem(
-                              value: 'Spare part',
-                              child: Text('Spare part'),
-                            ),
-                          ];
-                        },
-                        color: Colors.white,
-                      )
+                      Icon(Iconsax.add, color: AppColors.backgroundColor)
+                          .box
+                          .p4
+                          .color(AppColors.secondaryColor)
+                          .roundedSM
+                          .make()
+                          .onTap(() {
+                        Get.toNamed(Routes.CREATENEWAUCTION);
+                      }),
                     ],
                   )
                       .box
-                      .px8
+                      .p8
                       .roundedSM
                       .color(AppColors.secondaryColor
                           .withAlpha((0.2 * 255).toInt()))
@@ -213,154 +187,200 @@ class AuctionsView extends GetView<AuctionsController> {
                       ],
                     ),
                   ),
-                  Expanded(
-                    child: ListView.builder(
-                      padding: EdgeInsets.zero,
-                      itemCount: controller.paginatedData.length,
-                      itemBuilder: (context, index) {
-                        var item = controller.paginatedData[index];
-                        return Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 0, horizontal: 8),
-                          decoration: BoxDecoration(
-                            color: index % 2 != 0
-                                ? Color(0xffF5F7FA)
-                                : Colors.white,
-                            border: Border(
-                              bottom: BorderSide(color: Colors.grey[300]!),
-                            ),
-                          ),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Expanded(
-                                      flex: 2,
-                                      child: Text(item['Auction Name'] ?? '',
-                                          style: context.displayLarge)),
-                                  Expanded(
-                                      flex: 2,
-                                      child: Text(item['Date'] ?? '',
-                                          style: context.displayLarge)),
-                                  Expanded(
-                                    flex: 2,
-                                    child: Container(
-                                      height: 25,
-                                      decoration: BoxDecoration(
-                                        color: item['Status'] == 'Active'
-                                            ? Colors.green[100]
-                                            : item['Status'] == 'Upcoming'
-                                                ? Colors.yellow[100]
-                                                : Colors.red[100],
-                                        borderRadius: BorderRadius.circular(4),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          item['Status'] ?? '',
-                                          style: context.displayLarge!.copyWith(
-                                              color: item['Status'] == 'Active'
-                                                  ? Colors.green
-                                                  : item['Status'] == 'Upcoming'
-                                                      ? AppColors.warningColor
-                                                      : Colors.red,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                      flex: 1,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(
-                                            left: context.width * 0.04),
-                                        child: Text(item['Cars'] ?? '',
-                                            style: context.displayLarge),
-                                      )),
-                                  Expanded(
-                                    flex: 1,
-                                    child: Obx(
-                                      () => IconButton(
-                                        icon: Icon(
-                                          controller.expandedRows
-                                                  .contains(item['id'])
-                                              ? Iconsax.arrow_square_up
-                                              : Iconsax.arrow_square_down,
-                                          color: AppColors.buttonDisabledColor,
-                                          size: 20,
-                                        ),
-                                        onPressed: () => controller
-                                            .toggleExpandRow(item['id']),
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                  Obx(
+                    () => controller.isLoading.value
+                        ? Expanded(
+                            child: Center(
+                              child: LoadingIndicator(
+                                size: 40,
                               ),
-                              Obx(() => controller.expandedRows
-                                      .contains(item['id'])
-                                  ? Row(
-                                      children: [
-                                        Expanded(
-                                          child: Row(
-                                            children: [
-                                              Text('Location',
+                            ),
+                          )
+                        : Expanded(
+                            child: ListView.builder(
+                              padding: EdgeInsets.zero,
+                              itemCount: controller.paginatedData.length,
+                              itemBuilder: (context, index) {
+                                var item = controller.paginatedData[index];
+                                return Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 0, horizontal: 8),
+                                  decoration: BoxDecoration(
+                                    color: index % 2 != 0
+                                        ? Color(0xffF5F7FA)
+                                        : Colors.white,
+                                    border: Border(
+                                      bottom:
+                                          BorderSide(color: Colors.grey[300]!),
+                                    ),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                              flex: 2,
+                                              child: Text(
+                                                  item.auctionName ?? '',
+                                                  style: context.displayLarge)),
+                                          Expanded(
+                                              flex: 2,
+                                              child: Text(
+                                                  item.createdAt!
+                                                      .toSimpleDate(),
+                                                  style: context.displayLarge)),
+                                          Expanded(
+                                            flex: 2,
+                                            child: Container(
+                                              height: 25,
+                                              decoration: BoxDecoration(
+                                                color:
+                                                    item.auctionStatus == true
+                                                        ? Colors.green[100]
+                                                        : Colors.red[100],
+                                                borderRadius:
+                                                    BorderRadius.circular(4),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  item.auctionStatus == true
+                                                      ? 'Active'
+                                                      : "Closed",
                                                   style: context.displayLarge!
                                                       .copyWith(
+                                                          color:
+                                                              item.auctionStatus ==
+                                                                      true
+                                                                  ? Colors.green
+                                                                  : Colors.red,
                                                           fontWeight:
-                                                              FontWeight.bold)),
-                                              20.widthBox,
-                                              Expanded(
-                                                child: Container(
-                                                  padding: defaultPadding,
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.grey[200],
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            4),
-                                                  ),
-                                                  child: Text(
-                                                    item['Location'] ?? '',
-                                                    style: context.displayLarge,
-                                                  ),
+                                                              FontWeight.bold),
                                                 ),
                                               ),
-                                            ],
-                                          )
-                                              .box
-                                              .border(
-                                                  color: AppColors.borderColor)
-                                              .roundedSM
-                                              .p4
-                                              .make(),
-                                        ),
-                                        10.widthBox,
-                                        Align(
-                                          alignment: Alignment.centerRight,
-                                          child: Container(
-                                            padding: const EdgeInsets.all(6),
-                                            decoration: BoxDecoration(
-                                              color: Colors.orange,
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
                                             ),
-                                            child: const Icon(Icons.visibility,
-                                                color: Colors.white),
                                           ),
-                                        ),
-                                      ],
-                                    )
-                                      .box
-                                      .margin(EdgeInsets.only(bottom: 3))
-                                      .make()
-                                  : SizedBox.shrink()),
-                            ],
+                                          Expanded(
+                                              flex: 1,
+                                              child: Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: context.width * 0.04),
+                                                child: Text(
+                                                    item.count.toString(),
+                                                    style:
+                                                        context.displayLarge),
+                                              )),
+                                          Expanded(
+                                            flex: 1,
+                                            child: Obx(
+                                              () => IconButton(
+                                                icon: Icon(
+                                                  controller.expandedRows
+                                                          .contains(item.id)
+                                                      ? Iconsax.arrow_square_up
+                                                      : Iconsax
+                                                          .arrow_square_down,
+                                                  color: AppColors
+                                                      .buttonDisabledColor,
+                                                  size: 20,
+                                                ),
+                                                onPressed: () => controller
+                                                    .toggleExpandRow(item.id!),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Obx(() => controller.expandedRows
+                                              .contains(item.id)
+                                          ? Row(
+                                              children: [
+                                                Expanded(
+                                                  child: Row(
+                                                    children: [
+                                                      Text('Location',
+                                                          style: context
+                                                              .displayLarge!
+                                                              .copyWith(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                      20.widthBox,
+                                                      Expanded(
+                                                        child: Container(
+                                                          padding:
+                                                              defaultPadding,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: Colors
+                                                                .grey[200],
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        4),
+                                                          ),
+                                                          child: Text(
+                                                            item.auctionLocation ??
+                                                                '',
+                                                            style: context
+                                                                .displayLarge,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  )
+                                                      .box
+                                                      .border(
+                                                          color: AppColors
+                                                              .borderColor)
+                                                      .roundedSM
+                                                      .p4
+                                                      .make(),
+                                                ),
+                                                10.widthBox,
+                                                Align(
+                                                  alignment:
+                                                      Alignment.centerRight,
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      Get.toNamed(
+                                                          Routes
+                                                              .AUCTIONREPORT_VEHICLES,
+                                                          arguments: item.id
+                                                              .toString());
+                                                    },
+                                                    child: Container(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              6),
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.orange,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8),
+                                                      ),
+                                                      child: const Icon(
+                                                          Icons.visibility,
+                                                          color: Colors.white),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                              .box
+                                              .margin(
+                                                  EdgeInsets.only(bottom: 3))
+                                              .make()
+                                          : SizedBox.shrink()),
+                                    ],
+                                  ),
+                                );
+                              },
+                            )
+                                .box
+                                .border(color: AppColors.borderColor)
+                                .bottomRounded(value: 5)
+                                .make(),
                           ),
-                        );
-                      },
-                    )
-                        .box
-                        .border(color: AppColors.borderColor)
-                        .bottomRounded(value: 5)
-                        .make(),
                   ),
                   Obx(() => Padding(
                         padding: const EdgeInsets.only(bottom: 8.0, top: 8),

@@ -28,4 +28,15 @@ class AppUrls {
 
   static const String getAllNotifications =
       "${baseApiKey}read_all_notifications";
+
+  static const String getAllAuctions = "${baseApiKey}auctions_bigstar";
+  static const String createNewAuction = "${baseApiKey}auctions_bigstar";
+  static const String getBidsOfAnAuction =
+      "${baseApiKey}read_customers_with_data/";
+  static const String bidWonByCustomer = "${baseApiKey}bid_won";
+  static const String getAllcustomerContacts =
+      "${baseApiKey}contact_list_dropdown";
+  static const String fetchCustomerDetailsByPhoneNumber =
+      "${baseApiKey}customer_contact_detail";
+  static const String addnewBids = "${baseApiKey}customer_data_to_cart";
 }

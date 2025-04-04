@@ -40,4 +40,7 @@ class AddcontainerController extends GetxController {
   void removeImage(int index) {
     selectedImages.removeAt(index);
   }
+
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final FocusNode formFocusNode = FocusNode();
 }

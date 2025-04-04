@@ -69,6 +69,7 @@ class CustomTextFormField extends StatelessWidget {
         obscureText
             ? Obx(
                 () => TextFormField(
+                  textCapitalization: TextCapitalization.words,
                   readOnly: readonly,
                   style: context.bodySmall,
                   controller: controller,
@@ -124,6 +125,7 @@ class CustomTextFormField extends StatelessWidget {
                 ),
               )
             : TextFormField(
+                textCapitalization: TextCapitalization.words,
                 readOnly: readonly,
                 style: context.bodySmall,
                 controller: controller,

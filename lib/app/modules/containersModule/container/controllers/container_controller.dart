@@ -162,8 +162,6 @@ class ContainerController extends GetxController {
   }
 
   var selectedVehicle = "".obs;
-//select vehicale type
-  var isDropdownOpen = false.obs;
 
   final containerrepo = ContainerRepository();
   final containerDetails = FetchSingleContainerDetails().obs;
@@ -181,5 +179,17 @@ class ContainerController extends GetxController {
     } catch (e) {
       print(e);
     }
+  }
+
+  @override
+  void onClose() {
+    // TODO: implement onClose
+    super.onClose();
+    data.clear();
+    paginatedData.clear();
+    filteredData.clear();
+    expandedRows.clear();
+    currentPage.value = 1;
+    selectedVehicle.value = "";
   }
 }

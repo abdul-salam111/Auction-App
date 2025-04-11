@@ -27,7 +27,6 @@ class AddnewcustomerController extends GetxController {
       ));
       await managecustomerController.getAllSignupCustomers();
 
-    
       firstNameController.value.clear();
       lastNameController.value.clear();
       emailController.value.clear();
@@ -38,5 +37,16 @@ class AddnewcustomerController extends GetxController {
     } catch (e) {
       isloading.value = false;
     }
+  }
+
+  @override
+  onClose() {
+    firstNameController.value.dispose();
+    lastNameController.value.dispose();
+    contactNumberController.value.dispose();
+    emailController.value.dispose();
+    emairatesIDController.value.dispose();
+    addressController.value.dispose();
+    super.onClose();
   }
 }

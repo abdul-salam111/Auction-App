@@ -177,6 +177,10 @@ class ManagecontainersController extends GetxController {
   @override
   void onClose() {
     searchFocusNode.dispose();
+    data.clear();
+    paginatedData.clear();
+    filteredData.clear();
+    expandedRows.clear();
     super.onClose();
   }
 }

@@ -26,7 +26,7 @@ class AddcontainerController extends GetxController {
   Future<void> pickImagesFromGallery() async {
     final List<XFile> pickedFiles = await _picker.pickMultiImage();
     selectedImages.addAll(pickedFiles.map((e) => File(e.path)));
-    }
+  }
 
   // Pick image from camera
   Future<void> pickImageFromCamera() async {
@@ -106,7 +106,23 @@ class AddcontainerController extends GetxController {
   void onClose() {
     shipperNameController.value.dispose();
     shippingCompanyController.value.dispose();
-    // ... dispose other controllers
+    bLNumberController.value.dispose();
+    containerNumberController.value.dispose();
+    sealNumberController.value.dispose();
+    grossWeightController.value.dispose();
+    portOfLoadingController.value.dispose();
+    portOfDischargeController.value.dispose();
+    numberOfUnitsController.value.dispose();
+    descriptionController.value.dispose();
+    formFocusNode.dispose();
+    selectedImages.clear();
+    itemsInContainer.value.parts?.clear();
+    itemsInContainer.value.vehicles?.clear();
+    selectedStatus.value = "Arrived";
+    selectedItemType.value = '';
+    itemsInContainer.value = AddNewContainer();
+    isContainerUploading.value = false;
+    selectedImages.clear();
     super.onClose();
   }
 }

@@ -264,7 +264,7 @@ class EditcontainersController extends GetxController {
   Future<void> pickImagesFromGallery() async {
     final List<XFile> pickedFiles = await _picker.pickMultiImage();
     selectedImages.addAll(pickedFiles.map((e) => File(e.path)));
-    }
+  }
 
   // Pick image from camera
   Future<void> pickImageFromCamera() async {
@@ -327,5 +327,20 @@ class EditcontainersController extends GetxController {
       print(e);
       isContainerUploading.value = false;
     }
+  }
+
+  @override
+  onClose() {
+    super.onClose();
+    shipperNameController.value.dispose();
+    shippingCompanyController.value.dispose();
+    bLNumberController.value.dispose();
+    containerNumberController.value.dispose();
+    sealNumberController.value.dispose();
+    grossWeightController.value.dispose();
+    portOfLoadingController.value.dispose();
+    portOfDischargeController.value.dispose();
+    numberOfUnitsController.value.dispose();
+    descriptionController.value.dispose();
   }
 }

@@ -6,4 +6,13 @@ class ChangepasswordController extends GetxController {
   final currentPasswordController = TextEditingController().obs;
   final newPasswordController = TextEditingController().obs;
   final confirmPasswordController = TextEditingController().obs;
+
+  @override
+  void onClose() {
+    // TODO: implement onClose
+    super.onClose();
+    currentPasswordController.value.dispose();
+    newPasswordController.value.dispose();
+    confirmPasswordController.value.dispose();
+  }
 }

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:auction_app/app/data/getModels/get_containers_count.dart';
+import 'package:auction_app/app/utils/utils.dart';
 import 'package:excel/excel.dart';
 
 import 'package:open_file/open_file.dart';
@@ -161,5 +162,21 @@ class ManagecontainersController extends GetxController {
     } catch (e) {
       isLoading.value = false;
     }
+  }
+
+  Future deleteContainer(String containerId) async {
+    try {
+      await containerRepository.deleteContainer(containerId);
+      await getAllContainers();
+    } catch (e) {
+      Utils.anotherFlushbar(Get.context!, e.toString(), Colors.red);
+      throw Exception(e);
+    }
+  }
+
+  @override
+  void onClose() {
+    searchFocusNode.dispose();
+    super.onClose();
   }
 }

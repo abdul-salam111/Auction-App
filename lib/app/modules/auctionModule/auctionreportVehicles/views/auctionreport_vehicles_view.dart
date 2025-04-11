@@ -1,7 +1,5 @@
 import 'package:auction_app/app/data/postModels/bid_won_by_customer.dart';
 import 'package:auction_app/app/modules/modules.dart';
-import 'package:auction_app/app/utils/utils.dart';
-import 'package:flutter/foundation.dart';
 
 class AuctionreportVehiclesView
     extends GetView<AuctionreportVehiclesController> {
@@ -48,7 +46,7 @@ class AuctionreportVehiclesView
                         .roundedSM
                         .make()
                         .onTap(() async {
-                      //await controller.downloadExcel();
+                      await controller.downloadExcel();
                     }),
                     5.widthBox,
                     Expanded(
@@ -289,7 +287,6 @@ class AuctionreportVehiclesView
                                                         Alignment.centerRight,
                                                     child: GestureDetector(
                                                       onTap: () async {
-                                                      
                                                         await controller.bidwonBycustomer(
                                                             item.vehicleChassis !=
                                                                     null

@@ -421,6 +421,8 @@ class AddnewbidView extends GetView<AddnewbidController> {
 class ContactSelectionBottomSheet extends StatelessWidget {
   final AddnewbidController controller = Get.find();
 
+   ContactSelectionBottomSheet({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Padding(

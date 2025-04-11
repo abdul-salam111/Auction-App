@@ -1,21 +1,24 @@
 // import 'package:auction_app/app/res/colors.dart';
+
+import 'package:auction_app/app/data/postModels/add_new_container.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
-import 'containersModule/container/controllers/container_controller.dart';
+import '../controllers/addcontainer_controller.dart';
 
-class BarcodeScannerScreen extends StatefulWidget {
-  const BarcodeScannerScreen({super.key});
+class AddItemsToContainerScanner extends StatefulWidget {
+  const AddItemsToContainerScanner({super.key});
 
   @override
-  _BarcodeScannerScreenState createState() => _BarcodeScannerScreenState();
+  _AddItemsToContainerScannerState createState() =>
+      _AddItemsToContainerScannerState();
 }
 
-class _BarcodeScannerScreenState extends State<BarcodeScannerScreen>
+class _AddItemsToContainerScannerState extends State<AddItemsToContainerScanner>
     with SingleTickerProviderStateMixin {
   final MobileScannerController cameraController = MobileScannerController();
-  final containercontroller = Get.put(ContainerController());
+  final addnewContainerController = Get.put(AddcontainerController());
   String? barcode;
   bool _isTorchOn = false;
   CameraFacing _cameraFacing = CameraFacing.back;
@@ -91,14 +94,102 @@ class _BarcodeScannerScreenState extends State<BarcodeScannerScreen>
                   setState(() {
                     this.barcode = barcode.rawValue;
                   });
-                  if (barcode.rawValue.toString().contains('Chassis')) {
-                    print(barcode.rawValue);
-                  } else {
-                    print(barcode.rawValue);
-                  }
 
-                  // // Show a dialog or snackbar with the scanned barcode
-                  // _showBarcodeResult(barcode.rawValue!);
+                  if (barcode.rawValue!.contains("chassis_number")) {
+                    addnewContainerController.selectedItemType.value =
+                        "Vehicles";
+
+                    try {
+                      final rawString = barcode.rawValue!.trim();
+
+                      final makeMatch =
+                          RegExp(r'make:\s*([^,]+)').firstMatch(rawString);
+                      final modelMatch =
+                          RegExp(r'model:\s*([^,]+)').firstMatch(rawString);
+                      final yearMatch =
+                          RegExp(r'year:\s*(\d{4})').firstMatch(rawString);
+                      final chassisMatch =
+                          RegExp(r'chassis_number:\s*([^\s,]+)')
+                              .firstMatch(rawString);
+                      final colorMatch =
+                          RegExp(r'color:\s*([^,]+)').firstMatch(rawString);
+
+                      final extractedMake =
+                          makeMatch?.group(1)?.trim() ?? "Unknown";
+                      final extractedModel =
+                          modelMatch?.group(1)?.trim() ?? "Unknown";
+                      final extractedYear =
+                          int.tryParse(yearMatch?.group(1) ?? '0') ?? 0;
+                      final extractedChassis =
+                          chassisMatch?.group(1)?.trim() ?? "Unknown";
+                      final extractedColor =
+                          colorMatch?.group(1)?.trim() ?? "Unknown";
+
+                      addnewContainerController
+                          .itemsInContainer.value.vehicles ??= [];
+
+                      addnewContainerController.itemsInContainer.value.vehicles!
+                          .add(
+                        Vehicle(
+                          make: extractedMake,
+                          model: extractedModel,
+                          year: extractedYear.toString(),
+                          chassisNumber: extractedChassis,
+                          color: extractedColor,
+                        ),
+                      );
+
+                      addnewContainerController.update();
+                      Get.back();
+                    } catch (e) {
+                      print("Parsing Error: $e");
+                    }
+                  } else {
+                    addnewContainerController.selectedItemType.value =
+                        "Spare Parts";
+                    try {
+                      final rawString = barcode.rawValue!.trim();
+
+                      final idMatch =
+                          RegExp(r'id:\s*(\d+)', caseSensitive: false)
+                              .firstMatch(rawString);
+                      final nameMatch =
+                          RegExp(r'name:\s*([^,]+)', caseSensitive: false)
+                              .firstMatch(rawString);
+                      final makeMatch =
+                          RegExp(r'make:\s*([^,]+)', caseSensitive: false)
+                              .firstMatch(rawString);
+                      final modelMatch =
+                          RegExp(r'model:\s*([^,]+)', caseSensitive: false)
+                              .firstMatch(rawString);
+                      final extractedId =
+                          idMatch?.group(1)?.trim() ?? "Unknown";
+                      final extractedName =
+                          nameMatch?.group(1)?.trim() ?? "Unknown";
+                      final extractedMake =
+                          makeMatch?.group(1)?.trim() ?? "Unknown";
+                      final extractedModel =
+                          modelMatch?.group(1)?.trim() ?? "Unknown";
+
+                      addnewContainerController.itemsInContainer.value.parts ??=
+                          [];
+
+                      addnewContainerController.itemsInContainer.value.parts!
+                          .add(
+                        Part(
+                          id: extractedId,
+                          name: extractedName,
+                          make: extractedMake,
+                          model: extractedModel,
+                        ),
+                      );
+                    } catch (e) {
+                      print("Parsing Error: $e");
+                    }
+
+                    addnewContainerController.update();
+                    Get.back();
+                  }
                 }
               }
             },

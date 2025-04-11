@@ -6,9 +6,9 @@ class BackTitleRow extends StatelessWidget {
   final String title;
 
   const BackTitleRow({
-    Key? key,
+    super.key,
     required this.title,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

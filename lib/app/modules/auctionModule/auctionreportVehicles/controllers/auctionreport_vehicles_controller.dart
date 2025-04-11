@@ -167,23 +167,28 @@ class AuctionreportVehiclesController extends GetxController {
 
     // Add headers
     sheet.appendRow([
-      TextCellValue("Auction Name"),
-      TextCellValue("Date"),
-      TextCellValue("Status"),
-      TextCellValue("Cars"),
-      TextCellValue("Location"),
+      TextCellValue("Name"),
+      TextCellValue("Contact"),
+      TextCellValue("Vehicle Name"),
+      TextCellValue("Created On"),
+      TextCellValue("Bid Amount"),
+      TextCellValue("Chassis/Id"),
     ]);
 
-    // Add data rows
-    // for (var row in filteredData) {
-    //   sheet.appendRow([
-    //     TextCellValue(row.auctionName.toString()),
-    //     TextCellValue(row.createdAt!.toSimpleDate()),
-    //     TextCellValue(row.auctionStatus == true ? "Active" : "Closed"),
-    //     TextCellValue(row.count.toString()),
-    //     TextCellValue(row.auctionLocation ?? ''),
-    //   ]);
-    // }
+    for (var row in filteredData) {
+      sheet.appendRow([
+        TextCellValue(row.name.toString()),
+        TextCellValue(row.phoneNumber.toString()),
+        TextCellValue(row.vehicle != null
+            ? row.vehicle.toString()
+            : row.sparepart.toString()),
+        TextCellValue(row.createdAt!.toSimpleDate()),
+        TextCellValue(row.bidAmount.toString()),
+        TextCellValue(row.vehicleChassis != null
+            ? row.vehicleChassis.toString()
+            : row.sparepartId.toString()),
+      ]);
+    }
 
     // Save file
     var directory = await getApplicationDocumentsDirectory();
@@ -207,5 +212,12 @@ class AuctionreportVehiclesController extends GetxController {
     } catch (e) {
       Utils.anotherFlushbar(Get.context!, e.toString(), Colors.red);
     }
+  }
+
+  @override
+  void onClose() {
+    // TODO: implement onClose
+    super.onClose();
+    searchFocusNode.dispose();
   }
 }

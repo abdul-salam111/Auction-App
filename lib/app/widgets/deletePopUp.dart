@@ -7,12 +7,12 @@ class DeletePopup extends StatelessWidget {
   final VoidCallback onConfirm;
 
   const DeletePopup({
-    Key? key,
+    super.key,
     required this.title,
     required this.message,
     required this.onConfirm,
     required this.icon,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

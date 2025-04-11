@@ -66,7 +66,9 @@ class HomeView extends GetView<HomeController> {
                             onTap: () {
                               index == 0
                                   ? Get.toNamed(Routes.MANAGECUSTOMER)
-                                  : Get.toNamed(Routes.ADDNEWPRODUCT);
+                                  : index == 1
+                                      ? Get.toNamed(Routes.MANAGECONTAINERS)
+                                      : Get.toNamed(Routes.ADDNEWPRODUCT);
                             },
                             child: Container(
                               height: context.height * 0.15,

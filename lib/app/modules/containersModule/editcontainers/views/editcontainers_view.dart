@@ -83,6 +83,82 @@ class EditcontainersView extends GetView<EditcontainersController> {
                         labelfontSize: 14,
                       ),
                       20.heightBox,
+                      CustomTextFormField(
+                        isrequired: false,
+                        fillColor: AppColors.halfwhiteColor,
+                        controller: controller.descriptionController.value,
+                        validator: (value) => Validator.validateRequired(value,
+                            fieldName: "Description"),
+                        borderColor: Color(0xffEBEEF0),
+                        label: "Container Description",
+                        hintText: "Container Description",
+                        labelColor: Color(0xff1C1C1C),
+                        labelfontSize: 14,
+                      ),
+                      20.heightBox,
+                      RichText(
+                          text: TextSpan(children: [
+                        TextSpan(
+                          text: "Uploaded Images",
+                          style: context.bodyMedium!.copyWith(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14.toDouble()),
+                        ),
+                        TextSpan(
+                          text: "*",
+                          style: context.bodyMedium!.copyWith(
+                              color: Colors.red,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14.toDouble()),
+                        )
+                      ])),
+                      5.heightBox,
+                      Obx(() => controller.uploadedImages.isEmpty
+                          ? SizedBox.shrink()
+                          : SizedBox(
+                              height: context.height * 0.1,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: controller.uploadedImages.length,
+                                itemBuilder: (context, index) {
+                                  final image =
+                                      controller.uploadedImages[index];
+                                  return Stack(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 5.0),
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                          child: Image.network(
+                                            image,
+                                            fit: BoxFit.cover,
+                                            width: 80,
+                                            height: 80,
+                                            errorBuilder:
+                                                (context, error, stackTrace) {
+                                              return Container(
+                                                width: 80,
+                                                height: 80,
+                                                color: Colors.grey[300],
+                                                child: Icon(
+                                                  Icons.broken_image,
+                                                  color: Colors.grey[700],
+                                                  size: 40,
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
+                            )),
+                      20.heightBox,
                       RichText(
                           text: TextSpan(children: [
                         TextSpan(
@@ -253,7 +329,8 @@ class EditcontainersView extends GetView<EditcontainersController> {
                           Expanded(
                               child: CustomTextFormField(
                             isrequired: true,
-                            controller: controller.shipperNameController.value,
+                            controller:
+                                controller.numberOfUnitsController.value,
                             validator: (value) => Validator.validateRequired(
                                 value,
                                 fieldName: "Number of Units"),
@@ -288,7 +365,9 @@ class EditcontainersView extends GetView<EditcontainersController> {
                                 ])),
                                 5.heightBox,
                                 PopupMenuButton<String>(
-                                  onSelected: (String value) {},
+                                  onSelected: (String value) {
+                                    controller.selectedStatus.value = value;
+                                  },
                                   initialValue: "Arrived",
                                   itemBuilder: (BuildContext context) => [
                                     PopupMenuItem(
@@ -296,16 +375,8 @@ class EditcontainersView extends GetView<EditcontainersController> {
                                       child: Text('Arrived'),
                                     ),
                                     PopupMenuItem(
-                                      value: 'Active',
-                                      child: Text('Active'),
-                                    ),
-                                    PopupMenuItem(
                                       value: 'Upcoming',
                                       child: Text('Upcoming'),
-                                    ),
-                                    PopupMenuItem(
-                                      value: 'Closed',
-                                      child: Text('Closed'),
                                     ),
                                   ],
                                   child: Container(
@@ -341,11 +412,14 @@ class EditcontainersView extends GetView<EditcontainersController> {
                       HeightBox(context.height * 0.05),
                       Center(
                         child: RoundButton(
+                                isLoading: controller.isContainerUploading.value,
                                 backgroundColor: AppColors.primaryColor,
                                 fontsize: 14,
                                 radius: 10,
                                 text: "Save Changes",
-                                onPressed: () {})
+                                onPressed: () async {
+                                  await controller.updateContainerDetails();
+                                })
                             .box
                             .height(context.height * 0.05)
                             .make()

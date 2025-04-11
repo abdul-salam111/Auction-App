@@ -197,4 +197,11 @@ class AuctionsController extends GetxController {
   var selectedVehicle = "".obs;
 //select vehicale type
   var isDropdownOpen = false.obs;
+
+  @override
+  void onClose() {
+    // TODO: implement onClose
+    super.onClose();
+    searchFocusNode.dispose();
+  }
 }

@@ -36,4 +36,12 @@ class CreatenewauctionController extends GetxController {
       throw Exception(e);
     }
   }
+
+  @override
+  void onClose() {
+    // TODO: implement onClose
+    super.onClose();
+    auctionnameController.value.dispose();
+    auctionaddressController.value.dispose();
+  }
 }

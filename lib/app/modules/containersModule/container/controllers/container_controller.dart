@@ -8,12 +8,13 @@ import 'package:path_provider/path_provider.dart';
 import '../../../modules.dart';
 
 class ContainerController extends GetxController {
+  late String containerId;
+
   // Data list to store all auction items
-  final RxList<Map<String, dynamic>> data = <Map<String, dynamic>>[].obs;
+  final data = <Item>[].obs;
 
   // Paginated data for the current page
-  final RxList<Map<String, dynamic>> paginatedData =
-      <Map<String, dynamic>>[].obs;
+  final paginatedData = <Item>[].obs;
 
   // Current page number
   final RxInt currentPage = 1.obs;
@@ -25,32 +26,15 @@ class ContainerController extends GetxController {
   final RxList<int> expandedRows = <int>[].obs;
 
   // Filtered data based on status
-  final RxList<Map<String, dynamic>> filteredData =
-      <Map<String, dynamic>>[].obs;
+  final filteredData = <Item>[].obs;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
-    fetchData();
+    containerId = Get.arguments;
+    await getSingleContainerDetails();
     currentPage.value = 1;
     paginateData();
-  }
-
-  // Fetch initial data for auctions
-  void fetchData() {
-    data.value = List.generate(
-      50,
-      (index) => {
-        'id': index,
-        'Card Id': '44234$index',
-        'Car Name': 'Car Name$index',
-        'Make': 'Make $index',
-        'Model': '${index * 2}',
-        'Year': 'Year $index',
-        'images': "",
-      },
-    );
-    filteredData.assignAll(data);
   }
 
   // Handle data pagination
@@ -134,10 +118,7 @@ class ContainerController extends GetxController {
       paginateData();
     } else {
       filteredData.value = data.where((item) {
-        return item['Auction Name']
-            .toString()
-            .toLowerCase()
-            .contains(query.toLowerCase());
+        return item.toString().toLowerCase().contains(query.toLowerCase());
       }).toList();
       currentPage.value = 1;
       paginateData();
@@ -159,15 +140,15 @@ class ContainerController extends GetxController {
     ]);
 
     // Add data rows
-    for (var row in filteredData) {
-      sheet.appendRow([
-        TextCellValue(row['Auction Name'].toString()),
-        TextCellValue(row['Date'] ?? ''),
-        TextCellValue(row['Status'] ?? ''),
-        TextCellValue(row['Cars'] ?? ''),
-        TextCellValue(row['Location'] ?? ''),
-      ]);
-    }
+    // for (var row in filteredData) {
+    //   sheet.appendRow([
+    //     TextCellValue(row['Auction Name'].toString()),
+    //     TextCellValue(row['Date'] ?? ''),
+    //     TextCellValue(row['Status'] ?? ''),
+    //     TextCellValue(row['Cars'] ?? ''),
+    //     TextCellValue(row['Location'] ?? ''),
+    //   ]);
+    // }
 
     // Save file
     var directory = await getApplicationDocumentsDirectory();
@@ -183,4 +164,22 @@ class ContainerController extends GetxController {
   var selectedVehicle = "".obs;
 //select vehicale type
   var isDropdownOpen = false.obs;
+
+  final containerrepo = ContainerRepository();
+  final containerDetails = FetchSingleContainerDetails().obs;
+  var gettingContainers = false.obs;
+  var isVehicle = true;
+  //get single container Details
+  Future<void> getSingleContainerDetails() async {
+    try {
+      containerDetails.value =
+          await containerrepo.getSingleContainerDetails(containerId);
+      data.value = containerDetails.value.data!.first.items!.toList();
+
+      filteredData.assignAll(data);
+      isVehicle = data.first.chassisNumber == null ? false : true;
+    } catch (e) {
+      print(e);
+    }
+  }
 }

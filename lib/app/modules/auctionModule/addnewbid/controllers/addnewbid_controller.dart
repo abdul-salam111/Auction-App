@@ -106,4 +106,12 @@ class AddnewbidController extends GetxController {
       print(e);
     }
   }
+
+  @override
+  void onClose() {
+    // TODO: implement onClose
+    super.onClose();
+    fullNameController.value.dispose();
+    phoneController.value.dispose();
+  }
 }

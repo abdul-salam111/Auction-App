@@ -44,7 +44,7 @@ class NetworkServicesApi implements BaseApiServices {
             body: jsonEncode(data),
           )
           .timeout(const Duration(seconds: 10));
-      print(response.body);
+
       apiResponse = handleError(response);
     } on SocketException {
       throw NoInternetException('No internet connection.');
@@ -92,6 +92,7 @@ class NetworkServicesApi implements BaseApiServices {
             body: jsonEncode(data),
           )
           .timeout(const Duration(seconds: 10));
+      print(response.body);
       apiResponse = handleError(response);
     } on SocketException {
       throw NoInternetException('No internet connection.');

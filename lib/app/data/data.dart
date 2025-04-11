@@ -10,3 +10,4 @@ export './getModels/get_all_auctions.dart';
 export './getModels/get_all_bids_of_auction.dart';
 export './getModels/get_all_customer_contacts.dart';
 export './postModels/auction_bid.dart';
+export './getModels/get_single_container_details.dart';

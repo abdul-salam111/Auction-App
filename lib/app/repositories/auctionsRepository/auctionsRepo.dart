@@ -48,12 +48,44 @@ class AuctionsRepository {
   //Win bid by customer this method is called on auction report vehicle screen
   //where there are bids and the highest one will win
   Future<bool> bidwonbycustomer(BidWonByCustomer bidwonbycustomer) async {
+    final url = Uri.parse(AppUrls.bidWonByCustomer);
+    var request = http.MultipartRequest("POST", url);
+    request.fields['contact'] = bidwonbycustomer.contact.toString();
+    request.fields['bid_amount'] = bidwonbycustomer.bidAmount.toString();
+    request.fields[bidwonbycustomer.partId != null ? 'part_id' : 'chassis'] =
+        bidwonbycustomer.partId != null
+            ? bidwonbycustomer.partId.toString()
+            : bidwonbycustomer.chassis.toString();
+    request.headers['Content-Type'] = 'multipart/form-data';
     try {
-      await apiService.postApi(AppUrls.bidWonByCustomer, bidwonbycustomer);
-      return true;
+      var streamedResponse = await request.send();
+      var response = await http.Response.fromStream(streamedResponse);
+
+      if (response.statusCode == 200) {
+        var responseBody = jsonDecode(response.body);
+        Get.dialog(CustomSuccessDialog(
+          title: 'Congratulations',
+          message: "$responseBody",
+          onConfirm: () {
+            Get.back();
+          },
+          icon: "assets/icons/done.png",
+        ));
+        return true;
+      } else {
+        var responseBody = jsonDecode(response.body);
+        Get.dialog(CustomSuccessDialog(
+          title: 'Error',
+          message: "$responseBody",
+          onConfirm: () {
+            Get.back();
+          },
+          icon: "assets/icons/done.png",
+        ));
+        return false;
+      }
     } catch (e) {
-      Utils.anotherFlushbar(Get.context!, e.toString(), Colors.red);
-      throw Exception(e);
+      return true;
     }
   }
 
@@ -122,7 +154,7 @@ class AuctionsRepository {
         return false;
       }
     } catch (e) {
-      print('Error: $e');
+      Utils.anotherFlushbar(Get.context!, e.toString(), Colors.red);
       return false;
     }
   }

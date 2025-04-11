@@ -160,9 +160,6 @@ class ManagecontainersView extends GetView<ManagecontainersController> {
                       .color(AppColors.secondaryColor)
                       .roundedSM
                       .make()
-                      .onTap(() {
-                    Get.toNamed(Routes.ADDCONTAINER);
-                  })
 
                   // PopupMenuButton<String>(
                   //   padding: EdgeInsets.zero,
@@ -225,7 +222,7 @@ class ManagecontainersView extends GetView<ManagecontainersController> {
                             style: context.displayLarge!
                                 .copyWith(fontWeight: FontWeight.bold))
                         .marginOnly(left: context.width * 0.07),
-                    Text('Total Cars',
+                    Text('Total Items',
                         style: context.displayLarge!
                             .copyWith(fontWeight: FontWeight.bold)),
                     Text('More',
@@ -340,7 +337,7 @@ class ManagecontainersView extends GetView<ManagecontainersController> {
                                                   flex: 3,
                                                   child: Row(
                                                     children: [
-                                                      Text('Est Arrival Date',
+                                                      Text('Est Arr Date',
                                                           style: context
                                                               .displayLarge!
                                                               .copyWith(
@@ -445,7 +442,7 @@ class ManagecontainersView extends GetView<ManagecontainersController> {
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .bold)),
-                                                      20.widthBox,
+                                                      10.widthBox,
                                                       Expanded(
                                                         child: Container(
                                                           padding:
@@ -462,6 +459,7 @@ class ManagecontainersView extends GetView<ManagecontainersController> {
                                                           child: Text(
                                                             item.portOfDischarge ??
                                                                 '',
+                                                            maxLines: 1,
                                                             style: context
                                                                 .displayLarge,
                                                           ),
@@ -477,10 +475,14 @@ class ManagecontainersView extends GetView<ManagecontainersController> {
                                                       .p4
                                                       .make(),
                                                 ),
-                                                10.widthBox,
-                                                Align(
-                                                  alignment:
-                                                      Alignment.centerRight,
+                                                5.widthBox,
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    Get.toNamed(
+                                                        Routes.EDITCONTAINERS,
+                                                        arguments:
+                                                            item.id.toString());
+                                                  },
                                                   child: Container(
                                                     padding:
                                                         const EdgeInsets.all(6),
@@ -496,10 +498,14 @@ class ManagecontainersView extends GetView<ManagecontainersController> {
                                                         color: Colors.white),
                                                   ),
                                                 ),
-                                                10.widthBox,
-                                                Align(
-                                                  alignment:
-                                                      Alignment.centerRight,
+                                                5.widthBox,
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    Get.toNamed(
+                                                        Routes.CONTAINER,
+                                                        arguments:
+                                                            item.id.toString());
+                                                  },
                                                   child: Container(
                                                     padding:
                                                         const EdgeInsets.all(6),
@@ -511,6 +517,41 @@ class ManagecontainersView extends GetView<ManagecontainersController> {
                                                     ),
                                                     child: const Icon(
                                                         Icons.visibility,
+                                                        color: Colors.white),
+                                                  ),
+                                                ),
+                                                5.widthBox,
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    Get.dialog(
+                                                      DeletePopup(
+                                                          title:
+                                                              "Delete Container",
+                                                          message:
+                                                              "Are you sure you want to delete this Container?",
+                                                          onConfirm: () async {
+                                                            Get.back();
+                                                            await controller
+                                                                .deleteContainer(item
+                                                                    .id
+                                                                    .toString());
+                                                          },
+                                                          icon:
+                                                              "assets/icons/delete.png"),
+                                                    );
+                                                  },
+                                                  child: Container(
+                                                    padding:
+                                                        const EdgeInsets.all(6),
+                                                    decoration: BoxDecoration(
+                                                      color:
+                                                          AppColors.errorColor,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8),
+                                                    ),
+                                                    child: const Icon(
+                                                        Iconsax.trash,
                                                         color: Colors.white),
                                                   ),
                                                 ),

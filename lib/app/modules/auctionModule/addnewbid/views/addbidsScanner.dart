@@ -9,6 +9,8 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import '../controllers/addnewbid_controller.dart';
 
 class AddBidsScanner extends StatefulWidget {
+  const AddBidsScanner({super.key});
+
   @override
   _AddBidsScannerState createState() => _AddBidsScannerState();
 }

@@ -17,7 +17,7 @@ class RoundButton extends StatelessWidget {
   final int fontsize;
 
   const RoundButton({
-    Key? key,
+    super.key,
     required this.text,
     required this.onPressed,
     this.backgroundColor = Colors.blue,
@@ -30,7 +30,7 @@ class RoundButton extends StatelessWidget {
     this.iconSize = 24.0,
     this.iconColor = Colors.white,
     this.isLoading = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

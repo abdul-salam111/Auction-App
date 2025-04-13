@@ -1,10 +1,12 @@
-import '../modules/containersModule/additemsTocontainerScanner/bindings/additems_tocontainer_scanner_binding.dart';
-import '../modules/containersModule/additemsTocontainerScanner/views/additems_tocontainer_scanner_view.dart';
 import '../modules/auctionModule/createnewauction/bindings/createnewauction_binding.dart';
 import '../modules/auctionModule/createnewauction/views/createnewauction_view.dart';
+import '../modules/containersModule/additemsTocontainerScanner/bindings/additems_tocontainer_scanner_binding.dart';
+import '../modules/containersModule/additemsTocontainerScanner/views/additems_tocontainer_scanner_view.dart';
 import '../modules/customerModule/managecustomer/views/managecustomer_view.dart';
 import '../modules/customerModule/updatecustomer/bindings/updatecustomer_binding.dart';
 import '../modules/customerModule/updatecustomer/views/updatecustomer_view.dart';
+import '../modules/productsModule/editproducttdetails/bindings/editproducttdetails_binding.dart';
+import '../modules/productsModule/editproducttdetails/views/editproducttdetails_view.dart';
 import '../modules/modules.dart';
 import '../modules/testview/bindings/testview_binding.dart';
 import '../modules/testview/views/testview_view.dart';
@@ -88,7 +90,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.PRODUCTDETAILS,
-      page: () => const ProductdetailsView(),
+      page: () => ProductdetailsView(),
       binding: ProductdetailsBinding(),
     ),
     GetPage(
@@ -135,6 +137,11 @@ class AppPages {
       name: _Paths.CREATENEWAUCTION,
       page: () => const CreatenewauctionView(),
       binding: CreatenewauctionBinding(),
+    ),
+    GetPage(
+      name: _Paths.EDITPRODUCTTDETAILS,
+      page: () => const EditproducttdetailsView(),
+      binding: EditproducttdetailsBinding(),
     ),
   ];
 }

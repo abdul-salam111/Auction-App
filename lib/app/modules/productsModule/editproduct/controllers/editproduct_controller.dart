@@ -1,11 +1,13 @@
-import 'package:get/get.dart';
+
+
+import '../../../modules.dart';
 
 class EditproductController extends GetxController {
-  //TODO: Implement EditproductController
+  final soldPriceController = TextEditingController();
+  final recievedPriceController = TextEditingController();
+  final remainingPriceController = TextEditingController();
 
-  final count = 0.obs;
 
-
-
-  void increment() => count.value++;
+  //form key
+  final formKey = GlobalKey<FormState>();
 }

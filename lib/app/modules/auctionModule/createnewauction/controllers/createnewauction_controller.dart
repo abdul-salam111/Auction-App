@@ -3,8 +3,8 @@ import 'package:auction_app/app/modules/modules.dart';
 
 class CreatenewauctionController extends GetxController {
   var isLoading = false.obs;
-  final auctionnameController = TextEditingController().obs;
-  final auctionaddressController = TextEditingController().obs;
+  final auctionnameController = TextEditingController();
+  final auctionaddressController = TextEditingController();
   var status = false.obs;
 
   AuctionsRepository auctionsRepository = AuctionsRepository();
@@ -23,12 +23,13 @@ class CreatenewauctionController extends GetxController {
           message: "New Auction has been successfully added.",
           onConfirm: () {
             Get.back();
+            Get.back();
           },
           icon: "assets/icons/done.png",
         ));
         await auctioncontroller.getAllAuctions();
-        auctionaddressController.value.clear();
-        auctionnameController.value.clear();
+        auctionaddressController.clear();
+        auctionnameController.clear();
       }
       isLoading.value = false;
     } catch (e) {
@@ -41,7 +42,7 @@ class CreatenewauctionController extends GetxController {
   void onClose() {
     // TODO: implement onClose
     super.onClose();
-    auctionnameController.value.dispose();
-    auctionaddressController.value.dispose();
+    auctionnameController.dispose();
+    auctionaddressController.dispose();
   }
 }

@@ -27,7 +27,7 @@ class EditcontainersView extends GetView<EditcontainersController> {
                           Expanded(
                               child: CustomTextFormField(
                             isrequired: true,
-                            controller: controller.shipperNameController.value,
+                            controller: controller.shipperNameController,
                             validator: (value) => Validator.validateRequired(
                                 value,
                                 fieldName: "Shipper"),
@@ -43,8 +43,7 @@ class EditcontainersView extends GetView<EditcontainersController> {
                               child: CustomTextFormField(
                             isrequired: true,
                             fillColor: AppColors.halfwhiteColor,
-                            controller:
-                                controller.shippingCompanyController.value,
+                            controller: controller.shippingCompanyController,
                             validator: (value) => Validator.validateRequired(
                                 value,
                                 fieldName: "Shipping Company"),
@@ -60,7 +59,7 @@ class EditcontainersView extends GetView<EditcontainersController> {
                       CustomTextFormField(
                         isrequired: true,
                         fillColor: AppColors.halfwhiteColor,
-                        controller: controller.bLNumberController.value,
+                        controller: controller.bLNumberController,
                         validator: (value) => Validator.validateRequired(value,
                             fieldName: "BL Number"),
                         borderColor: Color(0xffEBEEF0),
@@ -73,7 +72,7 @@ class EditcontainersView extends GetView<EditcontainersController> {
                       CustomTextFormField(
                         isrequired: true,
                         fillColor: AppColors.halfwhiteColor,
-                        controller: controller.containerNumberController.value,
+                        controller: controller.containerNumberController,
                         validator: (value) => Validator.validateRequired(value,
                             fieldName: "Container Number"),
                         borderColor: Color(0xffEBEEF0),
@@ -86,7 +85,7 @@ class EditcontainersView extends GetView<EditcontainersController> {
                       CustomTextFormField(
                         isrequired: false,
                         fillColor: AppColors.halfwhiteColor,
-                        controller: controller.descriptionController.value,
+                        controller: controller.descriptionController,
                         validator: (value) => Validator.validateRequired(value,
                             fieldName: "Description"),
                         borderColor: Color(0xffEBEEF0),
@@ -259,7 +258,7 @@ class EditcontainersView extends GetView<EditcontainersController> {
                           Expanded(
                               child: CustomTextFormField(
                             isrequired: true,
-                            controller: controller.sealNumberController.value,
+                            controller: controller.sealNumberController,
                             validator: (value) => Validator.validateRequired(
                                 value,
                                 fieldName: "Seal Number"),
@@ -275,7 +274,7 @@ class EditcontainersView extends GetView<EditcontainersController> {
                               child: CustomTextFormField(
                             isrequired: true,
                             fillColor: AppColors.halfwhiteColor,
-                            controller: controller.grossWeightController.value,
+                            controller: controller.grossWeightController,
                             validator: (value) => Validator.validateRequired(
                                 value,
                                 fieldName: "Gross Weight"),
@@ -293,8 +292,7 @@ class EditcontainersView extends GetView<EditcontainersController> {
                           Expanded(
                               child: CustomTextFormField(
                             isrequired: true,
-                            controller:
-                                controller.portOfLoadingController.value,
+                            controller: controller.portOfLoadingController,
                             validator: (value) => Validator.validateRequired(
                                 value,
                                 fieldName: "Port Of Landing"),
@@ -310,8 +308,7 @@ class EditcontainersView extends GetView<EditcontainersController> {
                               child: CustomTextFormField(
                             isrequired: true,
                             fillColor: AppColors.halfwhiteColor,
-                            controller:
-                                controller.portOfDischargeController.value,
+                            controller: controller.portOfDischargeController,
                             validator: (value) => Validator.validateRequired(
                                 value,
                                 fieldName: "Port Of Discharge"),
@@ -329,8 +326,7 @@ class EditcontainersView extends GetView<EditcontainersController> {
                           Expanded(
                               child: CustomTextFormField(
                             isrequired: true,
-                            controller:
-                                controller.numberOfUnitsController.value,
+                            controller: controller.numberOfUnitsController,
                             validator: (value) => Validator.validateRequired(
                                 value,
                                 fieldName: "Number of Units"),

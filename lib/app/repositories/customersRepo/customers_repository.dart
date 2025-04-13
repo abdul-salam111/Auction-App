@@ -47,6 +47,7 @@ class CustomersRepository {
         message: "New Customer has been successfully added.",
         onConfirm: () {
           Get.back();
+          Get.back();
         },
         icon: "assets/icons/contact.png",
       ));
@@ -74,9 +75,8 @@ class CustomersRepository {
   Future<bool> updateCustomerByAdmin(
       UpdateCustomerByAdmin updateCustomerByAdmin, String customerId) async {
     try {
-       await apiService.updateApi(
+      await apiService.updateApi(
           "${AppUrls.updateCustomerByAdmin}$customerId", updateCustomerByAdmin);
-      
 
       return true;
     } catch (e) {

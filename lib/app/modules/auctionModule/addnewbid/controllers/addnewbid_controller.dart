@@ -2,8 +2,8 @@ import 'package:auction_app/app/data/getModels/get_customer_details_by_contact.d
 import 'package:auction_app/app/modules/modules.dart';
 
 class AddnewbidController extends GetxController {
-  final fullNameController = TextEditingController().obs;
-  final phoneController = TextEditingController().obs;
+  final fullNameController = TextEditingController();
+  final phoneController = TextEditingController();
   late String customerType;
   var filteredContacts = <Contacts>[].obs;
   var selectedPhoneNumber = "".obs;
@@ -85,19 +85,21 @@ class AddnewbidController extends GetxController {
         vehicles: auctions.value.vehicles,
         auctionId: auctionId,
       ));
-      await vehiclereportscontroller.getAllBidsofAuctions();
+
       if (istrue) {
         Get.dialog(CustomSuccessDialog(
           title: 'Bids Added',
           message: "New Bids has been successfully added.",
           onConfirm: () {
             Get.back();
+            Get.back();
           },
           icon: "assets/icons/done.png",
         ));
+        await vehiclereportscontroller.getAllBidsofAuctions();
         isBidsUploading.value = false;
-        phoneController.value.clear();
-        fullNameController.value.clear();
+        phoneController.clear();
+        fullNameController.clear();
         selectedPhoneNumber.value = "";
         auctions.value = AddNewBid();
       }
@@ -111,7 +113,7 @@ class AddnewbidController extends GetxController {
   void onClose() {
     // TODO: implement onClose
     super.onClose();
-    fullNameController.value.dispose();
-    phoneController.value.dispose();
+    fullNameController.dispose();
+    phoneController.dispose();
   }
 }

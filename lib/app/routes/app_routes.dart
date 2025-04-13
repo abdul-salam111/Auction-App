@@ -29,6 +29,7 @@ abstract class Routes {
   static const ADDITEMS_TOCONTAINER_SCANNER =
       _Paths.ADDITEMS_TOCONTAINER_SCANNER;
   static const CREATENEWAUCTION = _Paths.CREATENEWAUCTION;
+  static const EDITPRODUCTTDETAILS = _Paths.EDITPRODUCTTDETAILS;
 }
 
 abstract class _Paths {
@@ -58,4 +59,5 @@ abstract class _Paths {
   static const UPDATECUSTOMER = '/updatecustomer';
   static const ADDITEMS_TOCONTAINER_SCANNER = '/additems-tocontainer-scanner';
   static const CREATENEWAUCTION = '/createnewauction';
+  static const EDITPRODUCTTDETAILS = '/editproducttdetails';
 }

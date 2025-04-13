@@ -28,7 +28,7 @@ class CreatenewauctionView extends GetView<CreatenewauctionController> {
                       crossAxisAlignment: crossAxisStart,
                       children: [
                         CustomTextFormField(
-                          controller: controller.auctionnameController.value,
+                          controller: controller.auctionnameController,
                           validator: Validator.validateRequired,
                           fillColor: AppColors.halfwhiteColor,
                           borderColor: Color(0xffEBEEF0),
@@ -39,7 +39,7 @@ class CreatenewauctionView extends GetView<CreatenewauctionController> {
                         ),
                         15.heightBox,
                         CustomTextFormField(
-                          controller: controller.auctionaddressController.value,
+                          controller: controller.auctionaddressController,
                           fillColor: AppColors.halfwhiteColor,
                           borderColor: Color(0xffEBEEF0),
                           label: "Auction Address",

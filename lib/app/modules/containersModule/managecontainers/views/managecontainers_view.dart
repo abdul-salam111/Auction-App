@@ -5,6 +5,7 @@ class ManagecontainersView extends GetView<ManagecontainersController> {
   const ManagecontainersView({super.key});
   @override
   Widget build(BuildContext context) {
+    Get.put(ManagecontainersController());
     return GestureDetector(
       onTap: () {
         controller.searchFocusNode.unfocus();

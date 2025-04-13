@@ -49,7 +49,7 @@ class AddnewbidView extends GetView<AddnewbidController> {
                       hintText: controller.selectedPhoneNumber.value == ""
                           ? "Select Contact"
                           : controller.selectedPhoneNumber.value,
-                      controller: controller.phoneController.value,
+                      controller: controller.phoneController,
                     ),
                   ),
                   20.heightBox,
@@ -68,7 +68,7 @@ class AddnewbidView extends GetView<AddnewbidController> {
                           ? "Full Name"
                           : controller.selectedCustomerDetails.value.data!.name
                               .toString(),
-                      controller: controller.fullNameController.value,
+                      controller: controller.fullNameController,
                     ),
                   ),
                   20.heightBox,

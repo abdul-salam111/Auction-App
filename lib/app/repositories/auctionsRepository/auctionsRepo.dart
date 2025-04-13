@@ -127,7 +127,6 @@ class AuctionsRepository {
 
   Future<bool> sendCustomerDataToCart(AddNewBid addnewbid) async {
     final url = Uri.parse(AppUrls.addnewBids);
-    print(addnewbid.toJson()); // Debugging log
 
     var request = http.MultipartRequest('POST', url);
 

@@ -6,16 +6,16 @@ import 'package:image_picker/image_picker.dart';
 
 class AddcontainerController extends GetxController {
   final formKey = GlobalKey<FormState>();
-  final shipperNameController = TextEditingController().obs;
-  final shippingCompanyController = TextEditingController().obs;
-  final bLNumberController = TextEditingController().obs;
-  final containerNumberController = TextEditingController().obs;
-  final sealNumberController = TextEditingController().obs;
-  final grossWeightController = TextEditingController().obs;
-  final portOfLoadingController = TextEditingController().obs;
-  final portOfDischargeController = TextEditingController().obs;
-  final numberOfUnitsController = TextEditingController().obs;
-  final descriptionController = TextEditingController().obs;
+  final shipperNameController = TextEditingController();
+  final shippingCompanyController = TextEditingController();
+  final bLNumberController = TextEditingController();
+  final containerNumberController = TextEditingController();
+  final sealNumberController = TextEditingController();
+  final grossWeightController = TextEditingController();
+  final portOfLoadingController = TextEditingController();
+  final portOfDischargeController = TextEditingController();
+  final numberOfUnitsController = TextEditingController();
+  final descriptionController = TextEditingController();
 
   var selectedStatus = "Arrived".obs;
 
@@ -74,24 +74,23 @@ class AddcontainerController extends GetxController {
           message: "New Container has been successfully added.",
           onConfirm: () {
             Get.back();
+            Get.back();
           },
           icon: "assets/icons/done.png",
         ));
         isContainerUploading.value = false;
 
         await manageContinercontroller.getAllContainers();
-        shipperNameController.value.clear();
-        shippingCompanyController.value.clear();
-        bLNumberController.value.clear();
-        containerNumberController.value.clear();
-        sealNumberController.value.clear();
-        grossWeightController.value.clear();
-        portOfDischargeController.value.clear();
-        portOfLoadingController.value.clear();
-        descriptionController.value.clear();
-
+        shipperNameController.clear();
+        shippingCompanyController.clear();
+        bLNumberController.clear();
+        containerNumberController.clear();
+        sealNumberController.clear();
+        grossWeightController.clear();
+        portOfDischargeController.clear();
+        portOfLoadingController.clear();
+        descriptionController.clear();
         selectedImages.clear();
-
         itemsInContainer.value.parts?.clear();
         itemsInContainer.value.vehicles?.clear();
       }
@@ -104,17 +103,17 @@ class AddcontainerController extends GetxController {
 
   @override
   void onClose() {
-    shipperNameController.value.dispose();
-    shippingCompanyController.value.dispose();
-    bLNumberController.value.dispose();
-    containerNumberController.value.dispose();
-    sealNumberController.value.dispose();
-    grossWeightController.value.dispose();
-    portOfLoadingController.value.dispose();
-    portOfDischargeController.value.dispose();
-    numberOfUnitsController.value.dispose();
-    descriptionController.value.dispose();
-    formFocusNode.dispose();
+    shipperNameController.dispose();
+    shippingCompanyController.dispose();
+    bLNumberController.dispose();
+    containerNumberController.dispose();
+    sealNumberController.dispose();
+    grossWeightController.dispose();
+    portOfLoadingController.dispose();
+    portOfDischargeController.dispose();
+    numberOfUnitsController.dispose();
+    descriptionController.dispose();
+
     selectedImages.clear();
     itemsInContainer.value.parts?.clear();
     itemsInContainer.value.vehicles?.clear();

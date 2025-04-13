@@ -10,16 +10,16 @@ import '../../../../data/postModels/add_new_container.dart';
 import '../../../modules.dart';
 
 class EditcontainersController extends GetxController {
-  final shipperNameController = TextEditingController().obs;
-  final shippingCompanyController = TextEditingController().obs;
-  final bLNumberController = TextEditingController().obs;
-  final containerNumberController = TextEditingController().obs;
-  final sealNumberController = TextEditingController().obs;
-  final grossWeightController = TextEditingController().obs;
-  final portOfLoadingController = TextEditingController().obs;
-  final portOfDischargeController = TextEditingController().obs;
-  final numberOfUnitsController = TextEditingController().obs;
-  final descriptionController = TextEditingController().obs;
+  final shipperNameController = TextEditingController();
+  final shippingCompanyController = TextEditingController();
+  final bLNumberController = TextEditingController();
+  final containerNumberController = TextEditingController();
+  final sealNumberController = TextEditingController();
+  final grossWeightController = TextEditingController();
+  final portOfLoadingController = TextEditingController();
+  final portOfDischargeController = TextEditingController();
+  final numberOfUnitsController = TextEditingController();
+  final descriptionController = TextEditingController();
   late String containerId;
 
   // Data list to store all auction items
@@ -47,31 +47,31 @@ class EditcontainersController extends GetxController {
     super.onInit();
     containerId = Get.arguments;
     await getSingleContainerDetails();
-    shipperNameController.value.text =
+    shipperNameController.text =
         containerDetails.value.data!.first.container!.shipper.toString();
-    shippingCompanyController.value.text = containerDetails
+    shippingCompanyController.text = containerDetails
         .value.data!.first.container!.shippingCompany
         .toString();
-    shippingCompanyController.value.text = containerDetails
+    shippingCompanyController.text = containerDetails
         .value.data!.first.container!.shippingCompany
         .toString();
-    bLNumberController.value.text =
+    bLNumberController.text =
         containerDetails.value.data!.first.container!.blNumber.toString();
-    containerNumberController.value.text = containerDetails
+    containerNumberController.text = containerDetails
         .value.data!.first.container!.containerNumber
         .toString();
-    sealNumberController.value.text =
+    sealNumberController.text =
         containerDetails.value.data!.first.container!.sealNumber.toString();
-    grossWeightController.value.text =
+    grossWeightController.text =
         containerDetails.value.data!.first.container!.grossWeight.toString();
-    portOfLoadingController.value.text =
+    portOfLoadingController.text =
         containerDetails.value.data!.first.container!.portOfLoading.toString();
-    portOfDischargeController.value.text = containerDetails
+    portOfDischargeController.text = containerDetails
         .value.data!.first.container!.portOfDischarge
         .toString();
-    numberOfUnitsController.value.text =
+    numberOfUnitsController.text =
         containerDetails.value.data!.first.container!.noOfUnits.toString();
-    descriptionController.value.text =
+    descriptionController.text =
         containerDetails.value.data!.first.container!.description.toString();
     selectedStatus.value =
         containerDetails.value.data!.first.container!.status.toString();
@@ -314,11 +314,11 @@ class EditcontainersController extends GetxController {
           message: "New Container has been successfully updated.",
           onConfirm: () {
             Get.back();
+            Get.back();
           },
           icon: "assets/icons/done.png",
         ));
         isContainerUploading.value = false;
-
         await manageContinercontroller.getAllContainers();
       }
 
@@ -332,15 +332,15 @@ class EditcontainersController extends GetxController {
   @override
   onClose() {
     super.onClose();
-    shipperNameController.value.dispose();
-    shippingCompanyController.value.dispose();
-    bLNumberController.value.dispose();
-    containerNumberController.value.dispose();
-    sealNumberController.value.dispose();
-    grossWeightController.value.dispose();
-    portOfLoadingController.value.dispose();
-    portOfDischargeController.value.dispose();
-    numberOfUnitsController.value.dispose();
-    descriptionController.value.dispose();
+    shipperNameController.dispose();
+    shippingCompanyController.dispose();
+    bLNumberController.dispose();
+    containerNumberController.dispose();
+    sealNumberController.dispose();
+    grossWeightController.dispose();
+    portOfLoadingController.dispose();
+    portOfDischargeController.dispose();
+    numberOfUnitsController.dispose();
+    descriptionController.dispose();
   }
 }

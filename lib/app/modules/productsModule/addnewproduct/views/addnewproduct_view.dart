@@ -1,18 +1,11 @@
-import 'package:flutter/material.dart';
-
-import 'package:get/get.dart';
-
-import '../controllers/addnewproduct_controller.dart';
+import 'package:auction_app/app/modules/modules.dart';
 
 class AddnewproductView extends GetView<AddnewproductController> {
   const AddnewproductView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('AddnewproductView'),
-        centerTitle: true,
-      ),
+      appBar: CustomAppBar(),
       body: const Center(
         child: Text(
           'AddnewproductView is working',

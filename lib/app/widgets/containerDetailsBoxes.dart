@@ -17,7 +17,7 @@ class DetailsBoxes extends StatelessWidget {
       children: [
         Expanded(
           child: Container(
-            padding: padding14,
+            padding: padding10,
             decoration: BoxDecoration(
                 border: Border.all(color: AppColors.borderColor),
                 borderRadius: BorderRadius.circular(10)),
@@ -33,16 +33,16 @@ class DetailsBoxes extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: context.bodyMedium!
-                      .copyWith(fontWeight: FontWeight.bold, fontSize: 14),
+                      .copyWith(fontWeight: FontWeight.bold, fontSize: 12),
                 ),
               ],
             ),
           ),
         ),
-        10.widthBox,
+        5.widthBox,
         Expanded(
           child: Container(
-            padding: padding14,
+            padding: padding10,
             decoration: BoxDecoration(
                 border: Border.all(color: AppColors.borderColor),
                 borderRadius: BorderRadius.circular(10)),
@@ -58,7 +58,7 @@ class DetailsBoxes extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: context.bodyMedium!
-                      .copyWith(fontWeight: FontWeight.bold, fontSize: 14),
+                      .copyWith(fontWeight: FontWeight.bold, fontSize: 12),
                 ),
               ],
             ),

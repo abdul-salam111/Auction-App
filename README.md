@@ -1,17 +1,20 @@
-# auction_app
+**Big Star**
 
-A new Flutter project.
+Big Star – Vehicle Inventory Management App
+Flutter | Android & iOS
 
-## Getting Started
+Big Star is a cross-platform mobile application developed using Flutter, designed to help a Dubai-based client manage their vehicle import business. The client imports vehicles from Japan, and the app streamlines their entire inventory and sales process.
 
-This project is a starting point for a Flutter application.
+Key Features:
 
-A few resources to get you started if this is your first Flutter project:
+Add and manage containers with imported vehicles
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Assign and update products (vehicles) within containers
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-# Auction-App
+Track delivery status in real-time
+
+Update and manage sales records
+
+Instantly view vehicle details by scanning QR codes on vehicles
+
+This solution improved operational efficiency, reduced manual work, and provided a seamless experience for managing inventory on the go.

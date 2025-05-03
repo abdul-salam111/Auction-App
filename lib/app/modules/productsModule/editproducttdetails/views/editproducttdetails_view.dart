@@ -1,5 +1,4 @@
 import 'package:auction_app/app/modules/modules.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../controllers/editproducttdetails_controller.dart';
 

@@ -3,6 +3,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class ProductdetailsView extends GetView<ProductdetailsController> {
   ProductdetailsView({super.key});
+  @override
   final controller = Get.put(ProductdetailsController());
   final PageController pageController = PageController();
   @override

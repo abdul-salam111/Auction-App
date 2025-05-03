@@ -39,6 +39,8 @@ class AppUrls {
   static const String fetchCustomerDetailsByPhoneNumber =
       "${baseApiKey}customer_contact_detail";
   static const String addnewBids = "${baseApiKey}customer_data_to_cart";
+  static const String admin_signupuid_bidadding_customer =
+      "${baseApiKey}user/admin_signupuid_bidadding_customer";
 
   static const String addnewContainer = "${baseApiKey}container";
   static const String fetchSingleContainerDetails = "${baseApiKey}containers/";

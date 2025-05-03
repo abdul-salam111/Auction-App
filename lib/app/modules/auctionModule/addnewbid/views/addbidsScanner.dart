@@ -1,5 +1,6 @@
 // import 'package:auction_app/app/res/colors.dart';
 
+import 'package:auction_app/app/data/postModels/addauctionwithNewCustomer.dart';
 import 'package:auction_app/app/data/postModels/auction_bid.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -85,6 +86,7 @@ class _AddBidsScannerState extends State<AddBidsScanner>
       body: Stack(
         children: [
           // Full-screen camera preview
+
           MobileScanner(
             controller: cameraController,
             onDetect: (barcodeCapture) {
@@ -95,32 +97,63 @@ class _AddBidsScannerState extends State<AddBidsScanner>
                     this.barcode = barcode.rawValue;
                   });
 
-                  if (barcode.rawValue!.contains("Chasis No")) {
+                  if (barcode.rawValue!.contains("chassis_number")) {
                     addnewbidcontroller.selectedItemType.value = "Vehicles";
 
                     try {
                       // Check if the raw value is JSON
-                      final jsonString = barcode.rawValue!.trim();
+                      final rawString = barcode.rawValue!.trim();
 
-                      final chasisno = RegExp(r'Chasis No:\s*([\w/]+)')
-                          .firstMatch(jsonString);
+                      final makeMatch =
+                          RegExp(r'make:\s*([^,]+)', caseSensitive: false)
+                              .firstMatch(rawString);
+                      final modelMatch =
+                          RegExp(r'model:\s*([^,]+)', caseSensitive: false)
+                              .firstMatch(rawString);
 
-                      final vehiclename =
-                          RegExp(r'Name:\s*([\w\s]+)').firstMatch(jsonString);
+                      final chassisMatch = RegExp(
+                              r'chassis_number:\s*([^\s,]+)',
+                              caseSensitive: false)
+                          .firstMatch(rawString);
 
-                      final extractedChasisNumber =
-                          chasisno?.group(1) ?? "Unknown";
+                      final name =
+                          RegExp(r'name:\s*([\w\s]+)', caseSensitive: false)
+                              .firstMatch(rawString);
+
+                      final extractedMake =
+                          makeMatch?.group(1)?.trim() ?? "Unknown";
+                      final extractedModel =
+                          modelMatch?.group(1)?.trim() ?? "Unknown";
+
+                      final extractedChassis =
+                          chassisMatch?.group(1)?.trim() ?? "Unknown";
 
                       final extractedVehicleName =
-                          vehiclename?.group(1) ?? "Unknown";
-                      addnewbidcontroller.auctions.value.vehicles ??= [];
-                      addnewbidcontroller.auctions.value.vehicles!.add(
-                        Vehicle(
-                          chassisNumber: extractedChasisNumber,
-                          name: extractedVehicleName,
-                          bidAmount: "",
-                        ),
-                      );
+                          name?.group(1)?.trim() ?? "Unknown";
+
+                      if (addnewbidcontroller.customerType == "1") {
+                        addnewbidcontroller.auctions.value.vehicles ??= [];
+                        addnewbidcontroller.auctions.value.vehicles!.add(
+                          Vehicle(
+                            chassisNumber: extractedChassis,
+                            name: extractedVehicleName,
+                            bidAmount: "",
+                          ),
+                        );
+                      } else {
+                        addnewbidcontroller.customerVehicles.isNotEmpty
+                            ? addnewbidcontroller.customerVehicles
+                            : addnewbidcontroller.customerVehicles = [];
+                        addnewbidcontroller.customerVehicles.add(
+                          CustomerVehicle(
+                            chassisNumber: extractedChassis,
+                            name: extractedVehicleName,
+                            make: extractedMake,
+                            model: extractedModel,
+                            bidAmount: "",
+                          ),
+                        );
+                      }
 
                       addnewbidcontroller.update();
                     } catch (e) {
@@ -136,19 +169,40 @@ class _AddBidsScannerState extends State<AddBidsScanner>
                       // Check if the raw value is JSON
                       final jsonString = barcode.rawValue!.trim();
 
-                      final id = RegExp(r'ID:\s*(\d+)').firstMatch(jsonString);
+                      final id = RegExp(r'id:\s*(\d+)', caseSensitive: false)
+                          .firstMatch(jsonString);
                       final name =
-                          RegExp(r'Name:\s*([\w\s]+)').firstMatch(jsonString);
-
+                          RegExp(r'name:\s*([\w\s]+)', caseSensitive: false)
+                              .firstMatch(jsonString);
+                      final modelMatch =
+                          RegExp(r'model:\s*([^,]+)', caseSensitive: false)
+                              .firstMatch(jsonString);
                       final extractedId = id?.group(1) ?? "Unknown";
                       final extractedName = name?.group(1) ?? "Unknown";
-                      addnewbidcontroller.auctions.value.parts ??= [];
-                      addnewbidcontroller.auctions.value.parts!.add(
-                        Part(
+                      final extractedModel =
+                          modelMatch?.group(1)?.trim() ?? "Unknown";
+                      if (addnewbidcontroller.customerType == "1") {
+                        addnewbidcontroller.auctions.value.parts ??= [];
+                        addnewbidcontroller.auctions.value.parts!.add(
+                          Part(
                             id: extractedId,
                             name: extractedName,
-                            bidAmount: ""),
-                      );
+                            bidAmount: "",
+                          ),
+                        );
+                      } else {
+                        addnewbidcontroller.customerParts.isNotEmpty
+                            ? addnewbidcontroller.customerParts
+                            : addnewbidcontroller.customerParts = [];
+                        addnewbidcontroller.customerParts.add(
+                          CustomerPart(
+                            id: extractedId,
+                            name: extractedName,
+                            model: extractedModel,
+                            bidAmount: "",
+                          ),
+                        );
+                      }
                     } catch (e) {
                       print("JSON Parsing Error: $e");
                     }

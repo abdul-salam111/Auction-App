@@ -1,9 +1,14 @@
 import 'package:auction_app/app/data/getModels/get_customer_details_by_contact.dart';
+import 'package:auction_app/app/data/postModels/addauctionwithNewCustomer.dart';
 import 'package:auction_app/app/modules/modules.dart';
 
 class AddnewbidController extends GetxController {
   final fullNameController = TextEditingController();
   final phoneController = TextEditingController();
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
+  var status = true.obs;
+
   late String customerType;
   var filteredContacts = <Contacts>[].obs;
   var selectedPhoneNumber = "".obs;
@@ -73,19 +78,15 @@ class AddnewbidController extends GetxController {
   Future addnewBids() async {
     try {
       isBidsUploading.value = true;
-
       final istrue = await auctionrepo.sendCustomerDataToCart(AddNewBid(
-        name: customerType == "1"
-            ? selectedCustomerDetails.value.data!.name
-            : fullNameController.value.text.trim(),
-        contact: customerType == "1"
-            ? selectedPhoneNumber.value
-            : phoneController.value.text.trim(),
+        name: selectedCustomerDetails.value.data!.name,
+        contact: selectedPhoneNumber.value,
         parts: auctions.value.parts,
         vehicles: auctions.value.vehicles,
         auctionId: auctionId,
       ));
-
+      await vehiclereportscontroller.getAllBidsofAuctions();
+      vehiclereportscontroller.paginateData();
       if (istrue) {
         Get.dialog(CustomSuccessDialog(
           title: 'Bids Added',
@@ -96,7 +97,48 @@ class AddnewbidController extends GetxController {
           },
           icon: "assets/icons/done.png",
         ));
-        await vehiclereportscontroller.getAllBidsofAuctions();
+
+        isBidsUploading.value = false;
+        phoneController.clear();
+        fullNameController.clear();
+        selectedPhoneNumber.value = "";
+        auctions.value = AddNewBid();
+      }
+      isBidsUploading.value = false;
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  List<CustomerVehicle> customerVehicles = <CustomerVehicle>[].obs;
+  List<CustomerPart> customerParts = <CustomerPart>[].obs;
+
+  Future addBidWithNewCustomerRegistration() async {
+    try {
+      isBidsUploading.value = true;
+      final istrue =
+          await auctionrepo.addnewBidsToAuctionWithNewCustomerRegisteration(
+        firstName: firstNameController.value.text,
+        lastName: lastNameController.value.text,
+        parts: customerParts,
+        vehicles: customerVehicles,
+        auctionId: auctionId,
+        phoneNumber: phoneController.text,
+        status: status.value == true ? "1" : "0",
+      );
+      await vehiclereportscontroller.getAllBidsofAuctions();
+      vehiclereportscontroller.paginateData();
+      if (istrue) {
+        Get.dialog(CustomSuccessDialog(
+          title: 'Bids Added',
+          message: "New Bids has been successfully added.",
+          onConfirm: () {
+            Get.back();
+            Get.back();
+          },
+          icon: "assets/icons/done.png",
+        ));
+
         isBidsUploading.value = false;
         phoneController.clear();
         fullNameController.clear();

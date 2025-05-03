@@ -141,7 +141,7 @@ class AuctionreportVehiclesView
                       Text('Name',
                               style: context.displayLarge!
                                   .copyWith(fontWeight: FontWeight.bold))
-                          .marginOnly(left: context.width * 0.07),
+                          .marginOnly(left: context.width * 0.08),
                       Text('Vehicle Name',
                               style: context.displayLarge!
                                   .copyWith(fontWeight: FontWeight.bold))
@@ -194,9 +194,12 @@ class AuctionreportVehiclesView
                                                 item.phoneNumber.toString(),
                                                 style: context.displayLarge)),
                                         Expanded(
-                                            flex: 2,
-                                            child: Text(item.name.toString(),
-                                                style: context.displayLarge)),
+                                          flex: 2,
+                                          child: Text(item.name.toString(),
+                                                  style: context.displayLarge)
+                                              .marginOnly(
+                                                  left: context.width * 0.02),
+                                        ),
                                         Expanded(
                                             flex: 2,
                                             child: Padding(

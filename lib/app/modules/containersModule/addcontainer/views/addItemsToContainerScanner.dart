@@ -103,16 +103,21 @@ class _AddItemsToContainerScannerState extends State<AddItemsToContainerScanner>
                       final rawString = barcode.rawValue!.trim();
 
                       final makeMatch =
-                          RegExp(r'make:\s*([^,]+)').firstMatch(rawString);
-                      final modelMatch =
-                          RegExp(r'model:\s*([^,]+)').firstMatch(rawString);
-                      final yearMatch =
-                          RegExp(r'year:\s*(\d{4})').firstMatch(rawString);
-                      final chassisMatch =
-                          RegExp(r'chassis_number:\s*([^\s,]+)')
+                          RegExp(r'make:\s*([^,]+)', caseSensitive: false)
                               .firstMatch(rawString);
+                      final modelMatch =
+                          RegExp(r'model:\s*([^,]+)', caseSensitive: false)
+                              .firstMatch(rawString);
+                      final yearMatch =
+                          RegExp(r'year:\s*(\d{4})', caseSensitive: false)
+                              .firstMatch(rawString);
+                      final chassisMatch = RegExp(
+                              r'chassis_number:\s*([^\s,]+)',
+                              caseSensitive: false)
+                          .firstMatch(rawString);
                       final colorMatch =
-                          RegExp(r'color:\s*([^,]+)').firstMatch(rawString);
+                          RegExp(r'color:\s*([^,]+)', caseSensitive: false)
+                              .firstMatch(rawString);
 
                       final extractedMake =
                           makeMatch?.group(1)?.trim() ?? "Unknown";

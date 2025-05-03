@@ -14,6 +14,7 @@ class ManagecustomerController extends GetxController {
 
   // Paginated data for the current page
   final paginatedData = <UserData>[].obs;
+  
   // Filtered data based on status
   final filteredData = <UserData>[].obs;
 

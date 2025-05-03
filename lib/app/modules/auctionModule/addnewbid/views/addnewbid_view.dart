@@ -17,15 +17,16 @@ class AddnewbidView extends GetView<AddnewbidController> {
             children: [
               20.heightBox,
               BackTitleRow(title: "Add New Bid"),
-              HeightBox(context.height * 0.02),
+              controller.customerType != "0"
+                  ? HeightBox(context.height * 0.02)
+                  : SizedBox.shrink(),
               Form(
                 child: Column(crossAxisAlignment: crossAxisStart, children: [
-                  Obx(
-                    () => CustomTextFormField(
-                      readonly: controller.customerType == "0" ? false : true,
-                      onTap: controller.customerType == "0"
-                          ? () {}
-                          : () {
+                  controller.customerType != "0"
+                      ? Obx(
+                          () => CustomTextFormField(
+                            readonly: true,
+                            onTap: () {
                               showModalBottomSheet(
                                 context: context,
                                 shape: RoundedRectangleBorder(
@@ -38,39 +39,135 @@ class AddnewbidView extends GetView<AddnewbidController> {
                                 },
                               );
                             },
-                      labelfontSize: 14,
-                      keyboardType: TextInputType.number,
-                      prefixIcon: Iconsax.call,
-                      labelColor: Colors.black,
-                      label: "Select Contact",
-                      isrequired: true,
-                      fillColor: AppColors.halfwhiteColor,
-                      borderColor: AppColors.borderColor,
-                      hintText: controller.selectedPhoneNumber.value == ""
-                          ? "Select Contact"
-                          : controller.selectedPhoneNumber.value,
-                      controller: controller.phoneController,
-                    ),
-                  ),
+                            labelfontSize: 14,
+                            keyboardType: TextInputType.number,
+                            prefixIcon: Iconsax.call,
+                            labelColor: Colors.black,
+                            label: "Select Contact",
+                            isrequired: true,
+                            fillColor: AppColors.halfwhiteColor,
+                            borderColor: AppColors.borderColor,
+                            hintText: controller.selectedPhoneNumber.value == ""
+                                ? "Contact Number"
+                                : controller.selectedPhoneNumber.value,
+                            controller: controller.phoneController,
+                          ),
+                        )
+                      : SizedBox(),
                   20.heightBox,
-                  Obx(
-                    () => CustomTextFormField(
-                      labelfontSize: 14,
-                      prefixIcon: Iconsax.user,
-                      labelColor: Colors.black,
-                      label: "Full Name",
-                      readonly: controller.customerType == "0" ? false : true,
-                      isrequired: true,
-                      fillColor: AppColors.halfwhiteColor,
-                      borderColor: AppColors.borderColor,
-                      hintText: controller.selectedCustomerDetails.value.data ==
-                              null
-                          ? "Full Name"
-                          : controller.selectedCustomerDetails.value.data!.name
-                              .toString(),
-                      controller: controller.fullNameController,
-                    ),
-                  ),
+                  controller.customerType == "1"
+                      ? Obx(
+                          () => CustomTextFormField(
+                            labelfontSize: 14,
+                            prefixIcon: Iconsax.user,
+                            labelColor: Colors.black,
+                            label: "Full Name",
+                            readonly:
+                                controller.customerType == "0" ? false : true,
+                            isrequired: true,
+                            fillColor: AppColors.halfwhiteColor,
+                            borderColor: AppColors.borderColor,
+                            hintText:
+                                controller.selectedCustomerDetails.value.data ==
+                                        null
+                                    ? "Full Name"
+                                    : controller.selectedCustomerDetails.value
+                                        .data!.name
+                                        .toString(),
+                            controller: controller.fullNameController,
+                          ),
+                        )
+                      : CustomTextFormField(
+                          labelfontSize: 14,
+                          prefixIcon: Iconsax.user,
+                          labelColor: Colors.black,
+                          label: "First Name",
+                          isrequired: true,
+                          fillColor: AppColors.halfwhiteColor,
+                          borderColor: AppColors.borderColor,
+                          hintText: "First Name",
+                          controller: controller.firstNameController,
+                        ),
+                  controller.customerType != "1"
+                      ? 20.heightBox
+                      : SizedBox.shrink(),
+                  controller.customerType != "1"
+                      ? CustomTextFormField(
+                          labelfontSize: 14,
+                          prefixIcon: Iconsax.user,
+                          labelColor: Colors.black,
+                          label: "Last Name",
+                          isrequired: true,
+                          fillColor: AppColors.halfwhiteColor,
+                          borderColor: AppColors.borderColor,
+                          hintText: "Last Name",
+                          controller: controller.lastNameController,
+                        )
+                      : SizedBox.shrink(),
+                  controller.customerType != "1"
+                      ? 20.heightBox
+                      : SizedBox.shrink(),
+                  controller.customerType != "1"
+                      ? CustomTextFormField(
+                          keyboardType: TextInputType.number,
+                          labelfontSize: 14,
+                          prefixIcon: Iconsax.call,
+                          labelColor: Colors.black,
+                          label: "Contact Number",
+                          isrequired: true,
+                          fillColor: AppColors.halfwhiteColor,
+                          borderColor: AppColors.borderColor,
+                          hintText: "Contact Number",
+                          controller: controller.phoneController,
+                        )
+                      : SizedBox.shrink(),
+                  controller.customerType != "1"
+                      ? 20.heightBox
+                      : SizedBox.shrink(),
+                  controller.customerType != "1"
+                      ? Text(
+                          "Status",
+                          style: context.bodyMedium!.copyWith(
+                              color: Color(0xff1C1C1C),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14),
+                        )
+                      : SizedBox.shrink(),
+                  5.heightBox,
+                  controller.customerType != "1"
+                      ? Row(
+                          children: [
+                            Obx(
+                              () => Text(
+                                controller.status.value
+                                    ? "Active"
+                                    : "In Active",
+                                style: context.bodySmall!
+                                    .copyWith(fontWeight: FontWeight.bold),
+                              ).px8(),
+                            ),
+                            Spacer(),
+                            Transform.scale(
+                                scale: 0.6,
+                                child: Obx(
+                                  () => Switch(
+                                    value: controller.status.value,
+                                    onChanged: (val) {
+                                      controller.status.value = val;
+                                    },
+                                    activeColor: AppColors.secondaryColor,
+                                  ),
+                                ))
+                          ],
+                        )
+                          .box
+                          .border(color: Color(0xffEBEEF0))
+                          .roundedSM
+                          .color(
+                            AppColors.halfwhiteColor,
+                          )
+                          .make()
+                      : SizedBox.shrink(),
                   20.heightBox,
                   Text(
                     "Scan QR Code",
@@ -378,6 +475,252 @@ class AddnewbidView extends GetView<AddnewbidController> {
                           )
                         : SizedBox.shrink();
                   }),
+                  controller.customerType != "1"
+                      ? GetBuilder<AddnewbidController>(builder: (cont) {
+                          return cont.customerParts.isNotEmpty
+                              ? Column(
+                                  children: List.generate(
+                                      cont.customerParts.length, (index) {
+                                    var items = cont.customerParts[index];
+                                    return Padding(
+                                      padding: symmetricVertical10,
+                                      child: Column(
+                                        crossAxisAlignment: crossAxisStart,
+                                        children: [
+                                          Text(
+                                            "ID",
+                                            style: context.bodySmall!.copyWith(
+                                                color: AppColors
+                                                    .textColorSecondary),
+                                          ),
+                                          5.heightBox,
+                                          CustomTextFormField(
+                                            controller: TextEditingController(
+                                                text: items.id ?? ""),
+                                            readonly: true,
+                                            labelfontSize: 14,
+                                            fillColor: AppColors.halfwhiteColor,
+                                            borderColor: AppColors.borderColor,
+                                            hintText: "Id",
+                                          ),
+                                          10.heightBox,
+                                          Text(
+                                            "Name",
+                                            style: context.bodySmall!.copyWith(
+                                                color: AppColors
+                                                    .textColorSecondary),
+                                          ),
+                                          CustomTextFormField(
+                                            controller: TextEditingController(
+                                                text: items.name ?? ""),
+                                            readonly: true,
+                                            labelfontSize: 14,
+                                            fillColor: AppColors.halfwhiteColor,
+                                            borderColor: AppColors.borderColor,
+                                            hintText: "Name",
+                                          ),
+                                          10.heightBox,
+                                          Text(
+                                            "Model",
+                                            style: context.bodySmall!.copyWith(
+                                                color: AppColors
+                                                    .textColorSecondary),
+                                          ),
+                                          CustomTextFormField(
+                                            controller: TextEditingController(
+                                                text: items.model ?? ""),
+                                            readonly: true,
+                                            labelfontSize: 14,
+                                            fillColor: AppColors.halfwhiteColor,
+                                            borderColor: AppColors.borderColor,
+                                            hintText: "Model",
+                                          ),
+                                          10.heightBox,
+                                          Text(
+                                            "Bid Amount",
+                                            style: context.bodySmall!.copyWith(
+                                                color: AppColors
+                                                    .textColorSecondary),
+                                          ),
+                                          CustomTextFormField(
+                                            controller: TextEditingController(
+                                                text: items.bidAmount ?? ""),
+                                            labelfontSize: 14,
+                                            fillColor: AppColors.halfwhiteColor,
+                                            borderColor: AppColors.borderColor,
+                                            hintText: "Bid Amount",
+                                            onChanged: (value) {
+                                              items.bidAmount = value;
+                                            },
+                                          ),
+                                          10.heightBox,
+                                          Align(
+                                            alignment: bottomRight,
+                                            child: Container(
+                                              width: 30,
+                                              height: 30,
+                                              decoration: BoxDecoration(
+                                                color: Colors.red,
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                              ),
+                                              child: Icon(Iconsax.trash,
+                                                  size: 15,
+                                                  color: Colors.white),
+                                            ).onTap(() {
+                                              cont.customerParts.removeWhere(
+                                                  (e) => e.id == items.id);
+
+                                              cont.update();
+                                            }),
+                                          ),
+                                          10.heightBox,
+                                        ],
+                                      )
+                                          .box
+                                          .p8
+                                          .border(color: AppColors.borderColor)
+                                          .rounded
+                                          .make(),
+                                    );
+                                  }),
+                                )
+                              : SizedBox.shrink();
+                        })
+                      : SizedBox.shrink(),
+                  controller.customerType != "1"
+                      ? GetBuilder<AddnewbidController>(builder: (cont) {
+                          return cont.customerVehicles.isNotEmpty
+                              ? Column(
+                                  children: List.generate(
+                                      cont.customerVehicles.length, (index) {
+                                    var items = cont.customerVehicles[index];
+
+                                    return Padding(
+                                      padding: symmetricVertical10,
+                                      child: Column(
+                                        crossAxisAlignment: crossAxisStart,
+                                        children: [
+                                          Text(
+                                            "Chasis Number",
+                                            style: context.bodySmall!.copyWith(
+                                                color: AppColors
+                                                    .textColorSecondary),
+                                          ),
+                                          5.heightBox,
+                                          CustomTextFormField(
+                                            controller: TextEditingController(
+                                                text:
+                                                    items.chassisNumber ?? ""),
+                                            readonly: true,
+                                            labelfontSize: 14,
+                                            fillColor: AppColors.halfwhiteColor,
+                                            borderColor: AppColors.borderColor,
+                                            hintText: "Chasis Number",
+                                          ),
+                                          10.heightBox,
+                                          Text(
+                                            "Name",
+                                            style: context.bodySmall!.copyWith(
+                                                color: AppColors
+                                                    .textColorSecondary),
+                                          ),
+                                          CustomTextFormField(
+                                            controller: TextEditingController(
+                                                text: items.name ?? ""),
+                                            readonly: true,
+                                            labelfontSize: 14,
+                                            fillColor: AppColors.halfwhiteColor,
+                                            borderColor: AppColors.borderColor,
+                                            hintText: "Name",
+                                          ),
+                                          10.heightBox,
+                                          Text(
+                                            "Make",
+                                            style: context.bodySmall!.copyWith(
+                                                color: AppColors
+                                                    .textColorSecondary),
+                                          ),
+                                          CustomTextFormField(
+                                            controller: TextEditingController(
+                                                text: items.make ?? ""),
+                                            readonly: true,
+                                            labelfontSize: 14,
+                                            fillColor: AppColors.halfwhiteColor,
+                                            borderColor: AppColors.borderColor,
+                                            hintText: "Make",
+                                          ),
+                                          10.heightBox,
+                                          Text(
+                                            "Model",
+                                            style: context.bodySmall!.copyWith(
+                                                color: AppColors
+                                                    .textColorSecondary),
+                                          ),
+                                          CustomTextFormField(
+                                            controller: TextEditingController(
+                                                text: items.model ?? ""),
+                                            readonly: true,
+                                            labelfontSize: 14,
+                                            fillColor: AppColors.halfwhiteColor,
+                                            borderColor: AppColors.borderColor,
+                                            hintText: "Model",
+                                          ),
+                                          10.heightBox,
+                                          Text(
+                                            "Bid Amount",
+                                            style: context.bodySmall!.copyWith(
+                                                color: AppColors
+                                                    .textColorSecondary),
+                                          ),
+                                          CustomTextFormField(
+                                            controller: TextEditingController(
+                                                text: items.bidAmount ?? ""),
+                                            labelfontSize: 14,
+                                            fillColor: AppColors.halfwhiteColor,
+                                            borderColor: AppColors.borderColor,
+                                            hintText: "Bid Amount",
+                                            onChanged: (value) {
+                                              items.bidAmount = value;
+                                            },
+                                          ),
+                                          10.heightBox,
+                                          Align(
+                                            alignment: bottomRight,
+                                            child: Container(
+                                              width: 30,
+                                              height: 30,
+                                              decoration: BoxDecoration(
+                                                color: Colors.red,
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                              ),
+                                              child: Icon(Iconsax.trash,
+                                                  size: 15,
+                                                  color: Colors.white),
+                                            ).onTap(() {
+                                              cont.customerVehicles.removeWhere(
+                                                  (e) =>
+                                                      e.chassisNumber ==
+                                                      items.chassisNumber);
+
+                                              cont.update();
+                                            }),
+                                          ),
+                                          10.heightBox,
+                                        ],
+                                      )
+                                          .box
+                                          .p8
+                                          .border(color: AppColors.borderColor)
+                                          .rounded
+                                          .make(),
+                                    );
+                                  }),
+                                )
+                              : SizedBox.shrink();
+                        })
+                      : SizedBox.shrink(),
                   20.heightBox,
                   Center(
                     child: Obx(
@@ -387,21 +730,29 @@ class AddnewbidView extends GetView<AddnewbidController> {
                         radius: 10,
                         text: "Add New Bid",
                         onPressed: () async {
-                          if ((controller.selectedPhoneNumber.value != "" ||
-                                  controller
-                                      .phoneController.value.text.isNotEmpty) &&
-                              (controller.selectedCustomerDetails.value.data !=
-                                      null ||
-                                  controller.fullNameController.value.text
-                                      .isNotEmpty) &&
-                              (controller.auctions.value.parts != null ||
-                                  controller.auctions.value.vehicles != null)) {
-                            await controller.addnewBids();
+                          if (controller.customerType == "1") {
+                            if ((controller.selectedPhoneNumber.value !=
+                                        "" ||
+                                    controller.phoneController.value.text
+                                        .isNotEmpty) &&
+                                (controller.selectedCustomerDetails.value
+                                            .data !=
+                                        null ||
+                                    controller.fullNameController.value.text
+                                        .isNotEmpty) &&
+                                (controller.auctions.value.parts != null ||
+                                    controller.auctions.value.vehicles !=
+                                        null)) {
+                              await controller.addnewBids();
+                            } else {
+                              Utils.anotherFlushbar(
+                                  context,
+                                  "Please fill all the required fields",
+                                  Colors.red);
+                            }
                           } else {
-                            Utils.anotherFlushbar(
-                                context,
-                                "Please fill all the required fields",
-                                Colors.red);
+                            await controller
+                                .addBidWithNewCustomerRegistration();
                           }
                         },
                       ).w64(context),
@@ -421,7 +772,7 @@ class AddnewbidView extends GetView<AddnewbidController> {
 class ContactSelectionBottomSheet extends StatelessWidget {
   final AddnewbidController controller = Get.find();
 
-   ContactSelectionBottomSheet({super.key});
+  ContactSelectionBottomSheet({super.key});
 
   @override
   Widget build(BuildContext context) {

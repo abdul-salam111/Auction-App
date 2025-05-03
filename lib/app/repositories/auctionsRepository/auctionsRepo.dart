@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:auction_app/app/data/getModels/get_customer_details_by_contact.dart';
+import 'package:auction_app/app/data/postModels/addauctionwithNewCustomer.dart';
 import 'package:auction_app/app/data/postModels/bid_won_by_customer.dart';
 import 'package:auction_app/app/data/postModels/create_new_auction.dart';
 import 'package:auction_app/app/modules/modules.dart';
@@ -124,7 +125,6 @@ class AuctionsRepository {
   }
 
   //add new bids to the auction
-
   Future<bool> sendCustomerDataToCart(AddNewBid addnewbid) async {
     final url = Uri.parse(AppUrls.addnewBids);
 
@@ -144,6 +144,52 @@ class AuctionsRepository {
     try {
       final streamedResponse = await request.send();
       final response = await http.Response.fromStream(streamedResponse);
+
+      if (response.statusCode == 200) {
+        print('Success: ${response.body}');
+        return true;
+      } else {
+        print('Failed: ${response.statusCode} - ${response.body}');
+        return false;
+      }
+    } catch (e) {
+      Utils.anotherFlushbar(Get.context!, e.toString(), Colors.red);
+      return false;
+    }
+  }
+
+  Future<bool> addnewBidsToAuctionWithNewCustomerRegisteration({
+    required String firstName,
+    required String lastName,
+    required String phoneNumber,
+    required String status,
+    required String auctionId,
+    List<CustomerVehicle>? vehicles,
+    List<CustomerPart>? parts,
+  }) async {
+    final url = Uri.parse(AppUrls.admin_signupuid_bidadding_customer);
+
+    // Build JSON body
+    final body = {
+      "firstname": firstName,
+      "lastname": lastName,
+      "auction_id": auctionId,
+      "phonenumber": phoneNumber,
+      "role": "customer",
+      "status": status,
+      "address": "",
+      "email": "",
+      "emirates_id": "",
+      "vehicles": (vehicles ?? []).map((v) => v.toJson()).toList(),
+      "parts": (parts ?? []).map((p) => p.toJson()).toList(),
+    };
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(body),
+      );
 
       if (response.statusCode == 200) {
         print('Success: ${response.body}');

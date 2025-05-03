@@ -49,6 +49,7 @@ class AuctionreportVehiclesController extends GetxController {
           await auctionrepo.getAllBidsofAnAuction(auctionId: auctionId);
       data.value = response.bids!.map((e) => e).toList();
       filteredData.assignAll(data);
+      
       isLoading.value = false;
     } catch (e) {
       print('Error fetching customers: $e');

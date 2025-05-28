@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 class AppUrls {
   static const String baseApiKey = "https://api.bigstaruae.com/v1/";
 
@@ -44,4 +46,13 @@ class AppUrls {
 
   static const String addnewContainer = "${baseApiKey}container";
   static const String fetchSingleContainerDetails = "${baseApiKey}containers/";
+  static const String updateStatus = "${baseApiKey}vehicles/update-status";
+  static const String addNewVehicle = "${baseApiKey}user/vehicles";
+  static const String addNewTruck = "${baseApiKey}user/trucks";
+  static const String addNewPart = "${baseApiKey}user/spareparts";
+  static const String deleteCar = "${baseApiKey}vehicle/";
+  static const String deleteTruck = "${baseApiKey}truck/";
+  static const String updateCar = "${baseApiKey}user/vehicles/";
+  static const String updateTruck = "${baseApiKey}user/trucks/";
+  static const String updatePart = "${baseApiKey}user/spareparts/";
 }

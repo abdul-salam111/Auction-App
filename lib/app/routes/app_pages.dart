@@ -5,11 +5,14 @@ import '../modules/containersModule/additemsTocontainerScanner/views/additems_to
 import '../modules/customerModule/managecustomer/views/managecustomer_view.dart';
 import '../modules/customerModule/updatecustomer/bindings/updatecustomer_binding.dart';
 import '../modules/customerModule/updatecustomer/views/updatecustomer_view.dart';
+import '../modules/modules.dart';
+import '../modules/productsModule/addnewsparepart/bindings/addnewsparepart_binding.dart';
+import '../modules/productsModule/addnewsparepart/views/addnewsparepart_view.dart';
+import '../modules/productsModule/addnewvehicle/bindings/addnewvehicle_binding.dart';
+import '../modules/productsModule/addnewvehicle/views/addnewvehicle_view.dart';
 import '../modules/productsModule/editproducttdetails/bindings/editproducttdetails_binding.dart';
 import '../modules/productsModule/editproducttdetails/views/editproducttdetails_view.dart';
-import '../modules/modules.dart';
-import '../modules/testview/bindings/testview_binding.dart';
-import '../modules/testview/views/testview_view.dart';
+
 
 part 'app_routes.dart';
 
@@ -100,7 +103,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.ADDNEWPRODUCT,
-      page: () => const AddnewproductView(),
+      page: () => const AddNewTruck(),
       binding: AddnewproductBinding(),
     ),
     GetPage(
@@ -117,11 +120,6 @@ class AppPages {
       name: _Paths.EDITCONTAINERS,
       page: () => const EditcontainersView(),
       binding: EditcontainersBinding(),
-    ),
-    GetPage(
-      name: _Paths.TESTVIEW,
-      page: () => const TestviewView(),
-      binding: TestviewBinding(),
     ),
     GetPage(
       name: _Paths.UPDATECUSTOMER,
@@ -143,5 +141,16 @@ class AppPages {
       page: () => const EditproducttdetailsView(),
       binding: EditproducttdetailsBinding(),
     ),
+    GetPage(
+      name: _Paths.ADDNEWSPAREPART,
+      page: () => const AddnewsparepartView(),
+      binding: AddnewsparepartBinding(),
+    ),
+    GetPage(
+      name: _Paths.ADDNEWVEHICLE,
+      page: () => const AddnewvehicleView(),
+      binding: AddnewvehicleBinding(),
+    ),
+   
   ];
 }

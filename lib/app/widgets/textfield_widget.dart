@@ -147,7 +147,9 @@ class CustomTextFormField extends StatelessWidget {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  contentPadding: const EdgeInsets.only(left: 10),
+                  contentPadding: maxLines > 1
+                      ? EdgeInsets.all(10)
+                      : EdgeInsets.only(left: 10),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide(

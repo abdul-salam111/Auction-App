@@ -30,6 +30,10 @@ abstract class Routes {
       _Paths.ADDITEMS_TOCONTAINER_SCANNER;
   static const CREATENEWAUCTION = _Paths.CREATENEWAUCTION;
   static const EDITPRODUCTTDETAILS = _Paths.EDITPRODUCTTDETAILS;
+  static const ADDNEWSPAREPART = _Paths.ADDNEWSPAREPART;
+  static const ADDNEWVEHICLE = _Paths.ADDNEWVEHICLE;
+  static const PARTDETAILS = _Paths.PARTDETAILS;
+  static const EDIT_PART_DETAILS = _Paths.EDIT_PART_DETAILS;
 }
 
 abstract class _Paths {
@@ -60,4 +64,8 @@ abstract class _Paths {
   static const ADDITEMS_TOCONTAINER_SCANNER = '/additems-tocontainer-scanner';
   static const CREATENEWAUCTION = '/createnewauction';
   static const EDITPRODUCTTDETAILS = '/editproducttdetails';
+  static const ADDNEWSPAREPART = '/addnewsparepart';
+  static const ADDNEWVEHICLE = '/addnewvehicle';
+  static const PARTDETAILS = '/partdetails';
+  static const EDIT_PART_DETAILS = '/edit-part-details';
 }

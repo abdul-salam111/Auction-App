@@ -1,4 +1,7 @@
 import 'package:auction_app/app/modules/modules.dart';
+import 'package:auction_app/app/modules/productsModule/addnewsparepart/views/addnewsparepart_view.dart';
+
+import '../../../productsModule/scan_product_details.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
@@ -26,7 +29,124 @@ class HomeView extends GetView<HomeController> {
                             onTap: () {
                               index == 0
                                   ? Get.toNamed(Routes.AUCTIONS)
-                                  : Get.toNamed(Routes.ADDNEWPRODUCT);
+                                  : Get.defaultDialog(
+                                      title: 'Choose an Option',
+                                      content: Column(
+                                        children: [
+                                          10.heightBox,
+                                          SizedBox(
+                                            width: context.width * 0.6,
+                                            child: ElevatedButton.icon(
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor:
+                                                    AppColors.primaryColor,
+                                              ),
+                                              onPressed: () {
+                                                Get.back();
+                                                Get.toNamed(
+                                                    Routes.ADDNEWVEHICLE);
+                                              },
+                                              icon: Icon(
+                                                Icons.add,
+                                                color: AppColors.textColorWhite,
+                                              ),
+                                              label: Text(
+                                                'Add New Vehicle',
+                                                style: context.bodyMedium!
+                                                    .copyWith(
+                                                        color: AppColors
+                                                            .backgroundColor),
+                                              ),
+                                            ),
+                                          ),
+                                          10.heightBox,
+                                          SizedBox(
+                                            width: context.width * 0.6,
+                                            child: OutlinedButton.icon(
+                                              style: OutlinedButton.styleFrom(
+                                                side: BorderSide(
+                                                    color:
+                                                        AppColors.primaryColor),
+                                              ),
+                                              onPressed: () {
+                                                Get.back();
+
+                                                Get.to(() => AddNewTruck());
+                                              },
+                                              icon: Icon(
+                                                Icons.add,
+                                                color: AppColors.primaryColor,
+                                              ),
+                                              label: Text(
+                                                'Add New Truck',
+                                                style: context.bodyMedium!
+                                                    .copyWith(
+                                                        color: AppColors
+                                                            .primaryColor),
+                                              ),
+                                            ),
+                                          ),
+                                          10.heightBox,
+                                          SizedBox(
+                                            width: context.width * 0.6,
+                                            child: ElevatedButton.icon(
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor:
+                                                    AppColors.primaryColor,
+                                              ),
+                                              onPressed: () {
+                                                Get.back(); // Close the dialog
+                                                // Navigate to add product screen
+                                                Get.to(() =>
+                                                    AddnewsparepartView());
+                                              },
+                                              icon: Icon(
+                                                Icons.add,
+                                                color: AppColors.textColorWhite,
+                                              ),
+                                              label: Text(
+                                                'Add Spare Part',
+                                                style: context.bodyMedium!
+                                                    .copyWith(
+                                                        color: AppColors
+                                                            .backgroundColor),
+                                              ),
+                                            ),
+                                          ),
+                                          10.heightBox,
+                                          SizedBox(
+                                            width: context.width * 0.6,
+                                            child: OutlinedButton.icon(
+                                              style: OutlinedButton.styleFrom(
+                                                side: BorderSide(
+                                                    color:
+                                                        AppColors.primaryColor),
+                                              ),
+                                              onPressed: () {
+                                                Get.back();
+
+                                                Get.to(
+                                                    () => ScanProductDetails(),
+                                                    arguments: false);
+                                              },
+                                              icon: Icon(
+                                                Icons.qr_code_scanner,
+                                                color: AppColors.primaryColor,
+                                              ),
+                                              label: Text(
+                                                'Scan Product',
+                                                style: context.bodyMedium!
+                                                    .copyWith(
+                                                        color: AppColors
+                                                            .primaryColor),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(height: 10),
+                                        ],
+                                      ),
+                                      radius: 10,
+                                    );
                             },
                             child: Container(
                               height: context.height * 0.15,
@@ -68,7 +188,8 @@ class HomeView extends GetView<HomeController> {
                                   ? Get.toNamed(Routes.MANAGECUSTOMER)
                                   : index == 1
                                       ? Get.toNamed(Routes.MANAGECONTAINERS)
-                                      : Get.toNamed(Routes.ADDNEWPRODUCT);
+                                      : Get.to(() => ScanProductDetails(),
+                                          arguments: true);
                             },
                             child: Container(
                               height: context.height * 0.15,

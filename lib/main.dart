@@ -1,3 +1,4 @@
+
 import 'package:flutter/services.dart';
 import 'app/modules/modules.dart';
 
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
       initialRoute: Routes.SPLASH,
       theme: AppThemes.lightTheme,
       getPages: AppPages.routes,
+   
     );
   }
 }

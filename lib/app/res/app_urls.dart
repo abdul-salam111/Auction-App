@@ -52,6 +52,7 @@ class AppUrls {
   static const String addNewPart = "${baseApiKey}user/spareparts";
   static const String deleteCar = "${baseApiKey}vehicle/";
   static const String deleteTruck = "${baseApiKey}truck/";
+  static const String deleteSparePart = "${baseApiKey}sparepart/";
   static const String updateCar = "${baseApiKey}user/vehicles/";
   static const String updateTruck = "${baseApiKey}user/trucks/";
   static const String updatePart = "${baseApiKey}user/spareparts/";

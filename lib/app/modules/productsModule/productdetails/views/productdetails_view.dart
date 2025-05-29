@@ -55,6 +55,20 @@ class ProductdetailsView extends GetView<ProductdetailsController> {
                                       },
                                       icon: "assets/icons/delete.png"),
                                 );
+                              } else {
+                                Get.dialog(
+                                  DeletePopup(
+                                      title: "Delete SparePart",
+                                      message:
+                                          "Are you sure you want to delete this SparePart?",
+                                      onConfirm: () async {
+                                        await controller.deleteSparePart(
+                                            controller.itemId.value);
+                                        Get.back();
+                                        Get.back();
+                                      },
+                                      icon: "assets/icons/delete.png"),
+                                );
                               }
                             },
                             child: Container(

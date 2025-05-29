@@ -37,12 +37,12 @@ class AddnewsparepartController extends GetxController {
     selectedImages.removeAt(index);
   }
 
-  var selectedCategory = "Half Cut".obs;
-  var selectedMake = "Toyota".obs;
-  var selectedModel = "Mark X".obs;
-  var selectedCondition = "Used".obs;
-  var selectedStatus = "Intransit".obs;
-  var featuredProduct = "Yes".obs;
+  var selectedCategory = "".obs;
+  var selectedMake = "".obs;
+  var selectedModel = "".obs;
+  var selectedCondition = "".obs;
+  var selectedStatus = "".obs;
+  var featuredProduct = "".obs;
 
   ProductsRepository productsRepository = ProductsRepository();
   var isloading = false.obs;

@@ -134,6 +134,7 @@ class EditproducttdetailsController extends GetxController {
           selectedImages,
           itemIdController.text,
           UpdateVehicleModel(
+            status: selectedStatus.value,
             chassisNumber: chassisnumberController.text,
             name: itemnameController.text,
             color: colorController.text,
@@ -172,6 +173,7 @@ class EditproducttdetailsController extends GetxController {
           selectedImages,
           itemIdController.text,
           UpdatePartModel(
+            status: selectedStatus.value,
             category: categoryController.text.toString(),
             partId: itemIdController.text.toString(),
             name: itemnameController.text,

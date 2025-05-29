@@ -528,6 +528,15 @@ class ProductsRepository {
     }
   }
 
+  Future<bool> deleteSparePart(String id) async {
+    try {
+      await network.deleteApi("${AppUrls.deleteSparePart}$id", {});
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<bool> updateCar(
       List<File> images, String id, UpdateVehicleModel updatevehicle) async {
     try {

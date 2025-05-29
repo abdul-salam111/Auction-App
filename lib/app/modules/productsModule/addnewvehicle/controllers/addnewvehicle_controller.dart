@@ -50,18 +50,18 @@ class AddnewvehicleController extends GetxController {
     selectedImages.removeAt(index);
   }
 
-  var selectedBodyType = "Station Wagon".obs;
-  var selectedMake = "Toyota".obs;
-  var selectedModel = "Probox".obs;
-  var selectedCondition = "Used".obs;
-  var selectedTransmission = "AT".obs;
-  var selectedFuelType = "Petrol".obs;
-  var selectedDriverType = "4WD".obs;
-  var selectedDoors = "1".obs;
-  var selectedStatus = "Intransit".obs;
-  var selectedSteer = "Left Hand".obs;
-  var selectedScore = "R".obs;
-  var featureProduct = "Yes".obs;
+  var selectedBodyType = "".obs;
+  var selectedMake = "".obs;
+  var selectedModel = "".obs;
+  var selectedCondition = "".obs;
+  var selectedTransmission = "".obs;
+  var selectedFuelType = "".obs;
+  var selectedDriverType = "".obs;
+  var selectedDoors = "".obs;
+  var selectedStatus = "".obs;
+  var selectedSteer = "".obs;
+  var selectedScore = "".obs;
+  var featureProduct = "".obs;
 
   final formKey = GlobalKey<FormState>();
 
@@ -312,7 +312,7 @@ class AddnewvehicleController extends GetxController {
           await productsRepository.uploadVehicle(newVehicle, selectedImages);
 
       isAddingProduct.value = false;
-  
+
       if (isAdded) {
         Get.dialog(
           CustomSuccessDialog(

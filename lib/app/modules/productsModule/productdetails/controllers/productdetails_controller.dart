@@ -66,4 +66,12 @@ class ProductdetailsController extends GetxController {
       print(e);
     }
   }
+
+  Future deleteSparePart(String id) async {
+    try {
+      await productsRepository.deleteSparePart(id);
+    } catch (e) {
+      print(e);
+    }
+  }
 }

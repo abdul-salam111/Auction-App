@@ -205,22 +205,18 @@ class EditproducttdetailsView extends GetView<EditproducttdetailsController> {
                               ),
                             ),
                             10.widthBox,
-                            (controller.classificationType == "vehicle" ||
-                                    controller.classificationType == "truck")
-                                ? Expanded(
-                                    child: CustomTextFormField(
-                                      labelfontSize: 14,
-                                      keyboardType: TextInputType.number,
-                                      label: "Chassis Number",
-                                      hintText: "83838fchj",
-                                      fillColor: AppColors.halfwhiteColor,
-                                      controller:
-                                          controller.chassisnumberController,
-                                      labelColor: AppColors.textColorPrimary,
-                                      borderColor: AppColors.borderColor,
-                                    ),
-                                  )
-                                : SizedBox.shrink(),
+                            Expanded(
+                              child: CustomTextFormField(
+                                labelfontSize: 14,
+                                keyboardType: TextInputType.number,
+                                label: "Chassis Number",
+                                hintText: "83838fchj",
+                                fillColor: AppColors.halfwhiteColor,
+                                controller: controller.chassisnumberController,
+                                labelColor: AppColors.textColorPrimary,
+                                borderColor: AppColors.borderColor,
+                              ),
+                            )
                           ],
                         ),
                         10.heightBox,
@@ -229,7 +225,6 @@ class EditproducttdetailsView extends GetView<EditproducttdetailsController> {
                             Expanded(
                               child: CustomTextFormField(
                                 labelfontSize: 14,
-                                
                                 label: "Item Name",
                                 hintText: "Tayota Corolla",
                                 fillColor: AppColors.halfwhiteColor,
@@ -239,21 +234,17 @@ class EditproducttdetailsView extends GetView<EditproducttdetailsController> {
                               ),
                             ),
                             10.widthBox,
-                            (controller.classificationType == "vehicle" ||
-                                    controller.classificationType == "truck")
-                                ? Expanded(
-                                    child: CustomTextFormField(
-                                      labelfontSize: 14,
-                   
-                                      label: "Color",
-                                      hintText: "Red",
-                                      fillColor: AppColors.halfwhiteColor,
-                                      controller: controller.colorController,
-                                      labelColor: AppColors.textColorPrimary,
-                                      borderColor: AppColors.borderColor,
-                                    ),
-                                  )
-                                : SizedBox.shrink(),
+                            Expanded(
+                              child: CustomTextFormField(
+                                labelfontSize: 14,
+                                label: "Color",
+                                hintText: "Red",
+                                fillColor: AppColors.halfwhiteColor,
+                                controller: controller.colorController,
+                                labelColor: AppColors.textColorPrimary,
+                                borderColor: AppColors.borderColor,
+                              ),
+                            )
                           ],
                         ),
                         10.heightBox,
@@ -274,7 +265,6 @@ class EditproducttdetailsView extends GetView<EditproducttdetailsController> {
                             Expanded(
                               child: CustomTextFormField(
                                 labelfontSize: 14,
-                              
                                 label: "Model",
                                 hintText: "tayota",
                                 fillColor: AppColors.halfwhiteColor,
@@ -284,64 +274,54 @@ class EditproducttdetailsView extends GetView<EditproducttdetailsController> {
                               ),
                             ),
                             10.widthBox,
-                            (controller.classificationType == "vehicle" ||
-                                    controller.classificationType == "truck")
-                                ? Expanded(
-                                    child: CustomTextFormField(
-                                      labelfontSize: 14,
-                                      keyboardType: TextInputType.number,
-                                      label: "Year",
-                                      hintText: "2025",
-                                      fillColor: AppColors.halfwhiteColor,
-                                      controller: controller.yearController,
-                                      labelColor: AppColors.textColorPrimary,
-                                      borderColor: AppColors.borderColor,
-                                    ),
-                                  )
-                                : SizedBox.shrink(),
+                            Expanded(
+                              child: CustomTextFormField(
+                                labelfontSize: 14,
+                                keyboardType: TextInputType.number,
+                                label: "Year",
+                                hintText: "2025",
+                                fillColor: AppColors.halfwhiteColor,
+                                controller: controller.yearController,
+                                labelColor: AppColors.textColorPrimary,
+                                borderColor: AppColors.borderColor,
+                              ),
+                            )
                           ],
                         ),
-                        10.heightBox,
-                        (controller.classificationType == "vehicle" ||
-                                controller.classificationType == "truck")
-                            ? Row(
-                                children: [
-                                  Expanded(
-                                    child: CustomTextFormField(
-                                      labelfontSize: 14,
-                  
-                                      label: "Fuel Type",
-                                      hintText: "Petrol",
-                                      fillColor: AppColors.halfwhiteColor,
-                                      controller: controller.fueltypeController,
-                                      labelColor: AppColors.textColorPrimary,
-                                      borderColor: AppColors.borderColor,
-                                    ),
-                                  ),
-                                  10.widthBox,
-                                  Expanded(
-                                    child: CustomTextFormField(
-                                      labelfontSize: 14,
-                 
-                                      label: "Tranmission",
-                                      hintText: "Automatic",
-                                      fillColor: AppColors.halfwhiteColor,
-                                      controller:
-                                          controller.transmissionController,
-                                      labelColor: AppColors.textColorPrimary,
-                                      borderColor: AppColors.borderColor,
-                                    ),
-                                  ),
-                                ],
-                              )
-                            : SizedBox.shrink(),
                         10.heightBox,
                         Row(
                           children: [
                             Expanded(
                               child: CustomTextFormField(
                                 labelfontSize: 14,
-                    
+                                label: "Fuel Type",
+                                hintText: "Petrol",
+                                fillColor: AppColors.halfwhiteColor,
+                                controller: controller.fueltypeController,
+                                labelColor: AppColors.textColorPrimary,
+                                borderColor: AppColors.borderColor,
+                              ),
+                            ),
+                            10.widthBox,
+                            Expanded(
+                              child: CustomTextFormField(
+                                labelfontSize: 14,
+                                label: "Tranmission",
+                                hintText: "Automatic",
+                                fillColor: AppColors.halfwhiteColor,
+                                controller: controller.transmissionController,
+                                labelColor: AppColors.textColorPrimary,
+                                borderColor: AppColors.borderColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                        10.heightBox,
+                        Row(
+                          children: [
+                            Expanded(
+                              child: CustomTextFormField(
+                                labelfontSize: 14,
                                 label: "Condition",
                                 hintText: "Used",
                                 fillColor: AppColors.halfwhiteColor,
@@ -364,43 +344,35 @@ class EditproducttdetailsView extends GetView<EditproducttdetailsController> {
                               ),
                             ),
                             10.widthBox,
-                            (controller.classificationType == "vehicle" ||
-                                    controller.classificationType == "truck")
-                                ? Expanded(
-                                    child: CustomTextFormField(
-                                      labelfontSize: 14,
-                                    
-                                      label: "Mileage",
-                                      hintText: "20,00 Km",
-                                      fillColor: AppColors.halfwhiteColor,
-                                      controller: controller.mileageController,
-                                      labelColor: AppColors.textColorPrimary,
-                                      borderColor: AppColors.borderColor,
-                                    ),
-                                  )
-                                : SizedBox.shrink(),
+                            Expanded(
+                              child: CustomTextFormField(
+                                labelfontSize: 14,
+                                label: "Mileage",
+                                hintText: "20,00 Km",
+                                fillColor: AppColors.halfwhiteColor,
+                                controller: controller.mileageController,
+                                labelColor: AppColors.textColorPrimary,
+                                borderColor: AppColors.borderColor,
+                              ),
+                            )
                           ],
                         ),
                         10.heightBox,
-                        (controller.classificationType == "vehicle" ||
-                                controller.classificationType == "truck")
-                            ? Row(
-                                children: [
-                                  Expanded(
-                                    child: CustomTextFormField(
-                                      labelfontSize: 14,
-                                      label: "Description",
-                                      hintText: "This is a test description",
-                                      fillColor: AppColors.halfwhiteColor,
-                                      controller:
-                                          controller.descriptionController,
-                                      labelColor: AppColors.textColorPrimary,
-                                      borderColor: AppColors.borderColor,
-                                    ),
-                                  ),
-                                ],
-                              )
-                            : SizedBox.shrink(),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: CustomTextFormField(
+                                labelfontSize: 14,
+                                label: "Description",
+                                hintText: "This is a test description",
+                                fillColor: AppColors.halfwhiteColor,
+                                controller: controller.descriptionController,
+                                labelColor: AppColors.textColorPrimary,
+                                borderColor: AppColors.borderColor,
+                              ),
+                            ),
+                          ],
+                        ),
                         10.heightBox,
                         HeightBox(context.height * 0.05),
                         Obx(

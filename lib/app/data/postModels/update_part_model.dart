@@ -18,6 +18,7 @@ class UpdatePartModel {
   String? condition;
   String? price;
   String? category;
+  String? status;
 
   UpdatePartModel({
     this.name,
@@ -27,18 +28,19 @@ class UpdatePartModel {
     this.price,
     this.category,
     this.partId,
+    this.status,
   });
 
   factory UpdatePartModel.fromJson(Map<String, dynamic> json) =>
       UpdatePartModel(
-        name: json["name"],
-        make: json["make"],
-        model: json["model"],
-        condition: json["condition"],
-        price: json["price"],
-        category: json["category"],
-        partId: json["part_id"],
-      );
+          name: json["name"],
+          make: json["make"],
+          model: json["model"],
+          condition: json["condition"],
+          price: json["price"],
+          category: json["category"],
+          partId: json["part_id"],
+          status: json['status']);
 
   Map<String, dynamic> toJson() => {
         "name": name,
@@ -48,5 +50,6 @@ class UpdatePartModel {
         "price": price,
         "part_id": partId,
         "category": category,
+        'status': status,
       };
 }

@@ -24,6 +24,10 @@ class UpdateVehicleModel {
   String? mileage;
   String? description;
   String? status;
+  String? recievedAmount;
+  String? balanceAmount;
+  String? soldPrice;
+  String? totalPrice;
 
   UpdateVehicleModel({
     this.chassisNumber,
@@ -39,6 +43,10 @@ class UpdateVehicleModel {
     this.mileage,
     this.description,
     this.status,
+    this.balanceAmount,
+    this.recievedAmount,
+    this.soldPrice,
+    this.totalPrice,
   });
 
   factory UpdateVehicleModel.fromJson(Map<String, dynamic> json) =>
@@ -55,6 +63,10 @@ class UpdateVehicleModel {
           price: json["price"],
           mileage: json["mileage"],
           description: json["description"],
+          recievedAmount: json['recieved_amount'],
+          soldPrice: json['sold_price'],
+          balanceAmount: json['balance_amount'],
+          totalPrice: json['total_price'],
           status: json['status']);
 
   Map<String, dynamic> toJson() => {
@@ -71,5 +83,9 @@ class UpdateVehicleModel {
         "mileage": mileage,
         "description": description,
         "status": status,
+        "recieved_amount": recievedAmount,
+        "sold_price": soldPrice,
+        "total_price": totalPrice,
+        "balance_amount": balanceAmount,
       };
 }

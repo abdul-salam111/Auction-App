@@ -92,7 +92,6 @@ class NetworkServicesApi implements BaseApiServices {
             body: jsonEncode(data),
           )
           .timeout(const Duration(seconds: 10));
-
       apiResponse = handleError(response);
     } on SocketException {
       throw NoInternetException('No internet connection.');

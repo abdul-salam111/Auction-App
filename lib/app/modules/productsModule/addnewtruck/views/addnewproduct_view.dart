@@ -1,4 +1,5 @@
 import 'package:auction_app/app/modules/modules.dart';
+import 'package:auction_app/app/widgets/custom_popupmenu.dart';
 
 class AddNewTruck extends GetView<AddnewproductController> {
   const AddNewTruck({super.key});
@@ -221,60 +222,13 @@ class AddNewTruck extends GetView<AddnewproductController> {
                                       )
                                     ])),
                                     5.heightBox,
-                                    PopupMenuButton<String>(
-                                      onSelected: (String value) {
-                                        controller.selectedBodyType.value =
-                                            value;
-                                      },
-                                      initialValue: "Hino",
-                                      itemBuilder: (BuildContext context) => [
-                                        PopupMenuItem(
-                                          value: 'Truck',
-                                          child: Text('Truck'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'Conrete Mixer',
-                                          child: Text('Conrete Mixer'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'Truck Crane',
-                                          child: Text('Truck Crane'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'Dump',
-                                          child: Text('Dump'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'Hino',
-                                          child: Text('Hino'),
-                                        ),
-                                      ],
-                                      child: Container(
-                                        width: double.infinity,
-                                        padding: defaultPadding,
-                                        decoration: BoxDecoration(
-                                          color: AppColors.halfwhiteColor,
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          border: Border.all(
-                                              color: AppColors.borderColor,
-                                              width: 1),
-                                        ),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Obx(
-                                              () => Text(
-                                                  controller
-                                                      .selectedBodyType.value,
-                                                  style: context.bodySmall),
-                                            ),
-                                            Spacer(),
-                                            Icon(Icons.arrow_drop_down,
-                                                color: Colors.black),
-                                          ],
-                                        ),
-                                      ),
+                                    CustomPopupMenu(
+                                      items: controller.bodyTypes,
+                                      selectedValue:
+                                          controller.selectedBodyType,
+                                      padding: defaultPadding,
+                                      backgroundColor: AppColors.halfwhiteColor,
+                                      borderColor: AppColors.borderColor,
                                     ),
                                   ],
                                 ),
@@ -302,58 +256,12 @@ class AddNewTruck extends GetView<AddnewproductController> {
                                       )
                                     ])),
                                     5.heightBox,
-                                    PopupMenuButton<String>(
-                                      onSelected: (String value) {
-                                        controller.selectedMake.value = value;
-                                      },
-                                      initialValue: "Hino",
-                                      itemBuilder: (BuildContext context) => [
-                                        PopupMenuItem(
-                                          value: 'Hino',
-                                          child: Text('Hino'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'Isuzu',
-                                          child: Text('Isuzu'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'Mitsubishi',
-                                          child: Text('Mitsubishi'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'Nissan',
-                                          child: Text('Nissan'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'Mazda',
-                                          child: Text('Mazda'),
-                                        ),
-                                      ],
-                                      child: Container(
-                                        width: double.infinity,
-                                        padding: defaultPadding,
-                                        decoration: BoxDecoration(
-                                          color: AppColors.halfwhiteColor,
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          border: Border.all(
-                                              color: AppColors.borderColor,
-                                              width: 1),
-                                        ),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Obx(
-                                              () => Text(
-                                                  controller.selectedMake.value,
-                                                  style: context.bodySmall),
-                                            ),
-                                            Spacer(),
-                                            Icon(Icons.arrow_drop_down,
-                                                color: Colors.black),
-                                          ],
-                                        ),
-                                      ),
+                                    CustomPopupMenu(
+                                      items: controller.makes,
+                                      selectedValue: controller.selectedMake,
+                                      padding: defaultPadding,
+                                      backgroundColor: AppColors.halfwhiteColor,
+                                      borderColor: AppColors.borderColor,
                                     ),
                                   ],
                                 ),
@@ -385,75 +293,12 @@ class AddNewTruck extends GetView<AddnewproductController> {
                                       )
                                     ])),
                                     5.heightBox,
-                                    PopupMenuButton<String>(
-                                      onSelected: (String value) {
-                                        controller.selectedModel.value = value;
-                                      },
-                                      initialValue: "Make",
-                                      itemBuilder: (BuildContext context) => [
-                                        PopupMenuItem<String>(
-                                          value: 'Mini Truck',
-                                          child: Text('Mini Truck'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Forward',
-                                          child: Text('Forward'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Fuso',
-                                          child: Text('Fuso'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Delica',
-                                          child: Text('Delica'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Ranger',
-                                          child: Text('Ranger'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'FD',
-                                          child: Text('FD'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Canter',
-                                          child: Text('Canter'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Condor',
-                                          child: Text('Condor'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Titan',
-                                          child: Text('Titan'),
-                                        ),
-                                      ],
-                                      child: Container(
-                                        width: double.infinity,
-                                        padding: defaultPadding,
-                                        decoration: BoxDecoration(
-                                          color: AppColors.halfwhiteColor,
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          border: Border.all(
-                                              color: AppColors.borderColor,
-                                              width: 1),
-                                        ),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Obx(
-                                              () => Text(
-                                                  controller
-                                                      .selectedModel.value,
-                                                  style: context.bodySmall),
-                                            ),
-                                            Spacer(),
-                                            Icon(Icons.arrow_drop_down,
-                                                color: Colors.black),
-                                          ],
-                                        ),
-                                      ),
+                                    CustomPopupMenu(
+                                      items: controller.truckModels,
+                                      selectedValue: controller.selectedModel,
+                                      padding: defaultPadding,
+                                      backgroundColor: AppColors.halfwhiteColor,
+                                      borderColor: AppColors.borderColor,
                                     ),
                                   ],
                                 ),
@@ -474,48 +319,13 @@ class AddNewTruck extends GetView<AddnewproductController> {
                                       ),
                                     ])),
                                     5.heightBox,
-                                    PopupMenuButton<String>(
-                                      onSelected: (String value) {
-                                        controller.selectedCondition.value =
-                                            value;
-                                      },
-                                      initialValue: "Used",
-                                      itemBuilder: (BuildContext context) => [
-                                        PopupMenuItem<String>(
-                                          value: 'Used',
-                                          child: Text('Used'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'New',
-                                          child: Text('New'),
-                                        ),
-                                      ],
-                                      child: Container(
-                                        width: double.infinity,
-                                        padding: defaultPadding,
-                                        decoration: BoxDecoration(
-                                          color: AppColors.halfwhiteColor,
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          border: Border.all(
-                                              color: AppColors.borderColor,
-                                              width: 1),
-                                        ),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Obx(
-                                              () => Text(
-                                                  controller
-                                                      .selectedCondition.value,
-                                                  style: context.bodySmall),
-                                            ),
-                                            Spacer(),
-                                            Icon(Icons.arrow_drop_down,
-                                                color: Colors.black),
-                                          ],
-                                        ),
-                                      ),
+                                    CustomPopupMenu(
+                                      items: ["New", "Used"],
+                                      selectedValue:
+                                          controller.selectedCondition,
+                                      padding: defaultPadding,
+                                      backgroundColor: AppColors.halfwhiteColor,
+                                      borderColor: AppColors.borderColor,
                                     ),
                                   ],
                                 ),
@@ -551,57 +361,13 @@ class AddNewTruck extends GetView<AddnewproductController> {
                                       ),
                                     ])),
                                     5.heightBox,
-                                    PopupMenuButton<String>(
-                                      onSelected: (String value) {
-                                        controller.selectedTransmission.value =
-                                            value;
-                                      },
-                                      initialValue: "AT",
-                                      itemBuilder: (BuildContext context) => [
-                                        PopupMenuItem<String>(
-                                            value: 'AT', child: Text('AT')),
-                                        PopupMenuItem<String>(
-                                            value: 'IA', child: Text('IA')),
-                                        PopupMenuItem<String>(
-                                            value: 'FAT', child: Text('FAT')),
-                                        PopupMenuItem<String>(
-                                            value: 'MT', child: Text('MT')),
-                                        PopupMenuItem<String>(
-                                            value: 'F5', child: Text('F5')),
-                                        PopupMenuItem<String>(
-                                            value: 'F6', child: Text('F6')),
-                                        PopupMenuItem<String>(
-                                            value: 'FA', child: Text('FA')),
-                                        PopupMenuItem<String>(
-                                            value: 'IAT', child: Text('IAT')),
-                                      ],
-                                      child: Container(
-                                        width: double.infinity,
-                                        padding: defaultPadding,
-                                        decoration: BoxDecoration(
-                                          color: AppColors.halfwhiteColor,
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          border: Border.all(
-                                              color: AppColors.borderColor,
-                                              width: 1),
-                                        ),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Obx(
-                                              () => Text(
-                                                  controller
-                                                      .selectedTransmission
-                                                      .value,
-                                                  style: context.bodySmall),
-                                            ),
-                                            Spacer(),
-                                            Icon(Icons.arrow_drop_down,
-                                                color: Colors.black),
-                                          ],
-                                        ),
-                                      ),
+                                    CustomPopupMenu(
+                                      items: controller.transmissionTypes,
+                                      selectedValue:
+                                          controller.selectedTransmission,
+                                      padding: defaultPadding,
+                                      backgroundColor: AppColors.halfwhiteColor,
+                                      borderColor: AppColors.borderColor,
                                     ),
                                   ],
                                 ),
@@ -622,73 +388,13 @@ class AddNewTruck extends GetView<AddnewproductController> {
                                       ),
                                     ])),
                                     5.heightBox,
-                                    PopupMenuButton<String>(
-                                      onSelected: (String value) {
-                                        controller.selectedFuelType.value =
-                                            value;
-                                      },
-                                      initialValue: "Petrol",
-                                      itemBuilder: (BuildContext context) => [
-                                        PopupMenuItem(
-                                          value: 'Petrol',
-                                          child: Text('Petrol'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'Diesel',
-                                          child: Text('Diesel'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'Electric',
-                                          child: Text('Electric'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'Hybrid',
-                                          child: Text('Hybrid'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'Hybrid-Gasoline',
-                                          child: Text('Hybrid-Gasoline'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'Hybrid-Diesel',
-                                          child: Text('Hybrid-Diesel'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'Hybrid-Gasoline-Electric',
-                                          child:
-                                              Text('Hybrid-Gasoline-Electric'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'Hybrid-Gasoline-LPG',
-                                          child: Text('Hybrid-Gasoline-LPG'),
-                                        ),
-                                      ],
-                                      child: Container(
-                                        width: double.infinity,
-                                        padding: defaultPadding,
-                                        decoration: BoxDecoration(
-                                          color: AppColors.halfwhiteColor,
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          border: Border.all(
-                                              color: AppColors.borderColor,
-                                              width: 1),
-                                        ),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Obx(
-                                              () => Text(
-                                                  controller
-                                                      .selectedFuelType.value,
-                                                  style: context.bodySmall),
-                                            ),
-                                            Spacer(),
-                                            Icon(Icons.arrow_drop_down,
-                                                color: Colors.black),
-                                          ],
-                                        ),
-                                      ),
+                                    CustomPopupMenu(
+                                      items: controller.fuelTypes,
+                                      selectedValue:
+                                          controller.selectedFuelType,
+                                      padding: defaultPadding,
+                                      backgroundColor: AppColors.halfwhiteColor,
+                                      borderColor: AppColors.borderColor,
                                     ),
                                   ],
                                 ),
@@ -713,64 +419,13 @@ class AddNewTruck extends GetView<AddnewproductController> {
                                       ),
                                     ])),
                                     5.heightBox,
-                                    PopupMenuButton<String>(
-                                      onSelected: (String value) {
-                                        controller.selectedDriverType.value =
-                                            value;
-                                      },
-                                      initialValue: "4WD",
-                                      itemBuilder: (BuildContext context) => [
-                                        PopupMenuItem(
-                                          value: '4WD',
-                                          child: Text('4WD'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: '2WD',
-                                          child: Text('2WD'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'FWD',
-                                          child: Text('FWD'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'AWD',
-                                          child: Text('AWD'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'RWD',
-                                          child: Text('RWD'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: '1WD',
-                                          child: Text('1WD'),
-                                        ),
-                                      ],
-                                      child: Container(
-                                        width: double.infinity,
-                                        padding: defaultPadding,
-                                        decoration: BoxDecoration(
-                                          color: AppColors.halfwhiteColor,
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          border: Border.all(
-                                              color: AppColors.borderColor,
-                                              width: 1),
-                                        ),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Obx(
-                                              () => Text(
-                                                  controller
-                                                      .selectedDriverType.value,
-                                                  style: context.bodySmall),
-                                            ),
-                                            Spacer(),
-                                            Icon(Icons.arrow_drop_down,
-                                                color: Colors.black),
-                                          ],
-                                        ),
-                                      ),
+                                    CustomPopupMenu(
+                                      items: controller.driverTypes,
+                                      selectedValue:
+                                          controller.selectedDriverType,
+                                      padding: defaultPadding,
+                                      backgroundColor: AppColors.halfwhiteColor,
+                                      borderColor: AppColors.borderColor,
                                     ),
                                   ],
                                 ),
@@ -808,113 +463,39 @@ class AddNewTruck extends GetView<AddnewproductController> {
                                       ),
                                     ])),
                                     5.heightBox,
-                                    PopupMenuButton<String>(
-                                      onSelected: (String value) {
-                                        controller.selectedDoors.value = value;
-                                      },
-                                      initialValue: "1",
-                                      itemBuilder: (BuildContext context) => [
-                                        PopupMenuItem(
-                                          value: '1',
-                                          child: Text('1'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: '2',
-                                          child: Text('2'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: '3',
-                                          child: Text('3'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: '4',
-                                          child: Text('4'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: '5',
-                                          child: Text('5'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: '6',
-                                          child: Text('6'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'Sliding Door ( 1 Side )',
-                                          child:
-                                              Text('Sliding Door ( 1 Side )'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'Sliding Doors ( Both Side )',
-                                          child: Text(
-                                              'Sliding Doors ( Both Side )'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'Double Rear Door',
-                                          child: Text('Double Rear Door'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'Single Rear Door',
-                                          child: Text('Single Rear Door'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'Hatchback Door',
-                                          child: Text('Hatchback Door'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'Gullwing Door',
-                                          child: Text('Gullwing Door'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'Butterfly Door',
-                                          child: Text('Butterfly Door'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'Suicide Door',
-                                          child: Text('Suicide Door'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'Barn Door',
-                                          child: Text('Barn Door'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'Split Tailgate',
-                                          child: Text('Split Tailgate'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'Single Tailgate',
-                                          child: Text('Signle Tailgate'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'Half Door',
-                                          child: Text('Half Door'),
-                                        ),
-                                      ],
-                                      child: Container(
-                                        width: double.infinity,
-                                        padding: defaultPadding,
-                                        decoration: BoxDecoration(
-                                          color: AppColors.halfwhiteColor,
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          border: Border.all(
-                                              color: AppColors.borderColor,
-                                              width: 1),
-                                        ),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Obx(
-                                              () => Text(
-                                                  controller
-                                                      .selectedDoors.value,
-                                                  style: context.bodySmall),
-                                            ),
-                                            Spacer(),
-                                            Icon(Icons.arrow_drop_down,
-                                                color: Colors.black),
-                                          ],
-                                        ),
+                                    CustomPopupMenu(
+                                      items: controller.doorTypes,
+                                      selectedValue: controller.selectedDoors,
+                                      padding: defaultPadding,
+                                      backgroundColor: AppColors.halfwhiteColor,
+                                      borderColor: AppColors.borderColor,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              10.widthBox,
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: crossAxisStart,
+                                  children: [
+                                    RichText(
+                                        text: TextSpan(children: [
+                                      TextSpan(
+                                        text: "Displacement",
+                                        style: context.bodyMedium!.copyWith(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14.toDouble()),
                                       ),
+                                    ])),
+                                    5.heightBox,
+                                    CustomPopupMenu(
+                                      items: controller.displacements,
+                                      selectedValue:
+                                          controller.selectedDisplacement,
+                                      padding: defaultPadding,
+                                      backgroundColor: AppColors.halfwhiteColor,
+                                      borderColor: AppColors.borderColor,
                                     ),
                                   ],
                                 ),
@@ -922,20 +503,6 @@ class AddNewTruck extends GetView<AddnewproductController> {
                             ],
                           ),
                           10.heightBox,
-                          CustomTextFormField(
-                            keyboardType: TextInputType.number,
-                            isrequired: true,
-                            fillColor: AppColors.halfwhiteColor,
-                            controller: controller.displacementController,
-                            validator: (value) => Validator.validateRequired(
-                                value,
-                                fieldName: "Displacement"),
-                            borderColor: Color(0xffEBEEF0),
-                            label: "Displacement",
-                            hintText: "Enter Displacement in CC",
-                            labelColor: Color(0xff1C1C1C),
-                            labelfontSize: 14,
-                          ),
                           10.heightBox,
                           CustomTextFormField(
                             keyboardType: TextInputType.number,
@@ -964,15 +531,28 @@ class AddNewTruck extends GetView<AddnewproductController> {
                               ),
                               10.widthBox,
                               Expanded(
-                                child: CustomTextFormField(
-                                  keyboardType: TextInputType.text,
-                                  fillColor: AppColors.halfwhiteColor,
-                                  controller: controller.colorController,
-                                  borderColor: Color(0xffEBEEF0),
-                                  label: "Color",
-                                  hintText: "Enter Color",
-                                  labelColor: Color(0xff1C1C1C),
-                                  labelfontSize: 14,
+                                child: Column(
+                                  crossAxisAlignment: crossAxisStart,
+                                  children: [
+                                    RichText(
+                                        text: TextSpan(children: [
+                                      TextSpan(
+                                        text: "Color",
+                                        style: context.bodyMedium!.copyWith(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14.toDouble()),
+                                      ),
+                                    ])),
+                                    5.heightBox,
+                                    CustomPopupMenu(
+                                      items: controller.colors,
+                                      selectedValue: controller.selectedColor,
+                                      padding: defaultPadding,
+                                      backgroundColor: AppColors.halfwhiteColor,
+                                      borderColor: AppColors.borderColor,
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
@@ -1012,51 +592,16 @@ class AddNewTruck extends GetView<AddnewproductController> {
                                       ),
                                     ])),
                                     5.heightBox,
-                                    PopupMenuButton<String>(
-                                      onSelected: (String value) {
-                                        controller.selectedStatus.value = value;
-                                      },
-                                      initialValue: "Intransit",
-                                      itemBuilder: (BuildContext context) => [
-                                        PopupMenuItem(
-                                          value: 'Intransit',
-                                          child: Text('Intransit'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'Instock',
-                                          child: Text('Instock'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'Outofstock',
-                                          child: Text('Outofstock'),
-                                        ),
+                                    CustomPopupMenu(
+                                      items: [
+                                        "Intransit",
+                                        "Outofstock",
+                                        "Instock"
                                       ],
-                                      child: Container(
-                                        width: double.infinity,
-                                        padding: defaultPadding,
-                                        decoration: BoxDecoration(
-                                          color: AppColors.halfwhiteColor,
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          border: Border.all(
-                                              color: AppColors.borderColor,
-                                              width: 1),
-                                        ),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Obx(
-                                              () => Text(
-                                                  controller
-                                                      .selectedStatus.value,
-                                                  style: context.bodySmall),
-                                            ),
-                                            Spacer(),
-                                            Icon(Icons.arrow_drop_down,
-                                                color: Colors.black),
-                                          ],
-                                        ),
-                                      ),
+                                      selectedValue: controller.selectedStatus,
+                                      padding: defaultPadding,
+                                      backgroundColor: AppColors.halfwhiteColor,
+                                      borderColor: AppColors.borderColor,
                                     ),
                                   ],
                                 ),
@@ -1101,47 +646,15 @@ class AddNewTruck extends GetView<AddnewproductController> {
                                       )
                                     ])),
                                     5.heightBox,
-                                    PopupMenuButton<String>(
-                                      onSelected: (String value) {
-                                        controller.selectedSteer.value = value;
-                                      },
-                                      initialValue: "Left Hand",
-                                      itemBuilder: (BuildContext context) => [
-                                        PopupMenuItem(
-                                          value: 'Left Hand',
-                                          child: Text('Left Hand'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'Right Hand',
-                                          child: Text('Right Hand'),
-                                        ),
+                                    CustomPopupMenu(
+                                      items: [
+                                        "Left Hand",
+                                        "Right Hand",
                                       ],
-                                      child: Container(
-                                        width: double.infinity,
-                                        padding: defaultPadding,
-                                        decoration: BoxDecoration(
-                                          color: AppColors.halfwhiteColor,
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          border: Border.all(
-                                              color: AppColors.borderColor,
-                                              width: 1),
-                                        ),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Obx(
-                                              () => Text(
-                                                  controller
-                                                      .selectedSteer.value,
-                                                  style: context.bodySmall),
-                                            ),
-                                            Spacer(),
-                                            Icon(Icons.arrow_drop_down,
-                                                color: Colors.black),
-                                          ],
-                                        ),
-                                      ),
+                                      selectedValue: controller.selectedSteer,
+                                      padding: defaultPadding,
+                                      backgroundColor: AppColors.halfwhiteColor,
+                                      borderColor: AppColors.borderColor,
                                     ),
                                   ],
                                 ),
@@ -1179,107 +692,12 @@ class AddNewTruck extends GetView<AddnewproductController> {
                                       ),
                                     ])),
                                     5.heightBox,
-                                    PopupMenuButton<String>(
-                                      onSelected: (String value) {
-                                        controller.selectedScore.value = value;
-                                      },
-                                      initialValue: "R",
-                                      itemBuilder: (BuildContext context) => [
-                                        PopupMenuItem(
-                                          value: 'R',
-                                          child: Text('R'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: '3',
-                                          child: Text('3'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'R No ERust CBU',
-                                          child: Text('R No ERust CBU'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'R No Rust CBU',
-                                          child: Text('R No Rust CBU'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: '3 DD',
-                                          child: Text('3 DD'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: '3 CC',
-                                          child: Text('3 CC'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'RA',
-                                          child: Text('RA'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: '3.5',
-                                          child: Text('3.5'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'RDC',
-                                          child: Text('RDC'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'R2',
-                                          child: Text('R2'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'RCC',
-                                          child: Text('RCC'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: '3.5 CC',
-                                          child: Text('3.5 CC'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: '3.5 DD',
-                                          child: Text('3.5 DD'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: '3D',
-                                          child: Text('3D'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'R EE',
-                                          child: Text('R EE'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: '3C',
-                                          child: Text('3C'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: '3 EC',
-                                          child: Text('3 EC'),
-                                        ),
-                                      ],
-                                      child: Container(
-                                        width: double.infinity,
-                                        padding: defaultPadding,
-                                        decoration: BoxDecoration(
-                                          color: AppColors.halfwhiteColor,
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          border: Border.all(
-                                              color: AppColors.borderColor,
-                                              width: 1),
-                                        ),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Obx(
-                                              () => Text(
-                                                  controller
-                                                      .selectedScore.value,
-                                                  style: context.bodySmall),
-                                            ),
-                                            Spacer(),
-                                            Icon(Icons.arrow_drop_down,
-                                                color: Colors.black),
-                                          ],
-                                        ),
-                                      ),
+                                    CustomPopupMenu(
+                                      items: controller.scoreValues,
+                                      selectedValue: controller.selectedScore,
+                                      padding: defaultPadding,
+                                      backgroundColor: AppColors.halfwhiteColor,
+                                      borderColor: AppColors.borderColor,
                                     ),
                                   ],
                                 ),
@@ -1317,47 +735,15 @@ class AddNewTruck extends GetView<AddnewproductController> {
                                       ),
                                     ])),
                                     5.heightBox,
-                                    PopupMenuButton<String>(
-                                      onSelected: (String value) {
-                                        controller.featureProduct.value = value;
-                                      },
-                                      initialValue: "Yes",
-                                      itemBuilder: (BuildContext context) => [
-                                        PopupMenuItem(
-                                          value: 'Yes',
-                                          child: Text('Yes'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'No',
-                                          child: Text('No'),
-                                        ),
+                                    CustomPopupMenu(
+                                      items: [
+                                        "Yes",
+                                        "No",
                                       ],
-                                      child: Container(
-                                        width: double.infinity,
-                                        padding: defaultPadding,
-                                        decoration: BoxDecoration(
-                                          color: AppColors.halfwhiteColor,
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          border: Border.all(
-                                              color: AppColors.borderColor,
-                                              width: 1),
-                                        ),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Obx(
-                                              () => Text(
-                                                  controller
-                                                      .featureProduct.value,
-                                                  style: context.bodySmall),
-                                            ),
-                                            Spacer(),
-                                            Icon(Icons.arrow_drop_down,
-                                                color: Colors.black),
-                                          ],
-                                        ),
-                                      ),
+                                      selectedValue: controller.featureProduct,
+                                      padding: defaultPadding,
+                                      backgroundColor: AppColors.halfwhiteColor,
+                                      borderColor: AppColors.borderColor,
                                     ),
                                   ],
                                 ),
@@ -1585,10 +971,9 @@ class VehicleFeatures extends GetView<AddnewproductController> {
                   child: RoundButton(
                     text: "Next",
                     onPressed: () {
-                      // if (controller.formKey.currentState!
-                      //     .validate()) {}
-
-                      Get.to(() => EngineAndTransmission());
+                      if (controller.formKey.currentState!.validate()) {
+                        Get.to(() => EngineAndTransmission());
+                      }
                     },
                     textColor: AppColors.textColorWhite,
                     fontsize: 14,

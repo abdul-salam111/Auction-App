@@ -43,7 +43,7 @@ class ProductdetailsController extends GetxController {
   var condition = ''.obs;
   var mileage = ''.obs;
   var soldPrice = ''.obs;
-  var status = ''.obs;
+
   var description = ''.obs;
   var recievedAmount = ''.obs;
   var balanceAmount = ''.obs;

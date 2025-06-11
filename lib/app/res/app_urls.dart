@@ -56,4 +56,7 @@ class AppUrls {
   static const String updateCar = "${baseApiKey}user/vehicles/";
   static const String updateTruck = "${baseApiKey}user/trucks/";
   static const String updatePart = "${baseApiKey}user/spareparts/";
+  static const String getAllCarData = "${baseApiKey}display-vehicles-dynamic";
+  static const String getAllTruckData = "${baseApiKey}display-trucks-dynamic";
+  static const String getAllSparePartsData = "${baseApiKey}display-sparepart-dynamic";
 }

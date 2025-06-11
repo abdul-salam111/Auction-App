@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:auction_app/app/data/getModels/get_truck_data.dart';
 import 'package:auction_app/app/modules/modules.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../../data/postModels/add_new_vehicle.dart';
@@ -9,10 +10,9 @@ class AddnewproductController extends GetxController {
   final nameController = TextEditingController();
   final titleController = TextEditingController();
   final mileageController = TextEditingController();
-  final displacementController = TextEditingController();
   final yearController = TextEditingController();
   final seatcapacityController = TextEditingController();
-  final colorController = TextEditingController();
+
   final cylnderController = TextEditingController();
   final chasisnumberController = TextEditingController();
   final gradeController = TextEditingController();
@@ -27,6 +27,30 @@ class AddnewproductController extends GetxController {
 
   final ImagePicker _picker = ImagePicker();
   var selectedImages = <File>[].obs;
+
+  final getAllTruckDataModel = GetTruckData().obs;
+  //get all car data //including models body type etc..
+  Future<void> getAllTruckData() async {
+    getAllTruckDataModel.value = await productsRepository.getAllTruckData();
+    bodyTypes.addAll(
+        getAllTruckDataModel.value.data!.map((e) => e.bodyType ?? "").toSet());
+
+    makes.addAll(
+        getAllTruckDataModel.value.data!.map((e) => e.make ?? "").toSet());
+
+    truckModels.addAll(
+        getAllTruckDataModel.value.data!.map((e) => e.model ?? "").toSet());
+
+    scoreValues.addAll(
+        getAllTruckDataModel.value.data!.map((e) => e.score ?? "").toSet());
+
+    displacements.addAll(getAllTruckDataModel.value.data!
+        .map((e) => e.displacement ?? "")
+        .toSet());
+
+    colors.addAll(
+        getAllTruckDataModel.value.data!.map((e) => e.color ?? "").toSet());
+  }
 
   // Pick images from gallery
   Future<void> pickImagesFromGallery() async {
@@ -60,6 +84,8 @@ class AddnewproductController extends GetxController {
   var selectedSteer = "".obs;
   var selectedScore = "".obs;
   var featureProduct = "".obs;
+  var selectedDisplacement = "".obs;
+  var selectedColor = "".obs;
 
   final formKey = GlobalKey<FormState>();
 
@@ -185,11 +211,10 @@ class AddnewproductController extends GetxController {
           engine: engineNameController.text,
           doors: selectedDoors.value,
           cylinder: cylnderController.text,
-          color: colorController.text,
+          displacement: selectedDisplacement.value,
           chassisNumber: chasisnumberController.text,
           name: nameController.text,
           title: titleController.text,
-          displacement: displacementController.text,
           grade: gradeController.text,
           supplier: supplierController.text,
           description: descriptionController.text,
@@ -325,7 +350,6 @@ class AddnewproductController extends GetxController {
       }
     } catch (e) {
       Get.snackbar('Error', 'Failed to add vehicle: $e');
-      print('Error adding product: $e');
       isAddingProduct.value = false;
     } finally {
       isAddingProduct.value = false;
@@ -351,6 +375,73 @@ class AddnewproductController extends GetxController {
             )
             .isSelected ??
         false;
+  }
+
+  final List<String> bodyTypes = [];
+
+  final List<String> makes = [];
+
+  final List<String> truckModels = [];
+  final List<String> transmissionTypes = [
+    'AT',
+    'IA',
+    'FAT',
+    'MT',
+    'F5',
+    'F6',
+    'FA',
+    'IAT',
+  ];
+
+  final List<String> fuelTypes = [
+    'Petrol',
+    'Diesel',
+    'Electric',
+    'Hybrid',
+    'Hybrid-Gasoline',
+    'Hybrid-Diesel',
+    'Hybrid-Gasoline-Electric',
+    'Hybrid-Gasoline-LPG',
+  ];
+
+  final List<String> driverTypes = [
+    '4WD',
+    '2WD',
+    'FWD',
+    'AWD',
+    'RWD',
+    '1WD',
+  ];
+
+  final List<String> doorTypes = [
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    'Sliding Door ( 1 Side )',
+    'Sliding Doors ( Both Side )',
+    'Double Rear Door',
+    'Single Rear Door',
+    'Hatchback Door',
+    'Gullwing Door',
+    'Butterfly Door',
+    'Suicide Door',
+    'Barn Door',
+    'Split Tailgate',
+    'Single Tailgate',
+    'Half Door',
+  ];
+
+  final List<String> scoreValues = [];
+  final List<String> displacements = [];
+  final List<String> colors = [];
+
+  @override
+  void onInit() {
+    super.onInit();
+    getAllTruckData();
   }
 }
 

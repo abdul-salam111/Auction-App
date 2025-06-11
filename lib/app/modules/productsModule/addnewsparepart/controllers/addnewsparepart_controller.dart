@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:auction_app/app/data/getModels/get_parts_data.dart';
 import 'package:auction_app/app/data/postModels/add_new_sparepart.dart';
 import 'package:auction_app/app/repositories/products_repository/products_rep.dart';
 import 'package:image_picker/image_picker.dart';
@@ -43,6 +44,22 @@ class AddnewsparepartController extends GetxController {
   var selectedCondition = "".obs;
   var selectedStatus = "".obs;
   var featuredProduct = "".obs;
+
+  final getAllSparePartsDataModel = GetSparePartsData().obs;
+  //get all car data //including models body type etc..
+  Future<void> getSparePartsData() async {
+    getAllSparePartsDataModel.value =
+        await productsRepository.getAllSparePartsData();
+    categoriesList.addAll(getAllSparePartsDataModel.value.data!
+        .map((e) => e.category ?? "")
+        .toSet());
+
+    makeList.addAll(
+        getAllSparePartsDataModel.value.data!.map((e) => e.make ?? "").toSet());
+    partModels.addAll(getAllSparePartsDataModel.value.data!
+        .map((e) => e.model ?? "")
+        .toSet());
+  }
 
   ProductsRepository productsRepository = ProductsRepository();
   var isloading = false.obs;
@@ -88,4 +105,16 @@ class AddnewsparepartController extends GetxController {
       throw Exception(e);
     }
   }
+
+  @override
+  void onInit() {
+    super.onInit();
+    getSparePartsData();
+  }
+
+  final List<String> categoriesList = [];
+
+  List<String> makeList = [];
+
+  final List<String> partModels = [];
 }

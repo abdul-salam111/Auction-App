@@ -163,7 +163,7 @@ class _ScanProductDetailsState extends State<ScanProductDetails>
                     productDetails.condition.value = condition;
                     productDetails.mileage.value = mileage;
                     productDetails.soldPrice.value = soldPrice.toString();
-                    productDetails.status.value = status;
+                    productDetails.selectedStatus.value = status;
                     productDetails.recievedAmount.value =
                         recievedAmount.toString();
                     productDetails.balanceAmount.value =

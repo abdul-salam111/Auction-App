@@ -1,4 +1,5 @@
 import 'package:auction_app/app/modules/modules.dart';
+import 'package:auction_app/app/widgets/custom_popupmenu.dart';
 
 import '../controllers/addnewsparepart_controller.dart';
 
@@ -192,68 +193,13 @@ class AddnewsparepartView extends GetView<AddnewsparepartController> {
                                       )
                                     ])),
                                     5.heightBox,
-                                    PopupMenuButton<String>(
-                                      onSelected: (String value) {
-                                        controller.selectedCategory.value =
-                                            value;
-                                      },
-                                      initialValue: "Half Cut",
-                                      itemBuilder: (BuildContext context) => [
-                                        PopupMenuItem<String>(
-                                          value: 'Half Cut',
-                                          child: Text('Half Cut'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Nose cut',
-                                          child: Text('Nose cut'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Engine',
-                                          child: Text('Engine'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Wheels & Tires',
-                                          child: Text('Wheels & Tires'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Bumper',
-                                          child: Text('Bumper'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'CKD',
-                                          child: Text('CKD'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'SKD',
-                                          child: Text('SKD'),
-                                        ),
-                                      ],
-                                      child: Container(
-                                        width: double.infinity,
-                                        padding: defaultPadding,
-                                        decoration: BoxDecoration(
-                                          color: AppColors.halfwhiteColor,
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          border: Border.all(
-                                              color: AppColors.borderColor,
-                                              width: 1),
-                                        ),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Obx(
-                                              () => Text(
-                                                  controller
-                                                      .selectedCategory.value,
-                                                  style: context.bodySmall),
-                                            ),
-                                            Spacer(),
-                                            Icon(Icons.arrow_drop_down,
-                                                color: Colors.black),
-                                          ],
-                                        ),
-                                      ),
+                                    CustomPopupMenu(
+                                      items: controller.categoriesList,
+                                      selectedValue:
+                                          controller.selectedCategory,
+                                      padding: defaultPadding,
+                                      backgroundColor: AppColors.halfwhiteColor,
+                                      borderColor: AppColors.borderColor,
                                     ),
                                   ],
                                 ),
@@ -281,110 +227,12 @@ class AddnewsparepartView extends GetView<AddnewsparepartController> {
                                       )
                                     ])),
                                     5.heightBox,
-                                    PopupMenuButton<String>(
-                                      onSelected: (String value) {
-                                        controller.selectedMake.value = value;
-                                      },
-                                      initialValue: "Suzuki",
-                                      itemBuilder: (BuildContext context) => [
-                                        PopupMenuItem<String>(
-                                          value: 'Toyota',
-                                          child: Text('Toyota'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Suzuki',
-                                          child: Text('Suzuki'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Daihatsu',
-                                          child: Text('Daihatsu'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Nissan',
-                                          child: Text('Nissan'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Mazda',
-                                          child: Text('Mazda'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Mitsubishi',
-                                          child: Text('Mitsubishi'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Volvo',
-                                          child: Text('Volvo'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Honda',
-                                          child: Text('Honda'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Ford',
-                                          child: Text('Ford'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Cadillac',
-                                          child: Text('Cadillac'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Subaru',
-                                          child: Text('Subaru'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Alfa Romeo',
-                                          child: Text('Alfa Romeo'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Volkswagen',
-                                          child: Text('Volkswagen'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Mix',
-                                          child: Text('Mix'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Isuzu',
-                                          child: Text('Isuzu'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Hino',
-                                          child: Text('Hino'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Hio',
-                                          child: Text('Hio'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'BMW',
-                                          child: Text('BMW'),
-                                        ),
-                                      ],
-                                      child: Container(
-                                        width: double.infinity,
-                                        padding: defaultPadding,
-                                        decoration: BoxDecoration(
-                                          color: AppColors.halfwhiteColor,
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          border: Border.all(
-                                              color: AppColors.borderColor,
-                                              width: 1),
-                                        ),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Obx(
-                                              () => Text(
-                                                  controller.selectedMake.value,
-                                                  style: context.bodySmall),
-                                            ),
-                                            Spacer(),
-                                            Icon(Icons.arrow_drop_down,
-                                                color: Colors.black),
-                                          ],
-                                        ),
-                                      ),
+                                    CustomPopupMenu(
+                                      items: controller.makeList,
+                                      selectedValue: controller.selectedMake,
+                                      padding: defaultPadding,
+                                      backgroundColor: AppColors.halfwhiteColor,
+                                      borderColor: AppColors.borderColor,
                                     ),
                                   ],
                                 ),
@@ -416,48 +264,13 @@ class AddnewsparepartView extends GetView<AddnewsparepartController> {
                                       )
                                     ])),
                                     5.heightBox,
-                                    PopupMenuButton<String>(
-                                      onSelected: (String value) {
-                                        controller.selectedCondition.value =
-                                            value;
-                                      },
-                                      initialValue: "Used",
-                                      itemBuilder: (BuildContext context) => [
-                                        PopupMenuItem<String>(
-                                          value: 'Used',
-                                          child: Text('Used'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'New',
-                                          child: Text('New'),
-                                        ),
-                                      ],
-                                      child: Container(
-                                        width: double.infinity,
-                                        padding: defaultPadding,
-                                        decoration: BoxDecoration(
-                                          color: AppColors.halfwhiteColor,
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          border: Border.all(
-                                              color: AppColors.borderColor,
-                                              width: 1),
-                                        ),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Obx(
-                                              () => Text(
-                                                  controller
-                                                      .selectedCondition.value,
-                                                  style: context.bodySmall),
-                                            ),
-                                            Spacer(),
-                                            Icon(Icons.arrow_drop_down,
-                                                color: Colors.black),
-                                          ],
-                                        ),
-                                      ),
+                                    CustomPopupMenu(
+                                      items: ["New", "Used"],
+                                      selectedValue:
+                                          controller.selectedCondition,
+                                      padding: defaultPadding,
+                                      backgroundColor: AppColors.halfwhiteColor,
+                                      borderColor: AppColors.borderColor,
                                     ),
                                   ],
                                 ),
@@ -485,247 +298,12 @@ class AddnewsparepartView extends GetView<AddnewsparepartController> {
                                       )
                                     ])),
                                     5.heightBox,
-                                    PopupMenuButton<String>(
-                                      onSelected: (String value) {
-                                        controller.selectedModel.value = value;
-                                      },
-                                      initialValue: "Jeep",
-                                      itemBuilder: (BuildContext context) => [
-                                        PopupMenuItem<String>(
-                                          value: 'Mark X',
-                                          child: Text('Mark X'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Vitz',
-                                          child: Text('Vitz'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Wagon R',
-                                          child: Text('Wagon R'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Alto',
-                                          child: Text('Alto'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Swift',
-                                          child: Text('Swift'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Elisyon',
-                                          child: Text('Elisyon'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Freed',
-                                          child: Text('Freed'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Mira',
-                                          child: Text('Mira'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Tanto',
-                                          child: Text('Tanto'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Moco',
-                                          child: Text('Moco'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Note',
-                                          child: Text('Note'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Carol',
-                                          child: Text('Carol'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: '4B12',
-                                          child: Text('4B12'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Alphard',
-                                          child: Text('Alphard'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'RAV4',
-                                          child: Text('RAV4'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'B524',
-                                          child: Text('B524'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Focus',
-                                          child: Text('Focus'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Fit Shuttle',
-                                          child: Text('Fit Shuttle'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Demio',
-                                          child: Text('Demio'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'MPV',
-                                          child: Text('MPV'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'March',
-                                          child: Text('March'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Tida',
-                                          child: Text('Tida'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Micra',
-                                          child: Text('Micra'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Lafesta',
-                                          child: Text('Lafesta'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Legacy',
-                                          child: Text('Legacy'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Porte',
-                                          child: Text('Porte'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Mark X Zio',
-                                          child: Text('Mark X Zio'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Estima',
-                                          child: Text('Estima'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Estima Hybrid',
-                                          child: Text('Estima Hybrid'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Escalade',
-                                          child: Text('Escalade'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Noah',
-                                          child: Text('Noah'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Touran',
-                                          child: Text('Touran'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'V40',
-                                          child: Text('V40'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Forward',
-                                          child: Text('Forward'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Dyna',
-                                          child: Text('Dyna'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Impreza',
-                                          child: Text('Impreza'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'WIT',
-                                          child: Text('WIT'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Delica',
-                                          child: Text('Delica'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Outlander',
-                                          child: Text('Outlander'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Probox',
-                                          child: Text('Probox'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Golf 5',
-                                          child: Text('Golf 5'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Wish',
-                                          child: Text('Wish'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Ranger',
-                                          child: Text('Ranger'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Axela',
-                                          child: Text('Axela'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Canter',
-                                          child: Text('Canter'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Stepwgn',
-                                          child: Text('Stepwgn'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Jeep',
-                                          child: Text('Jeep'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Titan',
-                                          child: Text('Titan'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Liteace Wagon',
-                                          child: Text('Liteace Wagon'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Hiace',
-                                          child: Text('Hiace'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: 'Opa',
-                                          child: Text('Opa'),
-                                        ),
-                                        PopupMenuItem<String>(
-                                          value: '320i',
-                                          child: Text('320i'),
-                                        ),
-                                      ],
-                                      child: Container(
-                                        width: double.infinity,
-                                        padding: defaultPadding,
-                                        decoration: BoxDecoration(
-                                          color: AppColors.halfwhiteColor,
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          border: Border.all(
-                                              color: AppColors.borderColor,
-                                              width: 1),
-                                        ),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Obx(
-                                              () => Text(
-                                                  controller
-                                                      .selectedModel.value,
-                                                  style: context.bodySmall),
-                                            ),
-                                            Spacer(),
-                                            Icon(Icons.arrow_drop_down,
-                                                color: Colors.black),
-                                          ],
-                                        ),
-                                      ),
+                                    CustomPopupMenu(
+                                      items: controller.partModels,
+                                      selectedValue: controller.selectedModel,
+                                      padding: defaultPadding,
+                                      backgroundColor: AppColors.halfwhiteColor,
+                                      borderColor: AppColors.borderColor,
                                     ),
                                   ],
                                 ),
@@ -757,51 +335,16 @@ class AddnewsparepartView extends GetView<AddnewsparepartController> {
                                       )
                                     ])),
                                     5.heightBox,
-                                    PopupMenuButton<String>(
-                                      onSelected: (String value) {
-                                        controller.selectedStatus.value = value;
-                                      },
-                                      initialValue: "Intransit",
-                                      itemBuilder: (BuildContext context) => [
-                                        PopupMenuItem(
-                                          value: 'Intransit',
-                                          child: Text('Intransit'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'Instock',
-                                          child: Text('Instock'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'Outofstock',
-                                          child: Text('Outofstock'),
-                                        ),
+                                    CustomPopupMenu(
+                                      items: [
+                                        "Intransit",
+                                        "Outofstock",
+                                        "Instock"
                                       ],
-                                      child: Container(
-                                        width: double.infinity,
-                                        padding: defaultPadding,
-                                        decoration: BoxDecoration(
-                                          color: AppColors.halfwhiteColor,
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          border: Border.all(
-                                              color: AppColors.borderColor,
-                                              width: 1),
-                                        ),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Obx(
-                                              () => Text(
-                                                  controller
-                                                      .selectedStatus.value,
-                                                  style: context.bodySmall),
-                                            ),
-                                            Spacer(),
-                                            Icon(Icons.arrow_drop_down,
-                                                color: Colors.black),
-                                          ],
-                                        ),
-                                      ),
+                                      selectedValue: controller.selectedStatus,
+                                      padding: defaultPadding,
+                                      backgroundColor: AppColors.halfwhiteColor,
+                                      borderColor: AppColors.borderColor,
                                     ),
                                   ],
                                 ),
@@ -829,48 +372,15 @@ class AddnewsparepartView extends GetView<AddnewsparepartController> {
                                       )
                                     ])),
                                     5.heightBox,
-                                    PopupMenuButton<String>(
-                                      onSelected: (String value) {
-                                        controller.featuredProduct.value =
-                                            value;
-                                      },
-                                      initialValue: "Yes",
-                                      itemBuilder: (BuildContext context) => [
-                                        PopupMenuItem(
-                                          value: 'Yes',
-                                          child: Text('Yes'),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'No',
-                                          child: Text('No'),
-                                        ),
+                                    CustomPopupMenu(
+                                      items: [
+                                        "Yes",
+                                        "No",
                                       ],
-                                      child: Container(
-                                        width: double.infinity,
-                                        padding: defaultPadding,
-                                        decoration: BoxDecoration(
-                                          color: AppColors.halfwhiteColor,
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          border: Border.all(
-                                              color: AppColors.borderColor,
-                                              width: 1),
-                                        ),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Obx(
-                                              () => Text(
-                                                  controller
-                                                      .featuredProduct.value,
-                                                  style: context.bodySmall),
-                                            ),
-                                            Spacer(),
-                                            Icon(Icons.arrow_drop_down,
-                                                color: Colors.black),
-                                          ],
-                                        ),
-                                      ),
+                                      selectedValue: controller.featuredProduct,
+                                      padding: defaultPadding,
+                                      backgroundColor: AppColors.halfwhiteColor,
+                                      borderColor: AppColors.borderColor,
                                     ),
                                   ],
                                 ),

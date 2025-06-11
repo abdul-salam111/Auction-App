@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:auction_app/app/data/getModels/get_all_car_data.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -11,10 +12,10 @@ class AddnewvehicleController extends GetxController {
   final nameController = TextEditingController();
   final titleController = TextEditingController();
   final mileageController = TextEditingController();
-  final displacementController = TextEditingController();
+  
   final yearController = TextEditingController();
   final seatcapacityController = TextEditingController();
-  final colorController = TextEditingController();
+  
   final cylnderController = TextEditingController();
   final chasisnumberController = TextEditingController();
   final gradeController = TextEditingController();
@@ -26,6 +27,40 @@ class AddnewvehicleController extends GetxController {
   final turningCircleController = TextEditingController();
   final unbrakedtowingController = TextEditingController();
   final descriptionController = TextEditingController();
+
+  final getAllCarDataModel = CarDataModel().obs;
+  //get all car data //including models body type etc..
+  Future<void> getAllCarData() async {
+    getAllCarDataModel.value = await productsRepository.getAllCarData();
+    bodyTypes.addAll(
+        getAllCarDataModel.value.data!.map((e) => e.bodyType ?? "").toSet());
+
+    makes.addAll(
+        getAllCarDataModel.value.data!.map((e) => e.make ?? "").toSet());
+
+    carModels.addAll(
+        getAllCarDataModel.value.data!.map((e) => e.model ?? "").toSet());
+
+    scoreValues.addAll(
+        getAllCarDataModel.value.data!.map((e) => e.score ?? "").toSet());
+
+    displacements.addAll(getAllCarDataModel.value.data!
+        .map((e) => e.displacement ?? "")
+        .toSet());
+
+    colors.addAll(
+        getAllCarDataModel.value.data!.map((e) => e.color ?? "").toSet());
+  }
+
+  final List<String> bodyTypes = [];
+  final List<String> makes = [];
+  final List<String> carModels = [];
+  final List<String> scoreValues = [];
+  final List<String> displacements = [];
+  final List<String> colors = [];
+
+ 
+
 
   final ImagePicker _picker = ImagePicker();
   var selectedImages = <File>[].obs;
@@ -52,7 +87,9 @@ class AddnewvehicleController extends GetxController {
 
   var selectedBodyType = "".obs;
   var selectedMake = "".obs;
+  var selectedDisplacement = "".obs;
   var selectedModel = "".obs;
+  var selectedColor = "".obs;
   var selectedCondition = "".obs;
   var selectedTransmission = "".obs;
   var selectedFuelType = "".obs;
@@ -187,11 +224,11 @@ class AddnewvehicleController extends GetxController {
           engine: engineNameController.text,
           doors: selectedDoors.value,
           cylinder: cylnderController.text,
-          color: colorController.text,
+          color: selectedColor.value,
           chassisNumber: chasisnumberController.text,
           name: nameController.text,
           title: titleController.text,
-          displacement: displacementController.text,
+          displacement:selectedDisplacement.value,
           grade: gradeController.text,
           supplier: supplierController.text,
           description: descriptionController.text,
@@ -356,6 +393,57 @@ class AddnewvehicleController extends GetxController {
             .isSelected ??
         false;
   }
+
+  @override
+  void onInit() {
+    super.onInit();
+    getAllCarData();
+  }
+
+  List<String> transmissionTypes = [
+  'AT',
+  'IA',
+  'FAT',
+  'MT',
+  'F5',
+  'F6',
+  'FA',
+  'IAT',
+];
+
+List<String> fuelTypes = [
+  'Petrol',
+  'Diesel',
+  'Electric',
+  'Hybrid',
+  'Hybrid-Gasoline',
+  'Hybrid-Diesel',
+  'Hybrid-Gasoline-Electric',
+  'Hybrid-Gasoline-LPG',
+];
+List<String> driverTypes = ['4WD', '2WD', 'FWD', 'AWD', 'RWD', '1WD'];
+List<String> doorOptions = [
+  '1',
+  '2',
+  '3',
+  '4',
+  '5',
+  '6',
+  'Sliding Door ( 1 Side )',
+  'Sliding Doors ( Both Side )',
+  'Double Rear Door',
+  'Single Rear Door',
+  'Hatchback Door',
+  'Gullwing Door',
+  'Butterfly Door',
+  'Suicide Door',
+  'Barn Door',
+  'Split Tailgate',
+  'Single Tailgate',
+  'Half Door',
+];
+
+
 }
 
 class Feature {

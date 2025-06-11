@@ -27,10 +27,10 @@ class EditproducttdetailsController extends GetxController {
     soldPriceController.text = Get.arguments[12];
     selectedStatus.value = Get.arguments[13];
     descriptionController.text = Get.arguments[14];
+    recievedAmountController.text = Get.arguments[15];
+    balanceAmountController.text = Get.arguments[16];
     classificationType = Get.arguments[17];
     categoryController.text = Get.arguments[18];
-    // recievedAmountController.text = Get.arguments[15];
-    // balanceAmountController.text = Get.arguments[16];
   }
 
   var selectedStatus = "Instock".obs;
@@ -104,11 +104,16 @@ class EditproducttdetailsController extends GetxController {
             model: modelController.text,
             year: yearController.text,
             fuel: fueltypeController.text,
+            status: selectedStatus.value,
             transmission: transmissionController.text,
             condition: conditionController.text,
             price: totalpriceController.text,
             mileage: mileageController.text,
             description: descriptionController.text,
+            totalPrice: totalpriceController.text,
+            recievedAmount: recievedAmountController.text,
+            balanceAmount: balanceAmountController.text,
+            soldPrice: soldPriceController.text,
           ));
       if (isTrue) {
         Get.dialog(CustomSuccessDialog(
@@ -147,6 +152,10 @@ class EditproducttdetailsController extends GetxController {
             price: totalpriceController.text,
             mileage: mileageController.text,
             description: descriptionController.text,
+            totalPrice: totalpriceController.text,
+            recievedAmount: recievedAmountController.text,
+            balanceAmount: balanceAmountController.text,
+            soldPrice: soldPriceController.text,
           ));
       if (isTrue) {
         Get.dialog(CustomSuccessDialog(
@@ -181,6 +190,7 @@ class EditproducttdetailsController extends GetxController {
             model: modelController.text,
             condition: conditionController.text,
             price: totalpriceController.text,
+            
           ));
       if (isTrue) {
         Get.dialog(CustomSuccessDialog(

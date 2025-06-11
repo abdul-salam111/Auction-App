@@ -1,11 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:auction_app/app/data/getModels/get_parts_data.dart';
+import 'package:auction_app/app/data/getModels/get_truck_data.dart';
 import 'package:auction_app/app/data/postModels/add_new_sparepart.dart';
 import 'package:auction_app/app/data/postModels/update_part_model.dart';
 import 'package:auction_app/app/data/postModels/update_vehicle.dart';
 import 'package:http/http.dart' as http;
 import 'package:auction_app/app/data/postModels/update_status.dart';
 import 'package:auction_app/app/modules/modules.dart';
+import '../../data/getModels/get_all_car_data.dart';
 import '../../data/postModels/add_new_vehicle.dart';
 import 'package:path/path.dart';
 
@@ -21,16 +24,12 @@ class ProductsRepository {
         },
         body: jsonEncode(updateStatus.toJson()),
       );
-      print(response.body);
-      print(response.statusCode);
       if (response.statusCode == 200) {
         return true;
       } else {
-        print("Failed to update status: ${response.statusCode}");
         return false;
       }
     } catch (e) {
-      print("Exception in patch request: $e");
       return false;
     }
   }
@@ -65,7 +64,6 @@ class ProductsRepository {
       request.fields['displacement'] = vehicle.displacement.toString();
       request.fields['total_price'] = (vehicle.totalPrice ?? 0).toString();
       request.fields['sold_price'] = (vehicle.soldPrice ?? 0).toString();
-
       request.fields['recieved_amount'] = vehicle.receivedAmount.toString();
       request.fields['balance_amount'] = vehicle.balanceAmount.toString();
       request.fields['auction_result'] = vehicle.auctionResult.toString();
@@ -213,7 +211,6 @@ class ProductsRepository {
       request.fields['security'] = vehicle.security == true ? "1" : "0";
       request.fields['adjustable_suspension'] =
           vehicle.adjustableSuspension == true ? "1" : "0";
-      // Add image files
       for (int i = 0; i < images.length; i++) {
         File imageFile = images[i];
         String fileName = basename(imageFile.path);
@@ -226,18 +223,14 @@ class ProductsRepository {
           ),
         );
       }
-      // Send request
       final response = await request.send();
-
       if (response.statusCode == 200) {
         await http.Response.fromStream(response);
-
         return true;
       } else {
         return false;
       }
     } catch (e) {
-      print(e);
       return false;
     }
   }
@@ -420,11 +413,9 @@ class ProductsRepository {
       request.fields['security'] = vehicle.security == true ? "1" : "0";
       request.fields['adjustable_suspension'] =
           vehicle.adjustableSuspension == true ? "1" : "0";
-      // Add image files
       for (int i = 0; i < images.length; i++) {
         File imageFile = images[i];
         String fileName = basename(imageFile.path);
-
         request.files.add(
           await http.MultipartFile.fromPath(
             'image',
@@ -433,18 +424,14 @@ class ProductsRepository {
           ),
         );
       }
-      // Send request
       final response = await request.send();
-
       if (response.statusCode == 200) {
         await http.Response.fromStream(response);
-
         return true;
       } else {
         return false;
       }
     } catch (e) {
-      print(e);
       return false;
     }
   }
@@ -452,12 +439,10 @@ class ProductsRepository {
   Future<bool> addNewPart(AddNewPart addnewpart, List<File> images) async {
     final uri = Uri.parse(AppUrls.addNewPart);
     try {
-      print(addnewpart.price);
       var request = http.MultipartRequest('POST', uri);
       request.headers.addAll({
         'Authorization': 'Bearer ${box.read(usertoken)}',
       });
-
       request.fields['part_id'] = addnewpart.partId.toString();
       request.fields['name'] = addnewpart.name.toString();
       request.fields['make'] = addnewpart.make.toString();
@@ -482,7 +467,6 @@ class ProductsRepository {
       request.fields['fk_vehicle_id'] =
           (addnewpart.fkVehicleId ?? 0).toString();
 
-      // Add image files
       for (int i = 0; i < images.length; i++) {
         File imageFile = images[i];
         String fileName = basename(imageFile.path);
@@ -495,7 +479,6 @@ class ProductsRepository {
           ),
         );
       }
-      // Send request
       final response = await request.send();
 
       if (response.statusCode == 200) {
@@ -541,19 +524,16 @@ class ProductsRepository {
       List<File> images, String id, UpdateVehicleModel updatevehicle) async {
     try {
       final uri = Uri.parse("${AppUrls.updateCar}$id");
-
       final request = http.MultipartRequest("PUT", uri);
-
       request.headers.addAll({
         'Authorization': 'Bearer ${box.read(usertoken)}',
       });
-
-      // Add form fields
       request.fields['chassis_number'] = updatevehicle.chassisNumber ?? '';
       request.fields['name'] = updatevehicle.name ?? '';
       request.fields['color'] = updatevehicle.color ?? '';
       request.fields['make'] = updatevehicle.make ?? '';
       request.fields['model'] = updatevehicle.model ?? '';
+      request.fields['status'] = updatevehicle.status ?? '';
       request.fields['year'] = updatevehicle.year ?? '';
       request.fields['fuel'] = updatevehicle.fuel ?? '';
       request.fields['transmission'] = updatevehicle.transmission ?? '';
@@ -561,8 +541,11 @@ class ProductsRepository {
       request.fields['price'] = updatevehicle.price ?? '';
       request.fields['mileage'] = updatevehicle.mileage ?? '';
       request.fields['description'] = updatevehicle.description ?? '';
+      request.fields['total_price'] = updatevehicle.totalPrice ?? '';
+      request.fields['sold_price'] = updatevehicle.soldPrice ?? '';
+      request.fields['recieved_amount'] = updatevehicle.recievedAmount ?? '';
+      request.fields['balance_amount'] = updatevehicle.balanceAmount ?? '';
 
-      // Add images
       for (int i = 0; i < images.length; i++) {
         final imageFile = await http.MultipartFile.fromPath(
           'image',
@@ -570,20 +553,14 @@ class ProductsRepository {
         );
         request.files.add(imageFile);
       }
-
-      // Send request
       final streamedResponse = await request.send();
       final response = await http.Response.fromStream(streamedResponse);
-      print(response.body);
       if (response.statusCode == 200 || response.statusCode == 201) {
-        print("Update successful: ${response.body}");
         return true;
       } else {
-        print("Update failed: ${response.statusCode} ${response.body}");
         return false;
       }
     } catch (e) {
-      print("Error updating car: $e");
       return false;
     }
   }
@@ -592,14 +569,10 @@ class ProductsRepository {
       List<File> images, String id, UpdateVehicleModel updatevehicle) async {
     try {
       final uri = Uri.parse("${AppUrls.updateTruck}$id");
-
       final request = http.MultipartRequest("PUT", uri);
-
       request.headers.addAll({
         'Authorization': 'Bearer ${box.read(usertoken)}',
       });
-
-      // Add form fields
       request.fields['chassis_number'] = updatevehicle.chassisNumber ?? '';
       request.fields['name'] = updatevehicle.name ?? '';
       request.fields['color'] = updatevehicle.color ?? '';
@@ -607,13 +580,16 @@ class ProductsRepository {
       request.fields['model'] = updatevehicle.model ?? '';
       request.fields['year'] = updatevehicle.year ?? '';
       request.fields['fuel'] = updatevehicle.fuel ?? '';
+      request.fields['status'] = updatevehicle.status ?? '';
       request.fields['transmission'] = updatevehicle.transmission ?? '';
       request.fields['condition'] = updatevehicle.condition ?? '';
       request.fields['price'] = updatevehicle.price ?? '';
       request.fields['mileage'] = updatevehicle.mileage ?? '';
       request.fields['description'] = updatevehicle.description ?? '';
-
-      // Add images
+      request.fields['total_price'] = updatevehicle.totalPrice ?? '';
+      request.fields['sold_price'] = updatevehicle.soldPrice ?? '';
+      request.fields['recieved_amount'] = updatevehicle.recievedAmount ?? '';
+      request.fields['balance_amount'] = updatevehicle.balanceAmount ?? '';
       for (int i = 0; i < images.length; i++) {
         final imageFile = await http.MultipartFile.fromPath(
           'image',
@@ -621,20 +597,16 @@ class ProductsRepository {
         );
         request.files.add(imageFile);
       }
-
       // Send request
       final streamedResponse = await request.send();
       final response = await http.Response.fromStream(streamedResponse);
-      print(response.body);
+
       if (response.statusCode == 200 || response.statusCode == 201) {
-        print("Update successful: ${response.body}");
         return true;
       } else {
-        print("Update failed: ${response.statusCode} ${response.body}");
         return false;
       }
     } catch (e) {
-      print("Error updating car: $e");
       return false;
     }
   }
@@ -650,18 +622,18 @@ class ProductsRepository {
       request.headers.addAll({
         'Authorization': 'Bearer ${box.read(usertoken)}',
       });
-
-      // Add form fields
-
       request.fields['name'] = updatepartModel.name ?? '';
       request.fields['part_id'] = updatepartModel.partId ?? '';
       request.fields['category'] = updatepartModel.category ?? '';
+      request.fields['status'] = updatepartModel.status ?? '';
       request.fields['make'] = updatepartModel.make ?? '';
       request.fields['model'] = updatepartModel.model ?? '';
       request.fields['condition'] = updatepartModel.condition ?? '';
       request.fields['price'] = updatepartModel.price ?? '';
-
-      // Add images
+      request.fields['total_price'] = updatepartModel.totalPrice ?? '';
+      request.fields['sold_price'] = updatepartModel.soldPrice ?? '';
+      request.fields['recieved_amount'] = updatepartModel.recievedAmount ?? '';
+      request.fields['balance_amount'] = updatepartModel.balanceAmount ?? '';
       for (int i = 0; i < images.length; i++) {
         final imageFile = await http.MultipartFile.fromPath(
           'image',
@@ -669,21 +641,29 @@ class ProductsRepository {
         );
         request.files.add(imageFile);
       }
-
-      // Send request
       final streamedResponse = await request.send();
       final response = await http.Response.fromStream(streamedResponse);
-      print(response.body);
       if (response.statusCode == 200 || response.statusCode == 201) {
-        print("Update successful: ${response.body}");
         return true;
       } else {
-        print("Update failed: ${response.statusCode} ${response.body}");
         return false;
       }
     } catch (e) {
-      print("Error updating car: $e");
       return false;
     }
+  }
+
+  Future<CarDataModel> getAllCarData() async {
+    final response = await network.getApi(AppUrls.getAllCarData);
+    return CarDataModel.fromJson(response);
+  }
+
+  Future<GetTruckData> getAllTruckData() async {
+    final response = await network.getApi(AppUrls.getAllTruckData);
+    return GetTruckData.fromJson(response);
+  }
+   Future<GetSparePartsData> getAllSparePartsData() async {
+    final response = await network.getApi(AppUrls.getAllSparePartsData);
+    return GetSparePartsData.fromJson(response);
   }
 }

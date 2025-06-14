@@ -33,7 +33,7 @@ class CustomPopupMenu extends StatelessWidget {
           .toList(),
       child: Container(
         width: double.infinity,
-        padding: padding,
+        padding: padding10,
         decoration: BoxDecoration(
           color: backgroundColor,
           borderRadius: BorderRadius.circular(8),

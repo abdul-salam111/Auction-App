@@ -1,5 +1,7 @@
 import 'package:auction_app/app/modules/modules.dart';
+import 'package:auction_app/app/utils/utils.dart';
 import 'package:auction_app/app/widgets/custom_popupmenu.dart';
+import 'package:auction_app/app/widgets/customdropdown_textfield.dart';
 
 class AddNewTruck extends GetView<AddnewproductController> {
   const AddNewTruck({super.key});
@@ -222,14 +224,11 @@ class AddNewTruck extends GetView<AddnewproductController> {
                                       )
                                     ])),
                                     5.heightBox,
-                                    CustomPopupMenu(
-                                      items: controller.bodyTypes,
+                                    CustomTextFieldDropdownPopup(
                                       selectedValue:
                                           controller.selectedBodyType,
-                                      padding: defaultPadding,
-                                      backgroundColor: AppColors.halfwhiteColor,
-                                      borderColor: AppColors.borderColor,
-                                    ),
+                                      items: controller.bodyTypes,
+                                    )
                                   ],
                                 ),
                               ),
@@ -256,13 +255,10 @@ class AddNewTruck extends GetView<AddnewproductController> {
                                       )
                                     ])),
                                     5.heightBox,
-                                    CustomPopupMenu(
-                                      items: controller.makes,
+                                    CustomTextFieldDropdownPopup(
                                       selectedValue: controller.selectedMake,
-                                      padding: defaultPadding,
-                                      backgroundColor: AppColors.halfwhiteColor,
-                                      borderColor: AppColors.borderColor,
-                                    ),
+                                      items: controller.makes,
+                                    )
                                   ],
                                 ),
                               ),
@@ -293,13 +289,10 @@ class AddNewTruck extends GetView<AddnewproductController> {
                                       )
                                     ])),
                                     5.heightBox,
-                                    CustomPopupMenu(
-                                      items: controller.truckModels,
+                                    CustomTextFieldDropdownPopup(
                                       selectedValue: controller.selectedModel,
-                                      padding: defaultPadding,
-                                      backgroundColor: AppColors.halfwhiteColor,
-                                      borderColor: AppColors.borderColor,
-                                    ),
+                                      items: controller.truckModels,
+                                    )
                                   ],
                                 ),
                               ),
@@ -361,14 +354,11 @@ class AddNewTruck extends GetView<AddnewproductController> {
                                       ),
                                     ])),
                                     5.heightBox,
-                                    CustomPopupMenu(
-                                      items: controller.transmissionTypes,
+                                    CustomTextFieldDropdownPopup(
                                       selectedValue:
                                           controller.selectedTransmission,
-                                      padding: defaultPadding,
-                                      backgroundColor: AppColors.halfwhiteColor,
-                                      borderColor: AppColors.borderColor,
-                                    ),
+                                      items: controller.transmissionTypes,
+                                    )
                                   ],
                                 ),
                               ),
@@ -388,14 +378,11 @@ class AddNewTruck extends GetView<AddnewproductController> {
                                       ),
                                     ])),
                                     5.heightBox,
-                                    CustomPopupMenu(
-                                      items: controller.fuelTypes,
+                                    CustomTextFieldDropdownPopup(
                                       selectedValue:
                                           controller.selectedFuelType,
-                                      padding: defaultPadding,
-                                      backgroundColor: AppColors.halfwhiteColor,
-                                      borderColor: AppColors.borderColor,
-                                    ),
+                                      items: controller.fuelTypes,
+                                    )
                                   ],
                                 ),
                               ),
@@ -419,14 +406,11 @@ class AddNewTruck extends GetView<AddnewproductController> {
                                       ),
                                     ])),
                                     5.heightBox,
-                                    CustomPopupMenu(
-                                      items: controller.driverTypes,
+                                    CustomTextFieldDropdownPopup(
                                       selectedValue:
                                           controller.selectedDriverType,
-                                      padding: defaultPadding,
-                                      backgroundColor: AppColors.halfwhiteColor,
-                                      borderColor: AppColors.borderColor,
-                                    ),
+                                      items: controller.driverTypes,
+                                    )
                                   ],
                                 ),
                               ),
@@ -463,13 +447,10 @@ class AddNewTruck extends GetView<AddnewproductController> {
                                       ),
                                     ])),
                                     5.heightBox,
-                                    CustomPopupMenu(
-                                      items: controller.doorTypes,
+                                    CustomTextFieldDropdownPopup(
                                       selectedValue: controller.selectedDoors,
-                                      padding: defaultPadding,
-                                      backgroundColor: AppColors.halfwhiteColor,
-                                      borderColor: AppColors.borderColor,
-                                    ),
+                                      items: controller.doorTypes,
+                                    )
                                   ],
                                 ),
                               ),
@@ -489,14 +470,11 @@ class AddNewTruck extends GetView<AddnewproductController> {
                                       ),
                                     ])),
                                     5.heightBox,
-                                    CustomPopupMenu(
-                                      items: controller.displacements,
+                                    CustomTextFieldDropdownPopup(
                                       selectedValue:
                                           controller.selectedDisplacement,
-                                      padding: defaultPadding,
-                                      backgroundColor: AppColors.halfwhiteColor,
-                                      borderColor: AppColors.borderColor,
-                                    ),
+                                      items: controller.displacements,
+                                    )
                                   ],
                                 ),
                               ),
@@ -545,13 +523,10 @@ class AddNewTruck extends GetView<AddnewproductController> {
                                       ),
                                     ])),
                                     5.heightBox,
-                                    CustomPopupMenu(
-                                      items: controller.colors,
+                                    CustomTextFieldDropdownPopup(
                                       selectedValue: controller.selectedColor,
-                                      padding: defaultPadding,
-                                      backgroundColor: AppColors.halfwhiteColor,
-                                      borderColor: AppColors.borderColor,
-                                    ),
+                                      items: controller.colors,
+                                    )
                                   ],
                                 ),
                               ),
@@ -692,13 +667,10 @@ class AddNewTruck extends GetView<AddnewproductController> {
                                       ),
                                     ])),
                                     5.heightBox,
-                                    CustomPopupMenu(
-                                      items: controller.scoreValues,
+                                    CustomTextFieldDropdownPopup(
                                       selectedValue: controller.selectedScore,
-                                      padding: defaultPadding,
-                                      backgroundColor: AppColors.halfwhiteColor,
-                                      borderColor: AppColors.borderColor,
-                                    ),
+                                      items: controller.scoreValues,
+                                    )
                                   ],
                                 ),
                               ),
@@ -758,7 +730,45 @@ class AddNewTruck extends GetView<AddnewproductController> {
                               onPressed: () {
                                 if (controller.formKey.currentState!
                                     .validate()) {
-                                  Get.to(() => VehicleFeatures());
+                                  if (controller
+                                          .selectedBodyType.value.isEmpty ||
+                                      controller.selectedBodyType.value == "") {
+                                    Utils.anotherFlushbar(
+                                        context,
+                                        "Please, select body Type",
+                                        AppColors.errorColor);
+                                  } else if (controller
+                                          .selectedMake.value.isEmpty ||
+                                      controller.selectedMake.value == "") {
+                                    Utils.anotherFlushbar(
+                                        context,
+                                        "Please, select make",
+                                        AppColors.errorColor);
+                                  } else if (controller
+                                          .selectedModel.value.isEmpty ||
+                                      controller.selectedModel.value == "") {
+                                    Utils.anotherFlushbar(
+                                        context,
+                                        "Please, select model",
+                                        AppColors.errorColor);
+                                  } else if (controller
+                                          .selectedDisplacement.value.isEmpty ||
+                                      controller.selectedDisplacement.value ==
+                                          "") {
+                                    Utils.anotherFlushbar(
+                                        context,
+                                        "Please, select displacement",
+                                        AppColors.errorColor);
+                                  } else if (controller
+                                          .selectedSteer.value.isEmpty ||
+                                      controller.selectedSteer.value == "") {
+                                    Utils.anotherFlushbar(
+                                        context,
+                                        "Please, select steer",
+                                        AppColors.errorColor);
+                                  } else {
+                                    Get.to(() => VehicleFeatures());
+                                  }
                                 }
                               },
                               textColor: AppColors.textColorWhite,

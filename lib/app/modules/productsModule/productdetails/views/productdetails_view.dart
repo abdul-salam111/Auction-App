@@ -190,100 +190,52 @@ class ProductdetailsView extends GetView<ProductdetailsController> {
                 10.heightBox,
                 Text('Status', style: context.bodyMedium),
                 const SizedBox(height: 8),
-                controller.isupdateSalesScreen.value != true
-                    ? Row(
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        padding: padding12,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF9FAFB),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Text(
+                          controller.selectedStatus.value,
+                          style: context.bodyMedium!
+                              .copyWith(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                    5.widthBox,
+                    ElevatedButton(
+                      onPressed: () {
+                        // Get.to(() => ScanProductDetails());
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF3166F5),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        elevation: 0,
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          Expanded(
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 12, vertical: 0),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFF9FAFB),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Obx(
-                                () => DropdownButtonHideUnderline(
-                                  child: DropdownButton<String>(
-                                    isExpanded: true,
-                                    value: controller.selectedStatus.value,
-                                    icon: const Icon(
-                                        Icons.keyboard_arrow_down_rounded),
-                                    iconSize: 24,
-                                    elevation: 2,
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                    dropdownColor: Colors.white,
-                                    borderRadius: BorderRadius.circular(12),
-                                    onChanged: (String? newValue) {
-                                      controller.selectedStatus.value =
-                                          newValue!;
-                                      if (controller.selectedStatus.value ==
-                                          "Outofstock") {
-                                        Get.toNamed(Routes.EDITPRODUCT,
-                                            arguments: [
-                                              controller.soldPrice.value,
-                                              controller.recievedAmount.value,
-                                              controller.balanceAmount.value,
-                                              controller.chasisnumber.value,
-                                              controller.classificaction.value,
-                                              controller.itemId.value
-                                            ]);
-                                      }
-                                    },
-                                    items: controller.statusOptions
-                                        .map<DropdownMenuItem<String>>(
-                                            (String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(
-                                          value,
-                                          style: const TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      );
-                                    }).toList(),
-                                  ),
-                                ),
-                              ),
-                            ),
+                          const Icon(
+                            Icons.gavel_outlined,
+                            color: Colors.white,
                           ),
-                          5.widthBox,
-                          ElevatedButton(
-                            onPressed: () {
-                              // Get.to(() => ScanProductDetails());
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF3166F5),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 12, vertical: 12),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              elevation: 0,
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Icon(
-                                  Icons.gavel_outlined,
-                                  color: Colors.white,
-                                ),
-                                const SizedBox(width: 8),
-                                Text('Add to Live Auction',
-                                    style: context.bodyMedium!.copyWith(
-                                        color: AppColors.backgroundColor)),
-                              ],
-                            ),
-                          )
+                          const SizedBox(width: 8),
+                          Text('Add to Live Auction',
+                              style: context.bodyMedium!
+                                  .copyWith(color: AppColors.backgroundColor)),
                         ],
-                      )
-                    : SizedBox.shrink(),
+                      ),
+                    )
+                  ],
+                ),
                 !controller.isupdateSalesScreen.value != true
                     ? Container(
                         width: double.infinity,

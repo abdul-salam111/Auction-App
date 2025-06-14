@@ -41,7 +41,7 @@ class AddnewsparepartController extends GetxController {
   var selectedCategory = "".obs;
   var selectedMake = "".obs;
   var selectedModel = "".obs;
-  var selectedCondition = "".obs;
+  var selectedCondition = "Select".obs;
   var selectedStatus = "".obs;
   var featuredProduct = "".obs;
 
@@ -50,15 +50,27 @@ class AddnewsparepartController extends GetxController {
   Future<void> getSparePartsData() async {
     getAllSparePartsDataModel.value =
         await productsRepository.getAllSparePartsData();
-    categoriesList.addAll(getAllSparePartsDataModel.value.data!
-        .map((e) => e.category ?? "")
-        .toSet());
+
+    categoriesList.addAll(
+      getAllSparePartsDataModel.value.data!
+          .map((e) => e.category ?? "")
+          .where((e) => e.isNotEmpty)
+          .toSet(),
+    );
 
     makeList.addAll(
-        getAllSparePartsDataModel.value.data!.map((e) => e.make ?? "").toSet());
-    partModels.addAll(getAllSparePartsDataModel.value.data!
-        .map((e) => e.model ?? "")
-        .toSet());
+      getAllSparePartsDataModel.value.data!
+          .map((e) => e.make ?? "")
+          .where((e) => e.isNotEmpty)
+          .toSet(),
+    );
+
+    partModels.addAll(
+      getAllSparePartsDataModel.value.data!
+          .map((e) => e.model ?? "")
+          .where((e) => e.isNotEmpty)
+          .toSet(),
+    );
   }
 
   ProductsRepository productsRepository = ProductsRepository();

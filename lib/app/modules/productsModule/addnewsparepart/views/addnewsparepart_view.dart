@@ -1,5 +1,7 @@
 import 'package:auction_app/app/modules/modules.dart';
+import 'package:auction_app/app/utils/utils.dart';
 import 'package:auction_app/app/widgets/custom_popupmenu.dart';
+import 'package:auction_app/app/widgets/customdropdown_textfield.dart';
 
 import '../controllers/addnewsparepart_controller.dart';
 
@@ -7,7 +9,7 @@ class AddnewsparepartView extends GetView<AddnewsparepartController> {
   const AddnewsparepartView({super.key});
   @override
   Widget build(BuildContext context) {
-    Get.put(AddnewsparepartController());
+  
     return GestureDetector(
       onTap: () {
         context.focusScope.unfocus();
@@ -139,12 +141,8 @@ class AddnewsparepartView extends GetView<AddnewsparepartController> {
                             children: [
                               Expanded(
                                   child: CustomTextFormField(
-                                isrequired: true,
                                 fillColor: AppColors.halfwhiteColor,
                                 controller: controller.partNumberController,
-                                validator: (value) =>
-                                    Validator.validateRequired(value,
-                                        fieldName: "Part Number"),
                                 borderColor: Color(0xffEBEEF0),
                                 label: "Part Number",
                                 hintText: "Enter Part Number",
@@ -193,14 +191,11 @@ class AddnewsparepartView extends GetView<AddnewsparepartController> {
                                       )
                                     ])),
                                     5.heightBox,
-                                    CustomPopupMenu(
-                                      items: controller.categoriesList,
+                                    CustomTextFieldDropdownPopup(
                                       selectedValue:
                                           controller.selectedCategory,
-                                      padding: defaultPadding,
-                                      backgroundColor: AppColors.halfwhiteColor,
-                                      borderColor: AppColors.borderColor,
-                                    ),
+                                      items: controller.categoriesList,
+                                    )
                                   ],
                                 ),
                               ),
@@ -227,13 +222,10 @@ class AddnewsparepartView extends GetView<AddnewsparepartController> {
                                       )
                                     ])),
                                     5.heightBox,
-                                    CustomPopupMenu(
+                                    CustomTextFieldDropdownPopup(
                                       items: controller.makeList,
                                       selectedValue: controller.selectedMake,
-                                      padding: defaultPadding,
-                                      backgroundColor: AppColors.halfwhiteColor,
-                                      borderColor: AppColors.borderColor,
-                                    ),
+                                    )
                                   ],
                                 ),
                               ),
@@ -298,13 +290,10 @@ class AddnewsparepartView extends GetView<AddnewsparepartController> {
                                       )
                                     ])),
                                     5.heightBox,
-                                    CustomPopupMenu(
+                                    CustomTextFieldDropdownPopup(
                                       items: controller.partModels,
                                       selectedValue: controller.selectedModel,
-                                      padding: defaultPadding,
-                                      backgroundColor: AppColors.halfwhiteColor,
-                                      borderColor: AppColors.borderColor,
-                                    ),
+                                    )
                                   ],
                                 ),
                               ),
@@ -363,13 +352,6 @@ class AddnewsparepartView extends GetView<AddnewsparepartController> {
                                             fontWeight: FontWeight.bold,
                                             fontSize: 14.toDouble()),
                                       ),
-                                      TextSpan(
-                                        text: "*",
-                                        style: context.bodyMedium!.copyWith(
-                                            color: Colors.red,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 14.toDouble()),
-                                      )
                                     ])),
                                     5.heightBox,
                                     CustomPopupMenu(
@@ -389,13 +371,9 @@ class AddnewsparepartView extends GetView<AddnewsparepartController> {
                           ),
                           10.heightBox,
                           CustomTextFormField(
-                            isrequired: true,
                             keyboardType: TextInputType.phone,
                             fillColor: AppColors.halfwhiteColor,
                             controller: controller.priceController,
-                            validator: (value) => Validator.validateRequired(
-                                value,
-                                fieldName: "Price"),
                             borderColor: Color(0xffEBEEF0),
                             label: "Price",
                             hintText: "Enter Price",
@@ -404,12 +382,8 @@ class AddnewsparepartView extends GetView<AddnewsparepartController> {
                           ),
                           10.heightBox,
                           CustomTextFormField(
-                            isrequired: true,
                             fillColor: AppColors.halfwhiteColor,
                             controller: controller.supplierController,
-                            validator: (value) => Validator.validateRequired(
-                                value,
-                                fieldName: "Supplier"),
                             borderColor: Color(0xffEBEEF0),
                             label: "Supplier",
                             hintText: "Enter Supplier",
@@ -419,12 +393,8 @@ class AddnewsparepartView extends GetView<AddnewsparepartController> {
                           10.heightBox,
                           CustomTextFormField(
                             maxLines: 3,
-                            isrequired: true,
                             fillColor: AppColors.halfwhiteColor,
                             controller: controller.descriptionController,
-                            validator: (value) => Validator.validateRequired(
-                                value,
-                                fieldName: "Description"),
                             borderColor: Color(0xffEBEEF0),
                             label: "Description",
                             hintText: "Enter Description",
@@ -441,7 +411,38 @@ class AddnewsparepartView extends GetView<AddnewsparepartController> {
                                 onPressed: () async {
                                   if (controller.formKey.currentState!
                                       .validate()) {
-                                    await controller.addNewPart();
+                                    if (controller.selectedMake.value.isEmpty ||
+                                        controller.selectedMake.value == "") {
+                                      Utils.anotherFlushbar(
+                                          context,
+                                          "Please, select make",
+                                          AppColors.errorColor);
+                                    } else if (controller
+                                            .selectedModel.value.isEmpty ||
+                                        controller.selectedModel.value == "") {
+                                      Utils.anotherFlushbar(
+                                          context,
+                                          "Please, select model",
+                                          AppColors.errorColor);
+                                    } else if (controller
+                                            .selectedCategory.value.isEmpty ||
+                                        controller.selectedCategory.value ==
+                                            "") {
+                                      Utils.anotherFlushbar(
+                                          context,
+                                          "Please, select category",
+                                          AppColors.errorColor);
+                                    } else if (controller
+                                            .selectedCondition.value.isEmpty ||
+                                        controller.selectedCondition.value ==
+                                            "") {
+                                      Utils.anotherFlushbar(
+                                          context,
+                                          "Please, select condition",
+                                          AppColors.errorColor);
+                                    } else {
+                                      await controller.addNewPart();
+                                    }
                                   }
                                 },
                                 textColor: AppColors.textColorWhite,

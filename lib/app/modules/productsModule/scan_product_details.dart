@@ -46,7 +46,6 @@ class _ScanProductDetailsState extends State<ScanProductDetails>
 
   @override
   Widget build(BuildContext context) {
-    print("object");
     return Scaffold(
       appBar: AppBar(
         title: Text('Barcode Scanner'),
@@ -164,6 +163,7 @@ class _ScanProductDetailsState extends State<ScanProductDetails>
                     productDetails.mileage.value = mileage;
                     productDetails.soldPrice.value = soldPrice.toString();
                     productDetails.selectedStatus.value = status;
+                    
                     productDetails.recievedAmount.value =
                         recievedAmount.toString();
                     productDetails.balanceAmount.value =
@@ -209,6 +209,7 @@ class _ScanProductDetailsState extends State<ScanProductDetails>
                         recievedAmount.toString();
                     productDetails.balanceAmount.value =
                         balanceAmount.toString();
+
                     productDetails.totatlPrice.value = totalPrice.toString();
                     Get.toNamed(Routes.PRODUCTDETAILS,
                         arguments: isUpdateSalesScreen);

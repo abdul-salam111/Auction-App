@@ -1,4 +1,5 @@
 import 'package:auction_app/app/modules/modules.dart';
+import 'package:auction_app/app/modules/productsModule/addnewsparepart/bindings/addnewsparepart_binding.dart';
 import 'package:auction_app/app/modules/productsModule/addnewsparepart/views/addnewsparepart_view.dart';
 
 import '../../../productsModule/scan_product_details.dart';
@@ -97,8 +98,10 @@ class HomeView extends GetView<HomeController> {
                                               onPressed: () {
                                                 Get.back(); // Close the dialog
                                                 // Navigate to add product screen
-                                                Get.to(() =>
-                                                    AddnewsparepartView());
+                                                Get.to(
+                                                    () => AddnewsparepartView(),
+                                                    binding:
+                                                        AddnewsparepartBinding());
                                               },
                                               icon: Icon(
                                                 Icons.add,
